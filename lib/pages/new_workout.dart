@@ -1,8 +1,10 @@
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:progressive_overload/components/blurred_button.dart';
 import 'package:progressive_overload/components/text_style.dart';
+import 'package:progressive_overload/pages/build_workout.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
 
 class NewWorkout extends StatefulWidget {
@@ -93,7 +95,9 @@ class _NewWorkoutState extends State<NewWorkout> {
               child: BlurryButton(
                   width: 200,
                   height: 100,
-                  onPressed: () {print(_nameController.text);},
+                  onPressed: () {
+                    Navigator.push(context, CupertinoPageRoute(builder: (context) => BuildWorkout(title: _nameController.text, split: selectedOption,)));
+                  },
                   child: Text(
                     "Confirm",
                     style: Font(),
