@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:progressive_overload/components/blurred_button.dart';
 import 'package:progressive_overload/components/text_style.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
 
@@ -28,34 +29,47 @@ class _BuildWorkoutState extends State<BuildWorkout> {
             style: Font(),
           ),
         ),
-        body: Row(children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 15),
-            child: Text(
-              'Day:',
-              style: Font(size: 20),
+        body: Column(children: [
+          Row(children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: Text(
+                'Day:',
+                style: Font(size: 20),
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15),
-            child: DropdownButton<String>(
-              dropdownColor: Colors.grey[900],
-              style: const TextStyle(color: Colors.white),
-              value: selectedOption,
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedOption = newValue!;
-                });
-              },
-              items: <String>['1', '2', '3', '4', '5', '6', '7']
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: DropdownButton<String>(
+                dropdownColor: Colors.grey[900],
+                style: const TextStyle(color: Colors.white),
+                value: selectedOption,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selectedOption = newValue!;
+                  });
+                },
+                items: <String>['1', '2', '3', '4', '5', '6', '7']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
             ),
+          ]),
+          const SizedBox(
+            height: 50,
           ),
+          BlurryButton(
+              width: 200,
+              height: 200,
+              onPressed: () {},
+              child: Text(
+                "Aevin",
+                style: Font(),
+              ))
         ]));
   }
 }
