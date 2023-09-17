@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:progressive_overload/components/blurred_button.dart';
 import 'package:progressive_overload/components/text_style.dart';
@@ -11,18 +13,19 @@ class NewWorkout extends StatefulWidget {
 }
 
 class _NewWorkoutState extends State<NewWorkout> {
-  String selectedOption = 'Option 1';
-  final TextEditingController _daysController = TextEditingController();
+  String selectedOption = 'Push Pull Legs';
+  final TextEditingController _nameController = TextEditingController();
 
   @override
   void dispose() {
-    _daysController.dispose();
+    _nameController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: darkBackground(),
       appBar: AppBar(
         title: const Text('New Workout'),
@@ -34,49 +37,54 @@ class _NewWorkoutState extends State<NewWorkout> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              'Enter Number of Days In Cycle:',
-              style: TextStyle(fontSize: 18.0, color: Colors.white),
+            Text(
+              'Enter Name Of Workout:',
+              style: Font(size: 20),
             ),
             const SizedBox(
               height: 10,
             ),
-            TextField(
-              style: const TextStyle(color: Colors.white),
-              controller: _daysController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                hintText: 'Enter days',
-                hintStyle: TextStyle(color: Colors.white),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey),
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: TextField(
+                style: const TextStyle(color: Colors.white),
+                controller: _nameController,
+                decoration: InputDecoration(
+                  hintText: 'Name your workout',
+                  hintStyle: const TextStyle(color: Colors.white),
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey[800]!),
+                  ),
                 ),
               ),
             ),
-            const SizedBox(height: 20.0),
-            const Text(
-              'Select an Option:',
-              style: TextStyle(fontSize: 18.0, color: Colors.white),
+            const SizedBox(height: 50.0),
+            Text(
+              'Choose a split:',
+              style: Font(size: 20),
             ),
-            DropdownButton<String>(
-              dropdownColor: Colors.grey[900],
-              style: const TextStyle(color: Colors.white),
-              value: selectedOption,
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedOption = newValue!;
-                });
-              },
-              items: <String>['Option 1', 'Option 2', 'Option 3']
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: DropdownButton<String>(
+                dropdownColor: Colors.grey[900],
+                style: const TextStyle(color: Colors.white),
+                value: selectedOption,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selectedOption = newValue!;
+                  });
+                },
+                items: <String>['Push Pull Legs', 'Arnold', 'Custom']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
             ),
             const SizedBox(
               height: 100,
@@ -85,7 +93,7 @@ class _NewWorkoutState extends State<NewWorkout> {
               child: BlurryButton(
                   width: 200,
                   height: 100,
-                  onPressed: () {print(_daysController.text);},
+                  onPressed: () {print(_nameController.text);},
                   child: Text(
                     "Confirm",
                     style: Font(),
