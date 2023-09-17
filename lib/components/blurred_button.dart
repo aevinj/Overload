@@ -27,8 +27,8 @@ class BlurryButton extends StatelessWidget {
             color: Colors.grey[700]!.withOpacity(0.3), // Transparent background color
             borderRadius: BorderRadius.circular(15.0), // Optional: Add rounded corners
             border: Border.all(
-              color: Colors.white, // Border color
-              width: 0.2, // Border width
+              color: Colors.grey[800]!, // Border color
+              width: 0.8, // Border width
             ),
           ),
           child: Material(
