@@ -7,7 +7,8 @@ class BlurryButton extends StatelessWidget {
   final double width; // Add a width property
   final double height; // Add a height property
 
-  const BlurryButton({super.key, 
+  const BlurryButton({
+    super.key,
     required this.onPressed,
     required this.child,
     this.width = 150.0, // Default width
@@ -25,6 +26,10 @@ class BlurryButton extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.grey[700]!.withOpacity(0.3), // Transparent background color
             borderRadius: BorderRadius.circular(15.0), // Optional: Add rounded corners
+            border: Border.all(
+              color: Colors.white, // Border color
+              width: 0.2, // Border width
+            ),
           ),
           child: Material(
             color: Colors.transparent,
