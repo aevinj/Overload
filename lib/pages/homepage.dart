@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:progressive_overload/components/blurred_button.dart';
 import 'package:progressive_overload/components/text_style.dart';
+import 'package:progressive_overload/pages/new_workout.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
 
 class Homepage extends StatefulWidget {
@@ -34,7 +36,9 @@ class _HomepageState extends State<Homepage> {
           ),
           const SizedBox(height: 30,),
           BlurryButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context, CupertinoPageRoute(builder: (context) => const NewWorkout()));
+            },
             width: 200,
             height: 200,
             child: Text(
