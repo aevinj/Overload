@@ -17,13 +17,14 @@ class BuildWorkout extends StatefulWidget {
 
 class _BuildWorkoutState extends State<BuildWorkout> {
   String selectedOption = '1';
-  List<String> workouts = [
-    'bench',
-    'squat',
-    'shrugs',
-    'push ups',
-    'pull ups',
-    'skullcrushers'
+  List<List<String>> workouts = [
+    ['bench', 'squat', 'shrugs', 'push ups', 'pull ups', 'skullcrushers'],
+    ['bench', 'squat'],
+    ['shrugs', 'push ups'],
+    ['pull ups', 'skullcrushers'],
+    [],
+    [],
+    []
   ];
 
   @override
@@ -86,7 +87,7 @@ class _BuildWorkoutState extends State<BuildWorkout> {
               height: 200,
               onPressed: () {},
               child: ListView(
-                children: workouts
+                children: workouts[int.parse(selectedOption) -1]
                     .expand((item) => [
                           Text(item, style: Font(size: 20)),
                           Divider(color: Colors.grey[400]),
