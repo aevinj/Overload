@@ -84,12 +84,18 @@ class _BuildWorkoutState extends State<BuildWorkout> {
           ),
           BlurryButton(
               width: 300,
-              height: 200,
+              height: 300,
               onPressed: () {},
               child: ListView(
-                children: workouts[int.parse(selectedOption) -1]
+                children: workouts[int.parse(selectedOption) - 1]
                     .expand((item) => [
-                          Text(item, style: Font(size: 20)),
+                          Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween ,children: [
+                              Text(item, style: Font(size: 20)),
+                              Text("8x3", style: Font(size: 16, color: Colors.grey),)
+                            ]),
+                          ),
                           Divider(color: Colors.grey[400]),
                         ])
                     .toList(),
