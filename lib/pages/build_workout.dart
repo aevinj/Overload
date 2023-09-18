@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:progressive_overload/classes/day.dart';
+import 'package:progressive_overload/classes/exercise.dart';
+import 'package:progressive_overload/classes/workout.dart';
 import 'package:progressive_overload/components/blurred_button.dart';
 import 'package:progressive_overload/components/text_style.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
@@ -16,16 +19,24 @@ class BuildWorkout extends StatefulWidget {
 }
 
 class _BuildWorkoutState extends State<BuildWorkout> {
-  String selectedOption = '1';
-  List<List<String>> workouts = [
-    ['bench', 'squat', 'shrugs', 'push ups', 'pull ups', 'skullcrushers'],
-    ['bench', 'squat'],
-    ['shrugs', 'push ups'],
-    ['pull ups', 'skullcrushers'],
-    [],
-    [],
-    []
-  ];
+  String selectedOption = 'Monday';
+  late Workout workout;
+
+  @override
+  void initState() {
+    super.initState();
+    workout = tempWorkouts();
+  }
+
+  Workout tempWorkouts() {
+    List<Exercise> ex = [];
+    Exercise e =
+        Exercise(name: "Push ups", sets: 3, reps: 8, duration: "1 minute");
+    ex.add(e);
+    Day d = Day(dayID: "Monday", exercises: ex);
+    List<Day> days = [d];
+    return Workout(name: widget.title, days: days);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +71,15 @@ class _BuildWorkoutState extends State<BuildWorkout> {
                       selectedOption = newValue!;
                     });
                   },
-                  items: <String>['1', '2', '3', '4', '5', '6', '7']
-                      .map<DropdownMenuItem<String>>((String value) {
+                  items: <String>[
+                    'Monday',
+                    'Tuesday',
+                    'Wednesday',
+                    'Thursday',
+                    'Friday',
+                    'Saturday',
+                    'Sunday'
+                  ].map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(value),
@@ -85,30 +103,49 @@ class _BuildWorkoutState extends State<BuildWorkout> {
               height: 20,
             ),
             BlurryButton(
-                width: 300,
-                height: 300,
-                onPressed: () {},
-                child: ListView(
-                  children: workouts[int.parse(selectedOption) - 1]
-                      .expand((item) => [
-                            Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween ,children: [
-                                Text(item, style: Font(size: 20)),
-                                Text("8x3", style: Font(size: 16, color: Colors.grey),)
-                              ]),
-                            ),
-                            Divider(color: Colors.grey[400]),
-                          ])
-                      .toList(),
-                )),
+              width: 300,
+              height: 300,
+              onPressed: () {},
+              child: ListView.builder(
+                itemCount: workout
+                    .days.length, // Use the number of days in the workout
+                itemBuilder: (BuildContext context, int index) {
+                  Day day = workout.days[index];
+
+                  // Check if the day matches the selected option
+                  if (day.dayID == selectedOption) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: day.exercises.map((Exercise exercise) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Exercise: ${exercise.name}", style: Font()),
+                            Text("Sets: ${exercise.sets ?? 'N/A'}",
+                                style: Font()),
+                            Text("Reps: ${exercise.reps ?? 'N/A'}",
+                                style: Font()),
+                            const Divider(
+                                color: Colors
+                                    .white), // Add a divider between exercises
+                          ],
+                        );
+                      }).toList(),
+                    );
+                  } else {
+                    return const SizedBox
+                        .shrink(); // Return an empty SizedBox if the day doesn't match
+                  }
+                },
+              ),
+            ),
             const SizedBox(
               height: 30,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                    BlurryButton(
+                BlurryButton(
                     width: 150,
                     height: 100,
                     onPressed: () {},
@@ -120,7 +157,7 @@ class _BuildWorkoutState extends State<BuildWorkout> {
                         textAlign: TextAlign.center,
                       ),
                     )),
-                    BlurryButton(
+                BlurryButton(
                     width: 150,
                     height: 100,
                     onPressed: () {},
@@ -132,7 +169,7 @@ class _BuildWorkoutState extends State<BuildWorkout> {
                         textAlign: TextAlign.center,
                       ),
                     )),
-                  ],
+              ],
             )
           ]),
         ));
