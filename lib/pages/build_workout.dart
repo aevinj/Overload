@@ -17,6 +17,14 @@ class BuildWorkout extends StatefulWidget {
 
 class _BuildWorkoutState extends State<BuildWorkout> {
   String selectedOption = '1';
+  List<String> workouts = [
+    'bench',
+    'squat',
+    'shrugs',
+    'push ups',
+    'pull ups',
+    'skullcrushers'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -77,9 +85,13 @@ class _BuildWorkoutState extends State<BuildWorkout> {
               width: 300,
               height: 200,
               onPressed: () {},
-              child: Text(
-                "List",
-                style: Font(),
+              child: ListView(
+                children: workouts
+                    .expand((item) => [
+                          Text(item, style: Font(size: 20)),
+                          Divider(color: Colors.grey[400]),
+                        ])
+                    .toList(),
               )),
           const SizedBox(
             height: 30,
