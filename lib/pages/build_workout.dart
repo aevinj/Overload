@@ -38,79 +38,82 @@ class _BuildWorkoutState extends State<BuildWorkout> {
             style: Font(),
           ),
         ),
-        body: Column(children: [
-          Row(children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 15),
-              child: Text(
-                'Day:',
-                style: Font(),
+        body: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(children: [
+            Row(children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 15),
+                child: Text(
+                  'Day:',
+                  style: Font(),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 15),
-              child: DropdownButton<String>(
-                dropdownColor: Colors.grey[900],
-                style: const TextStyle(color: Colors.white),
-                value: selectedOption,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selectedOption = newValue!;
-                  });
-                },
-                items: <String>['1', '2', '3', '4', '5', '6', '7']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
+              Padding(
+                padding: const EdgeInsets.only(left: 15),
+                child: DropdownButton<String>(
+                  dropdownColor: Colors.grey[900],
+                  style: const TextStyle(color: Colors.white),
+                  value: selectedOption,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedOption = newValue!;
+                    });
+                  },
+                  items: <String>['1', '2', '3', '4', '5', '6', '7']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
               ),
+            ]),
+            const SizedBox(
+              height: 50,
             ),
+            Row(
+              children: [
+                Text(
+                  "Selected workouts:",
+                  style: Font(),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            BlurryButton(
+                width: 300,
+                height: 300,
+                onPressed: () {},
+                child: ListView(
+                  children: workouts[int.parse(selectedOption) - 1]
+                      .expand((item) => [
+                            Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween ,children: [
+                                Text(item, style: Font(size: 20)),
+                                Text("8x3", style: Font(size: 16, color: Colors.grey),)
+                              ]),
+                            ),
+                            Divider(color: Colors.grey[400]),
+                          ])
+                      .toList(),
+                )),
+            const SizedBox(
+              height: 30,
+            ),
+            BlurryButton(
+                width: 200,
+                height: 100,
+                onPressed: () {},
+                child: Text(
+                  "Add more",
+                  style: Font(),
+                ))
           ]),
-          const SizedBox(
-            height: 50,
-          ),
-          Row(
-            children: [
-              Text(
-                "Selected workouts:",
-                style: Font(),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          BlurryButton(
-              width: 300,
-              height: 300,
-              onPressed: () {},
-              child: ListView(
-                children: workouts[int.parse(selectedOption) - 1]
-                    .expand((item) => [
-                          Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween ,children: [
-                              Text(item, style: Font(size: 20)),
-                              Text("8x3", style: Font(size: 16, color: Colors.grey),)
-                            ]),
-                          ),
-                          Divider(color: Colors.grey[400]),
-                        ])
-                    .toList(),
-              )),
-          const SizedBox(
-            height: 30,
-          ),
-          BlurryButton(
-              width: 200,
-              height: 100,
-              onPressed: () {},
-              child: Text(
-                "Add more",
-                style: Font(),
-              ))
-        ]));
+        ));
   }
 }
