@@ -105,14 +105,35 @@ class _BuildWorkoutState extends State<BuildWorkout> {
             const SizedBox(
               height: 30,
             ),
-            BlurryButton(
-                width: 200,
-                height: 100,
-                onPressed: () {},
-                child: Text(
-                  "Add more",
-                  style: Font(),
-                ))
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                    BlurryButton(
+                    width: 150,
+                    height: 100,
+                    onPressed: () {},
+                    child: Flexible(
+                      child: Text(
+                        "Add more",
+                        style: Font(),
+                        overflow: TextOverflow.fade,
+                        textAlign: TextAlign.center,
+                      ),
+                    )),
+                    BlurryButton(
+                    width: 150,
+                    height: 100,
+                    onPressed: () {},
+                    child: Flexible(
+                      child: Text(
+                        "Save & exit",
+                        style: Font(),
+                        overflow: TextOverflow.fade,
+                        textAlign: TextAlign.center,
+                      ),
+                    )),
+                  ],
+            )
           ]),
         ));
   }
