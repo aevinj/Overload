@@ -35,7 +35,7 @@ class _BuildWorkoutState extends State<BuildWorkout> {
               padding: const EdgeInsets.only(left: 15),
               child: Text(
                 'Day:',
-                style: Font(size: 20),
+                style: Font(),
               ),
             ),
             Padding(
@@ -62,12 +62,34 @@ class _BuildWorkoutState extends State<BuildWorkout> {
           const SizedBox(
             height: 50,
           ),
+          Row(
+            children: [
+              Text(
+                "Selected workouts:",
+                style: Font(),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 20,
+          ),
           BlurryButton(
-              width: 200,
+              width: 300,
               height: 200,
               onPressed: () {},
               child: Text(
-                "Aevin",
+                "List",
+                style: Font(),
+              )),
+          const SizedBox(
+            height: 30,
+          ),
+          BlurryButton(
+              width: 200,
+              height: 100,
+              onPressed: () {},
+              child: Text(
+                "Add more",
                 style: Font(),
               ))
         ]));
