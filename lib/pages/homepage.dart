@@ -32,6 +32,7 @@ class _HomepageState extends State<Homepage> {
             child: Text(
               "View Workouts",
               style: Font(),
+              textAlign: TextAlign.center,
             ),
           ),
           const SizedBox(height: 30,),
@@ -44,6 +45,7 @@ class _HomepageState extends State<Homepage> {
             child: Text(
               "New workout",
               style: Font(),
+              textAlign: TextAlign.center,
             ),
           ),
         ]),
