@@ -50,8 +50,8 @@ class _NewWorkoutState extends State<NewWorkout> {
                 style: const TextStyle(color: Colors.white),
                 controller: _nameController,
                 decoration: InputDecoration(
-                  hintText: 'Name your workout',
-                  hintStyle: const TextStyle(color: Colors.white),
+                  hintText: 'New workout',
+                  hintStyle: TextStyle(color: Colors.grey[600]),
                   focusedBorder: const OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.white),
                   ),
