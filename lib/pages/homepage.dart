@@ -62,14 +62,10 @@ class _HomepageState extends State<Homepage> {
           ),
           BlurryButton(
             onPressed: () async {
-// Open the Hive box
               final box = await Hive.openBox<Workout>(
-                  "workouts"); // Replace "workouts" with your actual box name
-
-// Clear the contents of the box
+                  "workouts");
               await box.clear();
-
-// Close the box (optional but recommended)
+              
               await box.close();
               print("done");
             },
