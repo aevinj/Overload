@@ -40,7 +40,7 @@ class _BuildWorkoutState extends State<BuildWorkout> {
     workout = Workout.empty(name: widget.title.capitalise());
   }
 
-  void addExerciseToDay(Exercise exercise, String dayID) {
+  void addExerciseToDay(Exercise newExercise, String dayID) {
     setState(() {
       final day = workout.days.firstWhere(
         (day) => day.dayID == dayID,
@@ -52,7 +52,16 @@ class _BuildWorkoutState extends State<BuildWorkout> {
         },
       );
 
-      day.exercises.add(exercise);
+      final existingExerciseIndex = day.exercises
+          .indexWhere((exercise) => exercise.name == newExercise.name);
+
+      if (existingExerciseIndex != -1) {
+        // If an exercise with the same name exists, replace it
+        day.exercises[existingExerciseIndex] = newExercise;
+      } else {
+        // Otherwise, add the new exercise to the day
+        day.exercises.add(newExercise);
+      }
     });
   }
 
@@ -178,6 +187,7 @@ class _BuildWorkoutState extends State<BuildWorkout> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: day.exercises.map((Exercise exercise) {
                         return Dismissible(
+                          direction: DismissDirection.endToStart,
                           key: Key(exercise
                               .name), // Use a unique key for each exercise
                           onDismissed: (direction) {
@@ -185,7 +195,14 @@ class _BuildWorkoutState extends State<BuildWorkout> {
                             removeExercise(exercise);
                           },
                           background: Container(
-                            color: Colors.red, // Background color when swiping
+                            color: Colors.red,
+                            alignment: Alignment.centerRight,
+                            padding: const EdgeInsets.only(right: 20.0),
+                            child: const Icon(
+                              Icons.delete,
+                              color: Colors.white,
+                              size: 36.0,
+                            ),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
