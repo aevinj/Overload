@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:progressive_overload/classes/workout.dart';
 import 'package:progressive_overload/components/blurred_button.dart';
 import 'package:progressive_overload/components/text_style.dart';
+import 'package:progressive_overload/pages/workout.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
 
 class ViewWorkoutsPage extends StatelessWidget {
@@ -30,8 +32,23 @@ class ViewWorkoutsPage extends StatelessWidget {
               final workouts = box.values.toList();
 
               if (workouts.isEmpty) {
-                return const Center(
-                  child: Text("No workouts available."),
+                return Center(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          CupertinoIcons.clear_circled,
+                          color: Colors.white,
+                          size: 200,
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Text(
+                          "No workouts found",
+                          style: Font(color: Colors.white),
+                        )
+                      ]),
                 );
               }
 
@@ -43,12 +60,22 @@ class ViewWorkoutsPage extends StatelessWidget {
                   child: ListView.builder(
                     itemCount: workouts.length,
                     itemBuilder: (context, index) {
-                    final workout = workouts[index];
-                    return ListTile(
-                      title: Text("${workout.name} - ${workout.days.length} day(s) split", style: Font(size: 20),),
-                      onTap: () {},
-                    );
-                  },
+                      final workout = workouts[index];
+                      return ListTile(
+                        title: Text(
+                          "${workout.name} - ${workout.days.length} day(s) split",
+                          style: Font(size: 20),
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                  builder: (context) => WorkoutViewer(
+                                        workout: workout,
+                                      )));
+                        },
+                      );
+                    },
                   ),
                 ),
               );
