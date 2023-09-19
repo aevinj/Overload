@@ -19,8 +19,16 @@ class BuildWorkout extends StatefulWidget {
 }
 
 class _BuildWorkoutState extends State<BuildWorkout> {
-  String selectedOption = 'Monday';
+  String _selectedOption = 'Monday';
   late Workout workout;
+
+  void handleOptionChange(String? value) {
+    if (value is String) {
+      setState(() {
+        _selectedOption = value;
+      });
+    }
+  }
 
   @override
   void initState() {
@@ -52,39 +60,38 @@ class _BuildWorkoutState extends State<BuildWorkout> {
         body: Padding(
           padding: const EdgeInsets.all(10),
           child: Column(children: [
-            Row(children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
               Padding(
-                padding: const EdgeInsets.only(left: 15),
+                padding: const EdgeInsets.only(left: 20),
                 child: Text(
                   'Day:',
                   style: Font(),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15),
-                child: DropdownButton<String>(
-                  dropdownColor: Colors.grey[900],
-                  style: const TextStyle(color: Colors.white),
-                  value: selectedOption,
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedOption = newValue!;
-                    });
-                  },
-                  items: <String>[
-                    'Monday',
-                    'Tuesday',
-                    'Wednesday',
-                    'Thursday',
-                    'Friday',
-                    'Saturday',
-                    'Sunday'
-                  ].map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
+              SizedBox(
+                width: 200,
+                child: DropdownButton(
+                  dropdownColor: Colors.grey[700],
+                  focusColor: Colors.purple[900],
+                  iconEnabledColor: Colors.purpleAccent[700],
+                  iconSize: 42.0,
+                  isExpanded: true,
+                  items: [
+                    DropdownMenuItem(value: "Monday", child: Text("Monday", style: Font(size: 20),)),
+                    DropdownMenuItem(value: "Tueday", child: Text("Tueday" , style: Font(size: 20),)),
+                    DropdownMenuItem(
+                        value: "Wednesday", child: Text("Wednesday" , style: Font(size: 20),)),
+                    DropdownMenuItem(
+                        value: "Thursday", child: Text("Thursday" , style: Font(size: 20),)),
+                    DropdownMenuItem(value: "Friday", child: Text("Friday" , style: Font(size: 20),)),
+                    DropdownMenuItem(
+                        value: "Saturday", child: Text("Saturday" , style: Font(size: 20),)),
+                    DropdownMenuItem(value: "Sunday", child: Text("Sunday" , style: Font(size: 20),)),
+                  ],
+                  value: _selectedOption,
+                  onChanged: (value) => handleOptionChange(value),
                 ),
               ),
             ]),
@@ -113,7 +120,7 @@ class _BuildWorkoutState extends State<BuildWorkout> {
                   Day day = workout.days[index];
 
                   // Check if the day matches the selected option
-                  if (day.dayID == selectedOption) {
+                  if (day.dayID == _selectedOption) {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: day.exercises.map((Exercise exercise) {
