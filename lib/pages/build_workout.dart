@@ -9,6 +9,13 @@ import 'package:progressive_overload/components/text_style.dart';
 import 'package:progressive_overload/pages/add_exercise.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
 
+extension StringExtension on String {
+  String capitalize() {
+     return 
+       "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
+  }
+}
+
 class BuildWorkout extends StatefulWidget {
   final String title;
   final String split;
@@ -36,7 +43,7 @@ class _BuildWorkoutState extends State<BuildWorkout> {
   @override
   void initState() {
     super.initState();
-    workout = Workout.empty(name: widget.title);
+    workout = Workout.empty(name: widget.title.capitalize());
   }
 
   void addExerciseToDay(Exercise exercise, String dayID) {
@@ -230,7 +237,7 @@ class _BuildWorkoutState extends State<BuildWorkout> {
                   onPressed: () async {
                     final Exercise? newExercise = await Navigator.push(
                       context,
-                      MaterialPageRoute(
+                      CupertinoPageRoute(
                           builder: (context) => const AddExercise()),
                     );
 
