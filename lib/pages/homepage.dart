@@ -30,7 +30,7 @@ class _HomepageState extends State<Homepage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ViewWorkoutsPage()),
+                CupertinoPageRoute(builder: (context) => ViewWorkoutsPage()),
               );
             },
             width: 250,
@@ -65,7 +65,7 @@ class _HomepageState extends State<Homepage> {
               final box = await Hive.openBox<Workout>(
                   "workouts");
               await box.clear();
-              
+
               await box.close();
               print("done");
             },
