@@ -261,6 +261,9 @@ class _BuildWorkoutState extends State<BuildWorkout> {
                       final workoutsBox =
                           await Hive.openBox<Workout>('workouts');
                       await workoutsBox.add(workout);
+                      // ignore: use_build_context_synchronously
+                      Navigator.pop(context);
+                      // ignore: use_build_context_synchronously
                       Navigator.pop(context);
                     },
                     child: Flexible(
