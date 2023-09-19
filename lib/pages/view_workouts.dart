@@ -61,40 +61,50 @@ class ViewWorkoutsPage extends StatelessWidget {
                     itemCount: workouts.length,
                     itemBuilder: (context, index) {
                       final workout = workouts[index];
-                      return Dismissible(
-                        key:
-                            UniqueKey(), // Provide a unique key for each Dismissible
-                        onDismissed: (direction) {
-                          // Remove the workout from the database when dismissed
-                          final box = Hive.box<Workout>("workouts");
-                          box.deleteAt(index);
-                        },
-                        background: Container(
-                          color: Colors.red, // Customize the background color
-                          alignment: Alignment.centerRight,
-                          padding: const EdgeInsets.only(right: 20.0),
-                          child: const Icon(
-                            Icons.delete,
-                            color: Colors.white,
-                            size: 36.0,
-                          ),
-                        ),
-                        child: ListTile(
-                          title: Text(
-                            "${workout.name} - ${workout.days.length} day(s) split",
-                            style: Font(size: 20),
-                          ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                builder: (context) => WorkoutViewer(
-                                  workout: workout,
-                                ),
+                      return Column(
+                        children: [
+                          Dismissible(
+                            direction: DismissDirection.endToStart,
+                            key: UniqueKey(),
+                            onDismissed: (direction) {
+                              final box = Hive.box<Workout>("workouts");
+                              box.deleteAt(index);
+                            },
+                            background: Container(
+                              color: Colors.red,
+                              alignment: Alignment.centerRight,
+                              padding: const EdgeInsets.only(right: 20.0),
+                              child: const Icon(
+                                Icons.delete,
+                                color: Colors.white,
+                                size: 36.0,
                               ),
-                            );
-                          },
-                        ),
+                            ),
+                            child: Column(
+                              children: [
+                                ListTile(
+                                  title: Text(
+                                    "${workout.name} - ${workout.days.length} day(s) split",
+                                    style: Font(size: 20),
+                                  ),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                        builder: (context) => WorkoutViewer(
+                                          workout: workout,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                                const Divider(
+                                  color: Colors.white,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       );
                     },
                   ),

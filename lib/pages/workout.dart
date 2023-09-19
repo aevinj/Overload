@@ -32,7 +32,7 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
     });
   }
 
-    void handleOptionChange(String? value) {
+  void handleOptionChange(String? value) {
     if (value is String) {
       setState(() {
         _selectedDay = value;
@@ -138,6 +138,7 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: day.exercises.map((Exercise exercise) {
                         return Dismissible(
+                          direction: DismissDirection.endToStart,
                           key: Key(exercise
                               .name), // Use a unique key for each exercise
                           onDismissed: (direction) {
@@ -145,7 +146,14 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                             removeExercise(exercise);
                           },
                           background: Container(
-                            color: Colors.red, // Background color when swiping
+                            color: Colors.red,
+                            alignment: Alignment.centerRight,
+                            padding: const EdgeInsets.only(right: 20.0),
+                            child: const Icon(
+                              Icons.delete,
+                              color: Colors.white,
+                              size: 36.0,
+                            ),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
