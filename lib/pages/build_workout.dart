@@ -5,16 +5,10 @@ import 'package:progressive_overload/classes/day.dart';
 import 'package:progressive_overload/classes/exercise.dart';
 import 'package:progressive_overload/classes/workout.dart';
 import 'package:progressive_overload/components/blurred_button.dart';
+import 'package:progressive_overload/components/capitalise.dart';
 import 'package:progressive_overload/components/text_style.dart';
 import 'package:progressive_overload/pages/add_exercise.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
-
-extension StringExtension on String {
-  String capitalize() {
-     return 
-       "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
-  }
-}
 
 class BuildWorkout extends StatefulWidget {
   final String title;
@@ -43,7 +37,7 @@ class _BuildWorkoutState extends State<BuildWorkout> {
   @override
   void initState() {
     super.initState();
-    workout = Workout.empty(name: widget.title.capitalize());
+    workout = Workout.empty(name: widget.title.capitalise());
   }
 
   void addExerciseToDay(Exercise exercise, String dayID) {
@@ -109,9 +103,9 @@ class _BuildWorkoutState extends State<BuildWorkout> {
                           style: Font(size: 20),
                         )),
                     DropdownMenuItem(
-                        value: "Tueday",
+                        value: "Tuesday",
                         child: Text(
-                          "Tueday",
+                          "Tuesday",
                           style: Font(size: 20),
                         )),
                     DropdownMenuItem(
