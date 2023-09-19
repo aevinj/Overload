@@ -27,6 +27,7 @@ class _AddExerciseState extends State<AddExercise> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: darkBackground(),
       appBar: AppBar(
           backgroundColor: Colors.transparent,
