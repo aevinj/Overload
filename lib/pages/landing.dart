@@ -45,7 +45,7 @@ class _LandingState extends State<Landing> {
           ),
           BlurryButton(
             onPressed: () {
-              Navigator.push(context,
+              Navigator.pushReplacement(context,
                   CupertinoPageRoute(builder: (context) => const Homepage()));
             },
             width: 200.0,

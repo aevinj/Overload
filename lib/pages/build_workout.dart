@@ -1,9 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:progressive_overload/classes/day.dart';
 import 'package:progressive_overload/classes/exercise.dart';
 import 'package:progressive_overload/classes/workout.dart';
 import 'package:progressive_overload/components/blurred_button.dart';
 import 'package:progressive_overload/components/text_style.dart';
+import 'package:progressive_overload/pages/add_exercise.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
 
 class BuildWorkout extends StatefulWidget {
@@ -19,13 +22,13 @@ class BuildWorkout extends StatefulWidget {
 }
 
 class _BuildWorkoutState extends State<BuildWorkout> {
-  String _selectedOption = 'Monday';
+  String _selectedDay = 'Monday';
   late Workout workout;
 
   void handleOptionChange(String? value) {
     if (value is String) {
       setState(() {
-        _selectedOption = value;
+        _selectedDay = value;
       });
     }
   }
@@ -33,17 +36,32 @@ class _BuildWorkoutState extends State<BuildWorkout> {
   @override
   void initState() {
     super.initState();
-    workout = tempWorkouts();
+    workout = Workout.empty(name: widget.title);
   }
 
-  Workout tempWorkouts() {
-    List<Exercise> ex = [];
-    Exercise e =
-        Exercise(name: "Push ups", sets: 3, reps: 8, duration: "1 minute");
-    ex.add(e);
-    Day d = Day(dayID: "Monday", exercises: ex);
-    List<Day> days = [d];
-    return Workout(name: widget.title, days: days);
+  void addExerciseToDay(Exercise exercise, String dayID) {
+    setState(() {
+      final day = workout.days.firstWhere(
+        (day) => day.dayID == dayID,
+        orElse: () {
+          // If the day doesn't exist, create a new one
+          final newDay = Day(dayID: dayID, exercises: []);
+          workout.days.add(newDay);
+          return newDay;
+        },
+      );
+
+      day.exercises.add(exercise);
+    });
+  }
+
+  void removeExercise(Exercise exercise) {
+    setState(() {
+      final selectedDay =
+          workout.days.firstWhere((day) => day.dayID == _selectedDay);
+
+      selectedDay.exercises.remove(exercise);
+    });
   }
 
   @override
@@ -60,9 +78,7 @@ class _BuildWorkoutState extends State<BuildWorkout> {
         body: Padding(
           padding: const EdgeInsets.all(10),
           child: Column(children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Padding(
                 padding: const EdgeInsets.only(left: 20),
                 child: Text(
@@ -79,18 +95,50 @@ class _BuildWorkoutState extends State<BuildWorkout> {
                   iconSize: 42.0,
                   isExpanded: true,
                   items: [
-                    DropdownMenuItem(value: "Monday", child: Text("Monday", style: Font(size: 20),)),
-                    DropdownMenuItem(value: "Tueday", child: Text("Tueday" , style: Font(size: 20),)),
                     DropdownMenuItem(
-                        value: "Wednesday", child: Text("Wednesday" , style: Font(size: 20),)),
+                        value: "Monday",
+                        child: Text(
+                          "Monday",
+                          style: Font(size: 20),
+                        )),
                     DropdownMenuItem(
-                        value: "Thursday", child: Text("Thursday" , style: Font(size: 20),)),
-                    DropdownMenuItem(value: "Friday", child: Text("Friday" , style: Font(size: 20),)),
+                        value: "Tueday",
+                        child: Text(
+                          "Tueday",
+                          style: Font(size: 20),
+                        )),
                     DropdownMenuItem(
-                        value: "Saturday", child: Text("Saturday" , style: Font(size: 20),)),
-                    DropdownMenuItem(value: "Sunday", child: Text("Sunday" , style: Font(size: 20),)),
+                        value: "Wednesday",
+                        child: Text(
+                          "Wednesday",
+                          style: Font(size: 20),
+                        )),
+                    DropdownMenuItem(
+                        value: "Thursday",
+                        child: Text(
+                          "Thursday",
+                          style: Font(size: 20),
+                        )),
+                    DropdownMenuItem(
+                        value: "Friday",
+                        child: Text(
+                          "Friday",
+                          style: Font(size: 20),
+                        )),
+                    DropdownMenuItem(
+                        value: "Saturday",
+                        child: Text(
+                          "Saturday",
+                          style: Font(size: 20),
+                        )),
+                    DropdownMenuItem(
+                        value: "Sunday",
+                        child: Text(
+                          "Sunday",
+                          style: Font(size: 20),
+                        )),
                   ],
-                  value: _selectedOption,
+                  value: _selectedDay,
                   onChanged: (value) => handleOptionChange(value),
                 ),
               ),
@@ -99,11 +147,16 @@ class _BuildWorkoutState extends State<BuildWorkout> {
               height: 50,
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Selected workouts:",
+                  "Selected exercises:",
                   style: Font(),
                 ),
+                Text(
+                  "Reps x Sets",
+                  style: Font(size: 20, color: Colors.grey[400]!),
+                )
               ],
             ),
             const SizedBox(
@@ -114,34 +167,53 @@ class _BuildWorkoutState extends State<BuildWorkout> {
               height: 300,
               onPressed: () {},
               child: ListView.builder(
-                itemCount: workout
-                    .days.length, // Use the number of days in the workout
+                itemCount: workout.days.length,
                 itemBuilder: (BuildContext context, int index) {
                   Day day = workout.days[index];
 
                   // Check if the day matches the selected option
-                  if (day.dayID == _selectedOption) {
+                  if (day.dayID == _selectedDay) {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: day.exercises.map((Exercise exercise) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Exercise: ${exercise.name}", style: Font()),
-                            Text("Sets: ${exercise.sets ?? 'N/A'}",
-                                style: Font()),
-                            Text("Reps: ${exercise.reps ?? 'N/A'}",
-                                style: Font()),
-                            const Divider(
-                                color: Colors
-                                    .white), // Add a divider between exercises
-                          ],
+                        return Dismissible(
+                          key: Key(exercise
+                              .name), // Use a unique key for each exercise
+                          onDismissed: (direction) {
+                            // Remove the exercise from the workout
+                            removeExercise(exercise);
+                          },
+                          background: Container(
+                            color: Colors.red, // Background color when swiping
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    exercise.name,
+                                    style: Font(),
+                                  ),
+                                  Text(
+                                    "${exercise.reps ?? 'N/A'}x${exercise.sets ?? 'N/A'}",
+                                    style: Font(
+                                        size: 16, color: Colors.grey[600]!),
+                                  ),
+                                ],
+                              ),
+                              const Divider(
+                                color: Colors.white,
+                              ),
+                            ],
+                          ),
                         );
                       }).toList(),
                     );
                   } else {
-                    return const SizedBox
-                        .shrink(); // Return an empty SizedBox if the day doesn't match
+                    return const SizedBox.shrink();
                   }
                 },
               ),
@@ -153,21 +225,37 @@ class _BuildWorkoutState extends State<BuildWorkout> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 BlurryButton(
-                    width: 150,
-                    height: 100,
-                    onPressed: () {},
-                    child: Flexible(
-                      child: Text(
-                        "Add more",
-                        style: Font(),
-                        overflow: TextOverflow.fade,
-                        textAlign: TextAlign.center,
-                      ),
-                    )),
+                  width: 150,
+                  height: 100,
+                  onPressed: () async {
+                    final Exercise? newExercise = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AddExercise()),
+                    );
+
+                    if (newExercise != null) {
+                      addExerciseToDay(newExercise, _selectedDay);
+                    }
+                  },
+                  child: Flexible(
+                    child: Text(
+                      "Add more",
+                      style: Font(),
+                      overflow: TextOverflow.fade,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
                 BlurryButton(
                     width: 150,
                     height: 100,
-                    onPressed: () {},
+                    onPressed: () async {
+                      final workoutsBox =
+                          await Hive.openBox<Workout>('workouts');
+                      await workoutsBox.add(workout);
+                      Navigator.pop(context);
+                    },
                     child: Flexible(
                       child: Text(
                         "Save & exit",

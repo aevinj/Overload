@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:progressive_overload/classes/workout.dart';
 import 'package:progressive_overload/components/blurred_button.dart';
 import 'package:progressive_overload/components/text_style.dart';
 import 'package:progressive_overload/pages/new_workout.dart';
+import 'package:progressive_overload/pages/view_workouts.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
 
 class Homepage extends StatefulWidget {
@@ -22,28 +25,58 @@ class _HomepageState extends State<Homepage> {
       ),
       backgroundColor: darkBackground(),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           BlurryButton(
-            onPressed: () {},
-            width: 200,
-            height: 200,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ViewWorkoutsPage()),
+              );
+            },
+            width: 250,
+            height: 150,
             child: Text(
               "View Workouts",
               style: Font(),
               textAlign: TextAlign.center,
             ),
           ),
-          const SizedBox(height: 30,),
+          const SizedBox(
+            height: 30,
+          ),
           BlurryButton(
             onPressed: () {
-              Navigator.push(context, CupertinoPageRoute(builder: (context) => const NewWorkout()));
+              Navigator.push(context,
+                  CupertinoPageRoute(builder: (context) => const NewWorkout()));
             },
-            width: 200,
-            height: 200,
+            width: 250,
+            height: 150,
             child: Text(
               "New workout",
+              style: Font(),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+          BlurryButton(
+            onPressed: () async {
+// Open the Hive box
+              final box = await Hive.openBox<Workout>(
+                  "workouts"); // Replace "workouts" with your actual box name
+
+// Clear the contents of the box
+              await box.clear();
+
+// Close the box (optional but recommended)
+              await box.close();
+              print("done");
+            },
+            width: 250,
+            height: 150,
+            child: Text(
+              "Delete all workouts",
               style: Font(),
               textAlign: TextAlign.center,
             ),

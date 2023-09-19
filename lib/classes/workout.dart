@@ -11,5 +11,7 @@ class Workout {
   @HiveField(1)
   List<Day> days;
 
+  Workout.empty({required this.name}) : days = [];
+
   Workout({ required this.name, required this.days });
 }
