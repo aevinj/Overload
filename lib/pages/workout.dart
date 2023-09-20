@@ -20,6 +20,13 @@ class WorkoutViewer extends StatefulWidget {
 
 class _WorkoutViewerState extends State<WorkoutViewer> {
   String _selectedDay = "Monday";
+  late Workout workout;
+
+  @override
+  void initState() {
+    super.initState();
+    workout = widget.workout;
+  }
 
   void removeExercise(Exercise exercise) {
     setState(() {
@@ -40,6 +47,12 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
         _selectedDay = value;
       });
     }
+  }
+
+  void replaceSet(Exercise exercise, int value) {
+    setState(() {
+      widget.workout.days.firstWhere((day) => day.dayID == _selectedDay).exercises.firstWhere((ex) => ex.name == exercise.name).sets = widget.workout.days.firstWhere((day) => day.dayID == _selectedDay).exercises.firstWhere((ex) => ex.name == exercise.name).sets! + value;
+    });
   }
 
   @override
@@ -286,7 +299,8 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                                                                   width: 50,
                                                                   height: 50,
                                                                   onPressed:
-                                                                      () {},
+                                                                      () {
+                                                                      },
                                                                   child:
                                                                       const Icon(
                                                                     CupertinoIcons
@@ -322,7 +336,12 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                                                                   width: 50,
                                                                   height: 50,
                                                                   onPressed:
-                                                                      () {},
+                                                                      () {
+                                                                        setState(() {
+                                                                          replaceSet(exercise, -1);
+                                                                        });
+                                                                        Navigator.pop(context);
+                                                                      },
                                                                   child:
                                                                       const Icon(
                                                                     CupertinoIcons
@@ -338,7 +357,10 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                                                                   width: 50,
                                                                   height: 50,
                                                                   onPressed:
-                                                                      () {},
+                                                                      () {
+                                                                        replaceSet(exercise, 1);
+                                                                        Navigator.pop(context);
+                                                                      },
                                                                   child:
                                                                       const Icon(
                                                                     CupertinoIcons
@@ -356,7 +378,7 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                                               },
                                               child: Text(
                                                 //TODO: instead of "" replace with duration
-                                                exercise.reps == null
+                                                exercise.reps == null || exercise.sets == null
                                                     ? ""
                                                     : "${exercise.reps}x${exercise.sets}",
                                                 style: Font(
