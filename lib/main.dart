@@ -11,6 +11,7 @@ void main() async {
   Hive.registerAdapter(WorkoutAdapter());
   Hive.registerAdapter(ExerciseAdapter());
   Hive.registerAdapter(DayAdapter());
+  //TODO: put openBox in a try clause and if it fails, delete the box from disk first then openBox again
   await Hive.openBox<Workout>('workouts');
   runApp(const MyApp());
 }
