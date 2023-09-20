@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:progressive_overload/classes/exercise.dart';
 import 'package:progressive_overload/components/blurred_button.dart';
+import 'package:progressive_overload/components/capitalise.dart';
 import 'package:progressive_overload/components/text_style.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
 
@@ -56,6 +58,8 @@ class _AddExerciseState extends State<AddExercise> {
         TextField(
           style: const TextStyle(color: Colors.white),
           controller: _repsController,
+          keyboardType: TextInputType.number,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           decoration: InputDecoration(
             hintText: 'Reps',
             hintStyle: TextStyle(color: Colors.grey[600]),
@@ -73,6 +77,8 @@ class _AddExerciseState extends State<AddExercise> {
         TextField(
           style: const TextStyle(color: Colors.white),
           controller: _setsController,
+          keyboardType: TextInputType.number,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           decoration: InputDecoration(
             hintText: 'Sets',
             hintStyle: TextStyle(color: Colors.grey[600]),
@@ -92,7 +98,7 @@ class _AddExerciseState extends State<AddExercise> {
             width: 150,
             onPressed: () {
               final newExercise = Exercise(
-                name: _nameController.text,
+                name: _nameController.text.capitalise(),
                 sets: int.tryParse(_setsController.text),
                 reps: int.tryParse(_repsController.text),
               );
