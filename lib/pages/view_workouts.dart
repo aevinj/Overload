@@ -86,7 +86,7 @@ class ViewWorkoutsPage extends StatelessWidget {
                               children: [
                                 ListTile(
                                   title: Text(
-                                    "${workout.name} - ${workout.days.length} day(s) split",
+                                    "${workout.name} - ${workout.split} - ${workout.days.length} day(s)",
                                     style: Font(size: 20),
                                   ),
                                   onTap: () {

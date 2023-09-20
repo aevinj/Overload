@@ -37,7 +37,7 @@ class _BuildWorkoutState extends State<BuildWorkout> {
   @override
   void initState() {
     super.initState();
-    workout = Workout.empty(name: widget.title.capitalise());
+    workout = Workout.empty(name: widget.title.capitalise(), split: widget.split);
   }
 
   void addExerciseToDay(Exercise newExercise, String dayID) {
