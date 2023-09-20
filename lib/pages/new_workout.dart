@@ -104,7 +104,7 @@ class _NewWorkoutState extends State<NewWorkout> {
                         context,
                         CupertinoPageRoute(
                             builder: (context) => BuildWorkout(
-                                  title: _nameController.text.capitalise(),
+                                  title: _nameController.text.isEmpty ? "New workout" : _nameController.text.capitalise(),
                                   split: selectedOption,
                                 )));
                   },
