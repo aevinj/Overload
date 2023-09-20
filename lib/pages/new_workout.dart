@@ -42,49 +42,54 @@ class _NewWorkoutState extends State<NewWorkout> {
               style: Font(size: 20),
             ),
             const SizedBox(
-              height: 10,
+              height: 20,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 15),
-              child: TextField(
-                style: const TextStyle(color: Colors.white),
-                controller: _nameController,
-                decoration: InputDecoration(
-                  hintText: 'New workout',
-                  hintStyle: TextStyle(color: Colors.grey[600]),
-                  focusedBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey[800]!),
-                  ),
+            TextField(
+              style: const TextStyle(color: Colors.white),
+              controller: _nameController,
+              decoration: InputDecoration(
+                hintText: 'New workout',
+                hintStyle: TextStyle(color: Colors.grey[600]),
+                focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey[800]!),
                 ),
               ),
             ),
-            const SizedBox(height: 50.0),
-            Text(
-              'Choose a split:',
-              style: Font(size: 20),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 15),
-              child: DropdownButton<String>(
-                dropdownColor: Colors.grey[900],
-                style: const TextStyle(color: Colors.white),
-                value: selectedOption,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selectedOption = newValue!;
-                  });
-                },
-                items: <String>['Push Pull Legs', 'Arnold', 'Custom']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
+            const SizedBox(height: 20.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Choose a split:',
+                  style: Font(size: 20),
+                ),
+                DropdownButton<String>(
+                  dropdownColor: Colors.grey[900],
+                  focusColor: Colors.purple[900],
+                  iconEnabledColor: Colors.purpleAccent[700],
+                  iconSize: 42.0,
+                  style: const TextStyle(color: Colors.white),
+                  value: selectedOption,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedOption = newValue!;
+                    });
+                  },
+                  items: <String>['Push Pull Legs', 'Arnold', 'Custom']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(
+                        value,
+                        style: Font(size: 20),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ],
             ),
             const SizedBox(
               height: 100,
@@ -94,7 +99,13 @@ class _NewWorkoutState extends State<NewWorkout> {
                   width: 200,
                   height: 100,
                   onPressed: () {
-                    Navigator.push(context, CupertinoPageRoute(builder: (context) => BuildWorkout(title: _nameController.text, split: selectedOption,)));
+                    Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                            builder: (context) => BuildWorkout(
+                                  title: _nameController.text,
+                                  split: selectedOption,
+                                )));
                   },
                   child: Text(
                     "Confirm",
