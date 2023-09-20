@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:progressive_overload/classes/day.dart';
 import 'package:progressive_overload/classes/exercise.dart';
@@ -187,6 +188,50 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                 },
               ),
             ),
+            const SizedBox(
+              height: 40,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                BlurryButton(
+                    width: 150,
+                    height: 150,
+                    onPressed: () {},
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const Icon(
+                          CupertinoIcons.arrowtriangle_right_circle,
+                          color: Colors.white,
+                          size: 75,
+                        ),
+                        Text(
+                          "Start",
+                          style: Font(),
+                        ),
+                      ],
+                    )),
+                BlurryButton(
+                    width: 150,
+                    height: 150,
+                    onPressed: () {},
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const Icon(
+                          CupertinoIcons.pencil,
+                          color: Colors.white,
+                          size: 75,
+                        ),
+                        Text(
+                          "Edit",
+                          style: Font(),
+                        ),
+                      ],
+                    )),
+              ],
+            )
           ],
         ),
       ),
