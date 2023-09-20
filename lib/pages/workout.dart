@@ -260,12 +260,109 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                                                 overflow: TextOverflow.ellipsis,
                                               ),
                                             ),
-                                            Text(
-                                              //TODO: instead of "" replace with duration
-                                              exercise.reps == null ? "" : "${exercise.reps}x${exercise.sets}",
-                                              style: Font(
-                                                  size: 16,
-                                                  color: Colors.grey[600]!),
+                                            GestureDetector(
+                                              onTap: () {
+                                                showModalBottomSheet(
+                                                  backgroundColor:
+                                                      Colors.grey[900],
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return Container(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              16),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceEvenly,
+                                                            children: [
+                                                              BlurryButton(
+                                                                  width: 50,
+                                                                  height: 50,
+                                                                  onPressed:
+                                                                      () {},
+                                                                  child:
+                                                                      const Icon(
+                                                                    CupertinoIcons
+                                                                        .minus,
+                                                                    color: Colors
+                                                                        .white,
+                                                                  )),
+                                                              Text(
+                                                                "${exercise.reps} reps",
+                                                                style: Font(),
+                                                              ),
+                                                              BlurryButton(
+                                                                  width: 50,
+                                                                  height: 50,
+                                                                  onPressed:
+                                                                      () {},
+                                                                  child:
+                                                                      const Icon(
+                                                                    CupertinoIcons
+                                                                        .add,
+                                                                    color: Colors
+                                                                        .white,
+                                                                  )),
+                                                            ],
+                                                          ),
+                                                          const SizedBox(height: 50,),
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceEvenly,
+                                                            children: [
+                                                              BlurryButton(
+                                                                  width: 50,
+                                                                  height: 50,
+                                                                  onPressed:
+                                                                      () {},
+                                                                  child:
+                                                                      const Icon(
+                                                                    CupertinoIcons
+                                                                        .minus,
+                                                                    color: Colors
+                                                                        .white,
+                                                                  )),
+                                                              Text(
+                                                                "${exercise.sets} sets",
+                                                                style: Font(),
+                                                              ),
+                                                              BlurryButton(
+                                                                  width: 50,
+                                                                  height: 50,
+                                                                  onPressed:
+                                                                      () {},
+                                                                  child:
+                                                                      const Icon(
+                                                                    CupertinoIcons
+                                                                        .add,
+                                                                    color: Colors
+                                                                        .white,
+                                                                  )),
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                              child: Text(
+                                                //TODO: instead of "" replace with duration
+                                                exercise.reps == null
+                                                    ? ""
+                                                    : "${exercise.reps}x${exercise.sets}",
+                                                style: Font(
+                                                    size: 16,
+                                                    color: Colors.grey[600]!),
+                                              ),
                                             ),
                                           ],
                                         ),
