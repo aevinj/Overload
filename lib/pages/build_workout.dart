@@ -6,7 +6,6 @@ import 'package:progressive_overload/classes/day.dart';
 import 'package:progressive_overload/classes/exercise.dart';
 import 'package:progressive_overload/classes/workout.dart';
 import 'package:progressive_overload/components/blurred_button.dart';
-import 'package:progressive_overload/components/capitalise.dart';
 import 'package:progressive_overload/components/text_style.dart';
 import 'package:progressive_overload/pages/add_exercise.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
@@ -39,7 +38,7 @@ class _BuildWorkoutState extends State<BuildWorkout> {
   void initState() {
     super.initState();
     workout =
-        Workout.empty(name: widget.title.capitalise(), split: widget.split);
+        Workout.empty(name: widget.title, split: widget.split);
   }
 
   void addExerciseToDay(Exercise newExercise, String dayID) {

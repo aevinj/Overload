@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:progressive_overload/components/blurred_button.dart';
+import 'package:progressive_overload/components/capitalise.dart';
 import 'package:progressive_overload/components/text_style.dart';
 import 'package:progressive_overload/pages/build_workout.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
@@ -103,7 +104,7 @@ class _NewWorkoutState extends State<NewWorkout> {
                         context,
                         CupertinoPageRoute(
                             builder: (context) => BuildWorkout(
-                                  title: _nameController.text,
+                                  title: _nameController.text.capitalise(),
                                   split: selectedOption,
                                 )));
                   },
