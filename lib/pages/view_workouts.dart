@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:progressive_overload/classes/workout.dart';
 import 'package:progressive_overload/components/blurred_button.dart';
@@ -68,7 +69,56 @@ class ViewWorkoutsPage extends StatelessWidget {
                           Dismissible(
                             direction: DismissDirection.endToStart,
                             key: UniqueKey(),
+                            confirmDismiss: (direction) async {
+                              final confirmed = await showDialog<bool>(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    icon: const Icon(
+                                      CupertinoIcons.trash,
+                                      color: Colors.white,
+                                    ),
+                                    backgroundColor: Colors.grey[900],
+                                    title: Text(
+                                      "Delete ${workout.name}?",
+                                      style: Font(),
+                                    ),
+                                    content: Text(
+                                      "Are you sure you want to delete ${workout.name} permanently?",
+                                      style: Font(size: 16),
+                                    ),
+                                    actions: [
+                                      BlurryButton(
+                                        width: 100,
+                                        height: 50,
+                                        onPressed: () {
+                                          Navigator.of(context).pop(false);
+                                        },
+                                        child: Text(
+                                          "Cancel",
+                                          style: Font(size: 16),
+                                        ),
+                                      ),
+                                      BlurryButton(
+                                        color: Colors.red,
+                                        width: 100,
+                                        height: 50,
+                                        onPressed: () {
+                                          Navigator.of(context).pop(true);
+                                        },
+                                        child: Text(
+                                          "Delete",
+                                          style: Font(size: 16),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                              return confirmed ?? false;
+                            },
                             onDismissed: (direction) {
+                              HapticFeedback.mediumImpact();
                               final box = Hive.box<Workout>("workouts");
                               box.deleteAt(index);
                             },

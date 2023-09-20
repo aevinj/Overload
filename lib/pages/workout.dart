@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:progressive_overload/classes/day.dart';
 import 'package:progressive_overload/classes/exercise.dart';
 import 'package:progressive_overload/classes/workout.dart';
@@ -142,8 +143,56 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                           direction: DismissDirection.endToStart,
                           key: Key(exercise
                               .name), // Use a unique key for each exercise
+                          confirmDismiss: (direction) async {
+                            final confirmed = await showDialog<bool>(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  icon: const Icon(
+                                    CupertinoIcons.trash,
+                                    color: Colors.white,
+                                  ),
+                                  backgroundColor: Colors.grey[900],
+                                  title: Text(
+                                    "Delete ${exercise.name}?",
+                                    style: Font(),
+                                  ),
+                                  content: Text(
+                                    "Are you sure you want to delete ${exercise.name} from ${widget.workout.name}?",
+                                    style: Font(size: 16),
+                                  ),
+                                  actions: [
+                                    BlurryButton(
+                                      width: 100,
+                                      height: 50,
+                                      onPressed: () {
+                                        Navigator.of(context).pop(false);
+                                      },
+                                      child: Text(
+                                        "Cancel",
+                                        style: Font(size: 16),
+                                      ),
+                                    ),
+                                    BlurryButton(
+                                      color: Colors.red,
+                                      width: 100,
+                                      height: 50,
+                                      onPressed: () {
+                                        Navigator.of(context).pop(true);
+                                      },
+                                      child: Text(
+                                        "Delete",
+                                        style: Font(size: 16),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                            return confirmed ?? false;
+                          },
                           onDismissed: (direction) {
-                            // Remove the exercise from the workout
+                            HapticFeedback.mediumImpact();
                             removeExercise(exercise);
                           },
                           background: Container(
