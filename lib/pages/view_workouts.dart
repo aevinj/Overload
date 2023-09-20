@@ -32,7 +32,7 @@ class ViewWorkoutsPage extends StatelessWidget {
               );
             } else {
               final box = Hive.box<Workout>("workouts");
-              final workouts = box.values.toList();
+              var workouts = box.values.toList();
 
               if (workouts.isEmpty) {
                 return Center(
@@ -117,10 +117,15 @@ class ViewWorkoutsPage extends StatelessWidget {
                               );
                               return confirmed ?? false;
                             },
-                            onDismissed: (direction) {
+                            onDismissed: (direction) async {
                               HapticFeedback.mediumImpact();
                               final box = Hive.box<Workout>("workouts");
-                              box.deleteAt(index);
+                              await box.deleteAt(index);
+                              workouts = box.values.toList();
+                              if (workouts.isEmpty){
+                                // ignore: use_build_context_synchronously
+                                Navigator.pop(context);
+                              }
                             },
                             background: Container(
                               color: Colors.red,
