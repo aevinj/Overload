@@ -147,7 +147,7 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                             style: Font(color: Colors.white),
                           )
                         ]))
-                  : widget.workout.days.any((day) => day.dayID == _selectedDay)
+                  : !widget.workout.days.any((day) => day.dayID == _selectedDay)
                       ? Center(
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -253,12 +253,16 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(
-                                              exercise.name,
-                                              style: Font(),
+                                            Flexible(
+                                              child: Text(
+                                                exercise.name,
+                                                style: Font(),
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
                                             ),
                                             Text(
-                                              "${exercise.reps ?? 'N/A'}x${exercise.sets ?? 'N/A'}",
+                                              //TODO: instead of "" replace with duration
+                                              exercise.reps == null ? "" : "${exercise.reps}x${exercise.sets}",
                                               style: Font(
                                                   size: 16,
                                                   color: Colors.grey[600]!),

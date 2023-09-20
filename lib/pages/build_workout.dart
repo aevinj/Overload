@@ -49,6 +49,7 @@ class _BuildWorkoutState extends State<BuildWorkout> {
           // If the day doesn't exist, create a new one
           final newDay = Day(dayID: dayID, exercises: []);
           workout.days.add(newDay);
+          print(newDay.dayID);
           return newDay;
         },
       );
