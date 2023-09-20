@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:progressive_overload/classes/day.dart';
 import 'package:progressive_overload/classes/exercise.dart';
@@ -37,7 +38,8 @@ class _BuildWorkoutState extends State<BuildWorkout> {
   @override
   void initState() {
     super.initState();
-    workout = Workout.empty(name: widget.title.capitalise(), split: widget.split);
+    workout =
+        Workout.empty(name: widget.title.capitalise(), split: widget.split);
   }
 
   void addExerciseToDay(Exercise newExercise, String dayID) {
@@ -99,7 +101,7 @@ class _BuildWorkoutState extends State<BuildWorkout> {
               SizedBox(
                 width: 200,
                 child: DropdownButton(
-                  dropdownColor: Colors.grey[700],
+                  dropdownColor: Colors.grey[900],
                   focusColor: Colors.purple[900],
                   iconEnabledColor: Colors.purpleAccent[700],
                   iconSize: 42.0,
@@ -190,8 +192,56 @@ class _BuildWorkoutState extends State<BuildWorkout> {
                           direction: DismissDirection.endToStart,
                           key: Key(exercise
                               .name), // Use a unique key for each exercise
+                          confirmDismiss: (direction) async {
+                            final confirmed = await showDialog<bool>(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  icon: const Icon(
+                                    CupertinoIcons.trash,
+                                    color: Colors.white,
+                                  ),
+                                  backgroundColor: Colors.grey[900],
+                                  title: Text(
+                                    "Delete ${exercise.name}?",
+                                    style: Font(),
+                                  ),
+                                  content: Text(
+                                    "Are you sure you want to delete ${exercise.name} from ${workout.name}?",
+                                    style: Font(size: 16),
+                                  ),
+                                  actions: [
+                                    BlurryButton(
+                                      width: 100,
+                                      height: 50,
+                                      onPressed: () {
+                                        Navigator.of(context).pop(false);
+                                      },
+                                      child: Text(
+                                        "Cancel",
+                                        style: Font(size: 16),
+                                      ),
+                                    ),
+                                    BlurryButton(
+                                      color: Colors.red,
+                                      width: 100,
+                                      height: 50,
+                                      onPressed: () {
+                                        Navigator.of(context).pop(true);
+                                      },
+                                      child: Text(
+                                        "Delete",
+                                        style: Font(size: 16),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                            return confirmed ?? false;
+                          },
                           onDismissed: (direction) {
-                            // Remove the exercise from the workout
+                            HapticFeedback.mediumImpact();
                             removeExercise(exercise);
                           },
                           background: Container(
