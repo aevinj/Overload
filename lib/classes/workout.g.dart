@@ -19,17 +19,20 @@ class WorkoutAdapter extends TypeAdapter<Workout> {
     return Workout(
       name: fields[0] as String,
       days: (fields[1] as List).cast<Day>(),
+      split: fields[2] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, Workout obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
-      ..write(obj.days);
+      ..write(obj.days)
+      ..writeByte(2)
+      ..write(obj.split);
   }
 
   @override
