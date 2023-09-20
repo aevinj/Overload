@@ -8,6 +8,8 @@ import 'package:progressive_overload/pages/workout.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
 
 class ViewWorkoutsPage extends StatelessWidget {
+  const ViewWorkoutsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

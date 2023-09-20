@@ -30,7 +30,7 @@ class _HomepageState extends State<Homepage> {
             onPressed: () {
               Navigator.push(
                 context,
-                CupertinoPageRoute(builder: (context) => ViewWorkoutsPage()),
+                CupertinoPageRoute(builder: (context) => const ViewWorkoutsPage()),
               );
             },
             width: 250,
