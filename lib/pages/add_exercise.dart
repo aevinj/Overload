@@ -136,12 +136,26 @@ class _AddExerciseState extends State<AddExercise> {
             height: 75,
             width: 150,
             onPressed: () {
-              final newExercise = Exercise(
-                name: _nameController.text.capitalise(),
-                sets: int.tryParse(_setsController.text),
-                reps: int.tryParse(_repsController.text),
-              );
-              Navigator.pop(context, newExercise);
+              if (_nameController.text.isNotEmpty) {
+                final newExercise = Exercise(
+                  name: _nameController.text.capitalise(),
+                  sets: int.tryParse(_setsController.text),
+                  reps: int.tryParse(_repsController.text),
+                );
+                Navigator.pop(context, newExercise);
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      'Name of the exercise must be supplied',
+                      style: Font(size: 16),
+                    ),
+                    duration: const Duration(milliseconds: 1250),
+                    showCloseIcon: true,
+                    closeIconColor: Colors.red,
+                  ),
+                );
+              }
             },
             child: Text(
               "Add",
