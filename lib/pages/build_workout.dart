@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:progressive_overload/box_manager.dart';
 import 'package:progressive_overload/classes/day.dart';
 import 'package:progressive_overload/classes/exercise.dart';
 import 'package:progressive_overload/classes/workout.dart';
@@ -9,6 +9,7 @@ import 'package:progressive_overload/components/blurred_button.dart';
 import 'package:progressive_overload/components/text_style.dart';
 import 'package:progressive_overload/pages/add_exercise.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
+import 'package:provider/provider.dart';
 
 class BuildWorkout extends StatefulWidget {
   final String title;
@@ -77,6 +78,8 @@ class _BuildWorkoutState extends State<BuildWorkout> {
 
   @override
   Widget build(BuildContext context) {
+    final boxManager = Provider.of<BoxManager>(context);
+
     return Scaffold(
         backgroundColor: darkBackground(),
         appBar: AppBar(
@@ -360,9 +363,7 @@ class _BuildWorkoutState extends State<BuildWorkout> {
                     width: 150,
                     height: 100,
                     onPressed: () async {
-                      final workoutsBox =
-                          await Hive.openBox<Workout>('workouts');
-                      await workoutsBox.add(workout);
+                      await boxManager.addWorkout(workout);
                       // ignore: use_build_context_synchronously
                       Navigator.pop(context);
                       // ignore: use_build_context_synchronously
