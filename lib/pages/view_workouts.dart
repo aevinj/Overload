@@ -31,7 +31,7 @@ class ViewWorkoutsPage extends StatelessWidget {
                 ),
               );
             } else {
-              final box = Hive.box<Workout>("workouts");
+              var box = Hive.box<Workout>("workouts");
               var workouts = box.values.toList();
 
               if (workouts.isEmpty) {
@@ -63,7 +63,7 @@ class ViewWorkoutsPage extends StatelessWidget {
                   child: ListView.builder(
                     itemCount: workouts.length,
                     itemBuilder: (context, index) {
-                      final workout = workouts[index];
+                      var workout = workouts[index];
                       return Column(
                         children: [
                           Dismissible(
@@ -119,10 +119,8 @@ class ViewWorkoutsPage extends StatelessWidget {
                             },
                             onDismissed: (direction) async {
                               HapticFeedback.mediumImpact();
-                              final box = Hive.box<Workout>("workouts");
                               await box.deleteAt(index);
-                              workouts = box.values.toList();
-                              if (workouts.isEmpty){
+                              if (box.values.toList().isEmpty){
                                 // ignore: use_build_context_synchronously
                                 Navigator.pop(context);
                               }
