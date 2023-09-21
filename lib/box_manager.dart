@@ -55,6 +55,11 @@ class BoxManager extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> addWorkout(Workout workout) async {
+    await box.add(workout);
+    notifyListeners();
+  }
+
   int _convertDayToDayIndex(String day) {
     if (day == "Monday") {
       return 0;
