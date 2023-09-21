@@ -6,6 +6,7 @@ import 'package:progressive_overload/classes/day.dart';
 import 'package:progressive_overload/classes/exercise.dart';
 import 'package:progressive_overload/classes/workout.dart';
 import 'package:progressive_overload/components/blurred_button.dart';
+import 'package:progressive_overload/components/edit_reps_sets_modal.dart';
 import 'package:progressive_overload/components/capitalise.dart';
 import 'package:progressive_overload/components/text_style.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
@@ -24,18 +25,15 @@ class WorkoutViewer extends StatefulWidget {
 class _WorkoutViewerState extends State<WorkoutViewer> {
   String _selectedDay = "Monday";
 
-  void removeExercise(BoxManager boxManager , Exercise exercise) {
+  void removeExercise(BoxManager boxManager, Exercise exercise) {
     setState(() {
-      // final selectedDay =
-      //     widget.workout.days.firstWhere((day) => day.dayID == _selectedDay);
-
-      // selectedDay.exercises.remove(exercise);
-
-      // if (selectedDay.exercises.isEmpty) {
-      //   widget.workout.days.remove(selectedDay);
-      // }
       boxManager.deleteExercise(exercise, widget.index, _selectedDay);
-      if (boxManager.getWorkoutsAsList()[widget.index].days.firstWhere((day) => day.dayID == _selectedDay).exercises.isEmpty){
+      if (boxManager
+          .getWorkoutsAsList()[widget.index]
+          .days
+          .firstWhere((day) => day.dayID == _selectedDay)
+          .exercises
+          .isEmpty) {
         boxManager.deleteDay(widget.index, _selectedDay);
       }
     });
@@ -47,12 +45,6 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
         _selectedDay = value;
       });
     }
-  }
-
-  void replaceSet(Exercise exercise, int value) {
-    setState(() {
-      widget.workout.days.firstWhere((day) => day.dayID == _selectedDay).exercises.firstWhere((ex) => ex.name == exercise.name).sets = widget.workout.days.firstWhere((day) => day.dayID == _selectedDay).exercises.firstWhere((ex) => ex.name == exercise.name).sets! + value;
-    });
   }
 
   @override
@@ -162,7 +154,10 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                             style: Font(color: Colors.white),
                           )
                         ]))
-                  : !boxManager.getWorkoutsAsList()[widget.index].days.any((day) => day.dayID == _selectedDay)
+                  : !boxManager
+                          .getWorkoutsAsList()[widget.index]
+                          .days
+                          .any((day) => day.dayID == _selectedDay)
                       ? Center(
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -181,11 +176,15 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                               )
                             ]))
                       : ListView.builder(
-                          itemCount: boxManager.getWorkoutsAsList()[widget.index].days.length,
+                          itemCount: boxManager
+                              .getWorkoutsAsList()[widget.index]
+                              .days
+                              .length,
                           itemBuilder: (BuildContext context, int index) {
-                            Day day = boxManager.getWorkoutsAsList()[widget.index].days[index];
+                            Day day = boxManager
+                                .getWorkoutsAsList()[widget.index]
+                                .days[index];
 
-                            // Check if the day matches the selected option
                             if (day.dayID == _selectedDay) {
                               return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -277,112 +276,73 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                                             ),
                                             GestureDetector(
                                               onTap: () {
+                                                int setCount = boxManager
+                                                    .getWorkoutsAsList()[
+                                                        widget.index]
+                                                    .days
+                                                    .firstWhere((day) =>
+                                                        day.dayID ==
+                                                        _selectedDay)
+                                                    .exercises
+                                                    .firstWhere((ex) =>
+                                                        ex.name ==
+                                                        exercise.name)
+                                                    .sets!;
+
+                                                int repCount = boxManager
+                                                    .getWorkoutsAsList()[
+                                                        widget.index]
+                                                    .days
+                                                    .firstWhere((day) =>
+                                                        day.dayID ==
+                                                        _selectedDay)
+                                                    .exercises
+                                                    .firstWhere((ex) =>
+                                                        ex.name ==
+                                                        exercise.name)
+                                                    .reps!;
+
                                                 showModalBottomSheet(
+                                                  enableDrag: false,
                                                   backgroundColor:
                                                       Colors.grey[900],
                                                   context: context,
                                                   builder:
                                                       (BuildContext context) {
-                                                    return Container(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              16),
-                                                      child: Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceEvenly,
-                                                            children: [
-                                                              BlurryButton(
-                                                                  width: 50,
-                                                                  height: 50,
-                                                                  onPressed:
-                                                                      () {
-                                                                      },
-                                                                  child:
-                                                                      const Icon(
-                                                                    CupertinoIcons
-                                                                        .minus,
-                                                                    color: Colors
-                                                                        .white,
-                                                                  )),
-                                                              Text(
-                                                                "${exercise.reps} reps",
-                                                                style: Font(),
-                                                              ),
-                                                              BlurryButton(
-                                                                  width: 50,
-                                                                  height: 50,
-                                                                  onPressed:
-                                                                      () {},
-                                                                  child:
-                                                                      const Icon(
-                                                                    CupertinoIcons
-                                                                        .add,
-                                                                    color: Colors
-                                                                        .white,
-                                                                  )),
-                                                            ],
-                                                          ),
-                                                          const SizedBox(height: 50,),
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceEvenly,
-                                                            children: [
-                                                              BlurryButton(
-                                                                  width: 50,
-                                                                  height: 50,
-                                                                  onPressed:
-                                                                      () {
-                                                                        setState(() {
-                                                                          replaceSet(exercise, -1);
-                                                                        });
-                                                                        Navigator.pop(context);
-                                                                      },
-                                                                  child:
-                                                                      const Icon(
-                                                                    CupertinoIcons
-                                                                        .minus,
-                                                                    color: Colors
-                                                                        .white,
-                                                                  )),
-                                                              Text(
-                                                                "${exercise.sets} sets",
-                                                                style: Font(),
-                                                              ),
-                                                              BlurryButton(
-                                                                  width: 50,
-                                                                  height: 50,
-                                                                  onPressed:
-                                                                      () {
-                                                                        replaceSet(exercise, 1);
-                                                                        Navigator.pop(context);
-                                                                      },
-                                                                  child:
-                                                                      const Icon(
-                                                                    CupertinoIcons
-                                                                        .add,
-                                                                    color: Colors
-                                                                        .white,
-                                                                  )),
-                                                            ],
-                                                          )
-                                                        ],
-                                                      ),
+                                                    return ModalSheetContent(
+                                                      initialSetCount: setCount,
+                                                      onSetCountChanged:
+                                                          (newSetCount) {
+                                                        setState(() {
+                                                          boxManager.modifySet(
+                                                              widget.index,
+                                                              _selectedDay,
+                                                              exercise.name,
+                                                              newSetCount);
+                                                        });
+                                                      },
+                                                      initialRepsCount:
+                                                          repCount,
+                                                      onRepsCountChanged:
+                                                          (newRepCount) {
+                                                        setState(() {
+                                                          boxManager.modifyRep(
+                                                              widget.index,
+                                                              _selectedDay,
+                                                              exercise.name,
+                                                              newRepCount);
+                                                        });
+                                                      },
                                                     );
                                                   },
                                                 );
                                               },
                                               child: Text(
                                                 //TODO: instead of "" replace with duration
-                                                exercise.reps == null || exercise.sets == null
+                                                exercise.reps == null ||
+                                                        exercise.sets == null
                                                     ? ""
-                                                    : "${exercise.reps}x${exercise.sets}",
+                                                    : "${exercise.reps}x${boxManager.getWorkoutsAsList()[widget.index].days.firstWhere((day) => day.dayID == _selectedDay).exercises.firstWhere((ex) => ex.name == exercise.name).sets}",
                                                 style: Font(
                                                     size: 16,
                                                     color: Colors.grey[600]!),
