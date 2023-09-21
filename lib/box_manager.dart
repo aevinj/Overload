@@ -41,6 +41,20 @@ class BoxManager extends ChangeNotifier {
     notifyListeners();
   }
 
+  void modifySet(int workoutIndex, String day, String exerciseName, int value) {
+    var newWorkout = box.getAt(workoutIndex)!;
+    newWorkout.days[_convertDayToDayIndex(day)].exercises.firstWhere((ex) => ex.name == exerciseName).sets = value;
+    box.putAt(workoutIndex, newWorkout);
+    notifyListeners();
+  }
+
+  void modifyRep(int workoutIndex, String day, String exerciseName, int value) {
+    var newWorkout = box.getAt(workoutIndex)!;
+    newWorkout.days[_convertDayToDayIndex(day)].exercises.firstWhere((ex) => ex.name == exerciseName).reps = value;
+    box.putAt(workoutIndex, newWorkout);
+    notifyListeners();
+  }
+
   int _convertDayToDayIndex(String day) {
     if (day == "Monday") {
       return 0;
