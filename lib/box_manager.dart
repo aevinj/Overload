@@ -60,6 +60,11 @@ class BoxManager extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> clearBox() async {
+    await box.clear();
+    notifyListeners();
+  }
+
   int _convertDayToDayIndex(String day) {
     if (day == "Monday") {
       return 0;
