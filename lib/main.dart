@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:progressive_overload/box_manager.dart';
 import 'package:progressive_overload/classes/day.dart';
 import 'package:progressive_overload/classes/exercise.dart';
 import 'package:progressive_overload/classes/workout.dart';
 import 'package:progressive_overload/pages/landing.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,10 +14,16 @@ void main() async {
   Hive.registerAdapter(ExerciseAdapter());
   Hive.registerAdapter(DayAdapter());
   //TODO: put openBox in a try clause and if it fails, delete the box from disk first then openBox again
-  await Hive.openBox<Workout>('workouts');
-  runApp(const MyApp());
+  final boxManager = BoxManager();
+  await boxManager.initialize();
+  
+  runApp(
+    ChangeNotifierProvider<BoxManager>(
+      create: (_) => boxManager,
+      child: const MyApp(),
+    ),
+  );
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -23,8 +31,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Landing()
-    );
+        debugShowCheckedModeBanner: false, home: Landing());
   }
 }
