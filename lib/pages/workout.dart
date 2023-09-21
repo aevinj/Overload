@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:progressive_overload/box_manager.dart';
 import 'package:progressive_overload/classes/day.dart';
 import 'package:progressive_overload/classes/exercise.dart';
 import 'package:progressive_overload/classes/workout.dart';
@@ -8,11 +9,13 @@ import 'package:progressive_overload/components/blurred_button.dart';
 import 'package:progressive_overload/components/capitalise.dart';
 import 'package:progressive_overload/components/text_style.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
+import 'package:provider/provider.dart';
 
 class WorkoutViewer extends StatefulWidget {
   final Workout workout;
+  final int index;
 
-  const WorkoutViewer({super.key, required this.workout});
+  const WorkoutViewer({super.key, required this.workout, required this.index});
 
   @override
   State<WorkoutViewer> createState() => _WorkoutViewerState();
@@ -20,23 +23,20 @@ class WorkoutViewer extends StatefulWidget {
 
 class _WorkoutViewerState extends State<WorkoutViewer> {
   String _selectedDay = "Monday";
-  late Workout workout;
 
-  @override
-  void initState() {
-    super.initState();
-    workout = widget.workout;
-  }
-
-  void removeExercise(Exercise exercise) {
+  void removeExercise(BoxManager boxManager , Exercise exercise) {
     setState(() {
-      final selectedDay =
-          widget.workout.days.firstWhere((day) => day.dayID == _selectedDay);
+      // final selectedDay =
+      //     widget.workout.days.firstWhere((day) => day.dayID == _selectedDay);
 
-      selectedDay.exercises.remove(exercise);
+      // selectedDay.exercises.remove(exercise);
 
-      if (selectedDay.exercises.isEmpty) {
-        widget.workout.days.remove(selectedDay);
+      // if (selectedDay.exercises.isEmpty) {
+      //   widget.workout.days.remove(selectedDay);
+      // }
+      boxManager.deleteExercise(exercise, widget.index, _selectedDay);
+      if (boxManager.getWorkoutsAsList()[widget.index].days.firstWhere((day) => day.dayID == _selectedDay).exercises.isEmpty){
+        boxManager.deleteDay(widget.index, _selectedDay);
       }
     });
   }
@@ -57,12 +57,14 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
 
   @override
   Widget build(BuildContext context) {
+    final boxManager = Provider.of<BoxManager>(context);
+
     return Scaffold(
       backgroundColor: darkBackground(),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: Text(
-          widget.workout.name.capitalise(),
+          boxManager.getWorkoutsAsList()[widget.index].name.capitalise(),
           style: Font(),
         ),
       ),
@@ -142,7 +144,7 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
               width: 300,
               height: 300,
               onPressed: () {},
-              child: widget.workout.days.isEmpty
+              child: boxManager.getWorkoutsAsList()[widget.index].days.isEmpty
                   ? Center(
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -160,7 +162,7 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                             style: Font(color: Colors.white),
                           )
                         ]))
-                  : !widget.workout.days.any((day) => day.dayID == _selectedDay)
+                  : !boxManager.getWorkoutsAsList()[widget.index].days.any((day) => day.dayID == _selectedDay)
                       ? Center(
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -179,9 +181,9 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                               )
                             ]))
                       : ListView.builder(
-                          itemCount: widget.workout.days.length,
+                          itemCount: boxManager.getWorkoutsAsList()[widget.index].days.length,
                           itemBuilder: (BuildContext context, int index) {
-                            Day day = widget.workout.days[index];
+                            Day day = boxManager.getWorkoutsAsList()[widget.index].days[index];
 
                             // Check if the day matches the selected option
                             if (day.dayID == _selectedDay) {
@@ -208,7 +210,7 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                                               style: Font(),
                                             ),
                                             content: Text(
-                                              "Are you sure you want to delete ${exercise.name} from ${widget.workout.name}?",
+                                              "Are you sure you want to delete ${exercise.name} from ${boxManager.getWorkoutsAsList()[widget.index].name}?",
                                               style: Font(size: 16),
                                             ),
                                             actions: [
@@ -245,7 +247,7 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                                     },
                                     onDismissed: (direction) {
                                       HapticFeedback.mediumImpact();
-                                      removeExercise(exercise);
+                                      removeExercise(boxManager, exercise);
                                     },
                                     background: Container(
                                       color: Colors.red,
