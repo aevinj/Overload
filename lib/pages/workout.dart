@@ -130,11 +130,11 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
               ),
             ]),
             const SizedBox(
-              height: 50,
+              height: 20,
             ),
             BlurryButton(
-              width: 300,
-              height: 300,
+              width: 350,
+              height: 550,
               onPressed: () {},
               child: boxManager.getWorkoutsAsList()[widget.index].days.isEmpty
                   ? Center(
@@ -144,15 +144,26 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                           const Icon(
                             CupertinoIcons.clear_circled,
                             color: Colors.white,
-                            size: 150,
+                            size: 100,
                           ),
                           const SizedBox(
-                            height: 30,
+                            height: 10,
                           ),
                           Text(
                             "No Exercises found",
                             style: Font(color: Colors.white),
-                          )
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          BlurryButton(
+                            width: 300,
+                            height: 65,
+                              onPressed: () {},
+                              child: Text(
+                                "Add more",
+                                style: Font(size: 20),
+                              ))
                         ]))
                   : !boxManager
                           .getWorkoutsAsList()[widget.index]
@@ -364,50 +375,6 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                           },
                         ),
             ),
-            const SizedBox(
-              height: 40,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                BlurryButton(
-                    width: 150,
-                    height: 150,
-                    onPressed: () {},
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        const Icon(
-                          CupertinoIcons.arrowtriangle_right_circle,
-                          color: Colors.white,
-                          size: 75,
-                        ),
-                        Text(
-                          "Start",
-                          style: Font(),
-                        ),
-                      ],
-                    )),
-                BlurryButton(
-                    width: 150,
-                    height: 150,
-                    onPressed: () {},
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        const Icon(
-                          CupertinoIcons.pencil,
-                          color: Colors.white,
-                          size: 75,
-                        ),
-                        Text(
-                          "Edit",
-                          style: Font(),
-                        ),
-                      ],
-                    )),
-              ],
-            )
           ],
         ),
       ),
