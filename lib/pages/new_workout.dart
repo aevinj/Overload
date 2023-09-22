@@ -70,7 +70,7 @@ class _NewWorkoutState extends State<NewWorkout> {
                 DropdownButton<String>(
                   dropdownColor: Colors.grey[900],
                   focusColor: Colors.purple[900],
-                  iconEnabledColor: Colors.purpleAccent[700],
+                  iconEnabledColor: Colors.deepPurple,
                   iconSize: 42.0,
                   style: const TextStyle(color: Colors.white),
                   value: selectedOption,
