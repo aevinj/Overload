@@ -6,6 +6,7 @@ import 'package:progressive_overload/classes/day.dart';
 import 'package:progressive_overload/classes/exercise.dart';
 import 'package:progressive_overload/classes/workout.dart';
 import 'package:progressive_overload/components/blurred_button.dart';
+import 'package:progressive_overload/components/edit_reps_sets_modal.dart';
 import 'package:progressive_overload/components/text_style.dart';
 import 'package:progressive_overload/pages/add_exercise.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
@@ -48,7 +49,6 @@ class _BuildWorkoutState extends State<BuildWorkout> {
           // If the day doesn't exist, create a new one
           final newDay = Day(dayID: dayID, exercises: []);
           workout.days.add(newDay);
-          print(newDay.dayID);
           return newDay;
         },
       );
@@ -104,7 +104,7 @@ class _BuildWorkoutState extends State<BuildWorkout> {
                 child: DropdownButton(
                   dropdownColor: Colors.grey[900],
                   focusColor: Colors.purple[900],
-                  iconEnabledColor: Colors.purpleAccent[700],
+                  iconEnabledColor: Colors.deepPurple,
                   iconSize: 42.0,
                   isExpanded: true,
                   items: [
@@ -307,11 +307,71 @@ class _BuildWorkoutState extends State<BuildWorkout> {
                                               exercise.name,
                                               style: Font(),
                                             ),
-                                            Text(
-                                              "${exercise.reps ?? 'N/A'}x${exercise.sets ?? 'N/A'}",
-                                              style: Font(
-                                                  size: 16,
-                                                  color: Colors.grey[600]!),
+                                            GestureDetector(
+                                              onTap: () {
+                                                int setCount =
+                                                    exercise.sets ?? 0;
+
+                                                int repCount =
+                                                    exercise.reps ?? 0;
+
+                                                showModalBottomSheet(
+                                                  enableDrag: false,
+                                                  backgroundColor:
+                                                      Colors.grey[900],
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return ModalSheetContent(
+                                                      initialSetCount: setCount,
+                                                      onSetCountChanged:
+                                                          (newSetCount) {
+                                                        setState(() {
+                                                          workout.days
+                                                              .firstWhere((day) =>
+                                                                  day.dayID ==
+                                                                  _selectedDay)
+                                                              .exercises
+                                                              .firstWhere(
+                                                                  (ex) =>
+                                                                      ex.name ==
+                                                                      exercise
+                                                                          .name)
+                                                              .sets = newSetCount;
+                                                        });
+                                                      },
+                                                      initialRepsCount:
+                                                          repCount,
+                                                      onRepsCountChanged:
+                                                          (newRepCount) {
+                                                        setState(() {
+                                                          workout.days
+                                                              .firstWhere((day) =>
+                                                                  day.dayID ==
+                                                                  _selectedDay)
+                                                              .exercises
+                                                              .firstWhere(
+                                                                  (ex) =>
+                                                                      ex.name ==
+                                                                      exercise
+                                                                          .name)
+                                                              .reps = newRepCount;
+                                                        });
+                                                      },
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                              child: Text(
+                                                //TODO: instead of "" replace with duration
+                                                exercise.reps == null ||
+                                                        exercise.sets == null
+                                                    ? "0x0"
+                                                    : "${exercise.reps}x${exercise.sets}",
+                                                style: Font(
+                                                    size: 16,
+                                                    color: Colors.grey[600]!),
+                                              ),
                                             ),
                                           ],
                                         ),
