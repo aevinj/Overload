@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:progressive_overload/box_manager.dart';
 import 'package:progressive_overload/components/blurred_button.dart';
 import 'package:progressive_overload/components/text_style.dart';
+import 'package:progressive_overload/pages/new_workout.dart';
 import 'package:progressive_overload/pages/workout.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
 import 'package:provider/provider.dart';
@@ -31,20 +32,36 @@ class ViewWorkoutsPage extends StatelessWidget {
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(
-                            CupertinoIcons.clear_circled,
-                            color: Colors.white,
-                            size: 200,
-                          ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          Text(
-                            "No workouts found",
-                            style: Font(color: Colors.white),
-                          )
-                        ]),
-                  )
+                        const Icon(
+                          CupertinoIcons.clear_circled,
+                          color: Colors.white,
+                          size: 100,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "No workouts found",
+                          style: Font(color: Colors.white),
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        BlurryButton(
+                            width: 300,
+                            height: 65,
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                    builder: (context) => const NewWorkout()),
+                              );
+                            },
+                            child: Text(
+                              "Add more",
+                              style: Font(size: 20),
+                            ))
+                      ]))
                 : ListView.builder(
                     itemCount: boxManager.getWorkoutsAsList().length,
                     itemBuilder: (context, index) {
