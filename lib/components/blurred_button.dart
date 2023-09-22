@@ -27,7 +27,7 @@ class BlurryButton extends StatelessWidget {
           height: height, // Set the height
           decoration: BoxDecoration(
             color: color ?? Colors.grey[700]!.withOpacity(0.3), // Transparent background color
-            borderRadius: BorderRadius.circular(15.0), // Optional: Add rounded corners
+            borderRadius: BorderRadius.circular(16.0), // Optional: Add rounded corners
             border: Border.all(
               color: Colors.grey[800]!, // Border color
               width: 0.8, // Border width

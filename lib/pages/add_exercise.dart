@@ -5,6 +5,7 @@ import 'package:progressive_overload/classes/exercise.dart';
 import 'package:progressive_overload/components/blurred_button.dart';
 import 'package:progressive_overload/components/capitalise.dart';
 import 'package:progressive_overload/components/text_style.dart';
+import 'package:progressive_overload/pages/exercise_chooser.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
 
 class AddExercise extends StatefulWidget {
@@ -42,7 +43,14 @@ class _AddExerciseState extends State<AddExercise> {
         BlurryButton(
             width: 200,
             height: 200,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                CupertinoPageRoute(
+                  builder: (context) => const ExerciseChooser()
+                ),
+              );
+            },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
