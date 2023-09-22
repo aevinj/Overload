@@ -65,7 +65,18 @@ class _HomepageState extends State<Homepage> {
           BlurryButton(
             onPressed: () async {
               await boxManager.clearBox();
-              print("done");
+              // ignore: use_build_context_synchronously
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      'Deleted all workouts',
+                      style: Font(size: 16),
+                    ),
+                    duration: const Duration(milliseconds: 1250),
+                    showCloseIcon: true,
+                    closeIconColor: Colors.red,
+                  ),
+                );
             },
             width: 250,
             height: 150,
