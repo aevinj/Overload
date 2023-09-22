@@ -15,9 +15,8 @@ class BuildWorkout extends StatefulWidget {
   final String title;
   final String split;
 
-  BuildWorkout({Key? key, String? title, required this.split})
-      : title = title?.isEmpty == true ? 'New workout' : title!,
-        super(key: key);
+  const BuildWorkout({Key? key, required this.title, required this.split})
+      : super(key: key);
 
   @override
   State<BuildWorkout> createState() => _BuildWorkoutState();
