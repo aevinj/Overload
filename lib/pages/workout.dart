@@ -9,6 +9,7 @@ import 'package:progressive_overload/components/blurred_button.dart';
 import 'package:progressive_overload/components/edit_reps_sets_modal.dart';
 import 'package:progressive_overload/components/capitalise.dart';
 import 'package:progressive_overload/components/text_style.dart';
+import 'package:progressive_overload/pages/add_exercise.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
 import 'package:provider/provider.dart';
 
@@ -157,9 +158,22 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                             height: 30,
                           ),
                           BlurryButton(
-                            width: 300,
-                            height: 65,
-                              onPressed: () {},
+                              width: 300,
+                              height: 65,
+                              onPressed: () async {
+                                final Exercise? newExercise =
+                                    await Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                      builder: (context) =>
+                                          const AddExercise()),
+                                );
+
+                                if (newExercise != null) {
+                                  boxManager.addExerciseToWorkout(
+                                      widget.index, _selectedDay, newExercise);
+                                }
+                              },
                               child: Text(
                                 "Add more",
                                 style: Font(size: 20),
@@ -176,15 +190,41 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                               const Icon(
                                 CupertinoIcons.clear_circled,
                                 color: Colors.white,
-                                size: 150,
+                                size: 100,
                               ),
                               const SizedBox(
-                                height: 30,
+                                height: 10,
                               ),
                               Text(
                                 "No Exercises found",
                                 style: Font(color: Colors.white),
-                              )
+                              ),
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              BlurryButton(
+                                  width: 300,
+                                  height: 65,
+                                  onPressed: () async {
+                                    final Exercise? newExercise =
+                                        await Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                          builder: (context) =>
+                                              const AddExercise()),
+                                    );
+
+                                    if (newExercise != null) {
+                                      boxManager.addExerciseToWorkout(
+                                          widget.index,
+                                          _selectedDay,
+                                          newExercise);
+                                    }
+                                  },
+                                  child: Text(
+                                    "Add more",
+                                    style: Font(size: 20),
+                                  ))
                             ]))
                       : ListView.builder(
                           itemCount: boxManager
