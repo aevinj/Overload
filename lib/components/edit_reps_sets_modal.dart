@@ -10,12 +10,14 @@ class ModalSheetContent extends StatefulWidget {
   final Function(int) onRepsCountChanged;
 
   const ModalSheetContent(
-      {required this.initialSetCount,
+      {super.key,
+      required this.initialSetCount,
       required this.onSetCountChanged,
       required this.initialRepsCount,
       required this.onRepsCountChanged});
 
   @override
+  // ignore: library_private_types_in_public_api
   _ModalSheetContentState createState() => _ModalSheetContentState();
 }
 
@@ -40,26 +42,39 @@ class _ModalSheetContentState extends State<ModalSheetContent> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              BlurryButton(
-                width: 50,
-                height: 50,
-                onPressed: () {
-                  setState(() {
-                    // Decrease repCount by 1
-                    repCount--;
-                    widget.onRepsCountChanged(repCount);
-                  });
-                },
-                child: const Icon(
-                  CupertinoIcons.minus,
-                  color: Colors.white,
-                ),
-              ),
+              repCount > 0
+                  ? BlurryButton(
+                      color: Colors.deepPurple,
+                      width: 50,
+                      height: 50,
+                      onPressed: () {
+                        setState(() {
+                          // Decrease repCount by 1
+                          repCount--;
+                          widget.onRepsCountChanged(repCount);
+                        });
+                      },
+                      child: const Icon(
+                        CupertinoIcons.minus,
+                        color: Colors.white,
+                      ),
+                    )
+                  : BlurryButton(
+                      color: Colors.grey[900],
+                      width: 50,
+                      height: 50,
+                      onPressed: () {},
+                      child: const Icon(
+                        CupertinoIcons.minus,
+                        color: Colors.white,
+                      ),
+                    ),
               Text(
                 "$repCount reps",
                 style: Font(),
               ),
               BlurryButton(
+                color: Colors.deepPurple,
                 width: 50,
                 height: 50,
                 onPressed: () {
@@ -82,26 +97,39 @@ class _ModalSheetContentState extends State<ModalSheetContent> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              BlurryButton(
-                width: 50,
-                height: 50,
-                onPressed: () {
-                  setState(() {
-                    // Decrease setCount by 1
-                    setCount--;
-                    widget.onSetCountChanged(setCount);
-                  });
-                },
-                child: const Icon(
-                  CupertinoIcons.minus,
-                  color: Colors.white,
-                ),
-              ),
+              setCount > 0
+                  ? BlurryButton(
+                      color: Colors.deepPurple,
+                      width: 50,
+                      height: 50,
+                      onPressed: () {
+                        setState(() {
+                          // Decrease setCount by 1
+                          setCount--;
+                          widget.onSetCountChanged(setCount);
+                        });
+                      },
+                      child: const Icon(
+                        CupertinoIcons.minus,
+                        color: Colors.white,
+                      ),
+                    )
+                  : BlurryButton(
+                      color: Colors.grey[900],
+                      width: 50,
+                      height: 50,
+                      onPressed: () {},
+                      child: const Icon(
+                        CupertinoIcons.minus,
+                        color: Colors.white,
+                      ),
+                    ),
               Text(
                 "$setCount sets",
                 style: Font(),
               ),
               BlurryButton(
+                color: Colors.deepPurple,
                 width: 50,
                 height: 50,
                 onPressed: () {
