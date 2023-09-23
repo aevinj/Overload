@@ -426,11 +426,25 @@ class _BuildWorkoutState extends State<BuildWorkout> {
                     width: 150,
                     height: 100,
                     onPressed: () async {
-                      await boxManager.addWorkout(workout);
-                      // ignore: use_build_context_synchronously
-                      Navigator.pop(context);
-                      // ignore: use_build_context_synchronously
-                      Navigator.pop(context);
+                      if (workout.days.isNotEmpty) {
+                        await boxManager.addWorkout(workout);
+                        // ignore: use_build_context_synchronously
+                        Navigator.pop(context);
+                        // ignore: use_build_context_synchronously
+                        Navigator.pop(context);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'You must add 1 exercise for atleast 1 day',
+                              style: Font(size: 16),
+                            ),
+                            duration: const Duration(milliseconds: 1250),
+                            showCloseIcon: true,
+                            closeIconColor: Colors.red,
+                          ),
+                        );
+                      }
                     },
                     child: Flexible(
                       child: Text(
