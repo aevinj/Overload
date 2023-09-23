@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:progressive_overload/components/blurred_button.dart';
 import 'package:progressive_overload/components/exercise_category_cell.dart';
 import 'package:progressive_overload/components/text_style.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
