@@ -63,107 +63,174 @@ class ViewWorkoutsPage extends StatelessWidget {
                             ))
                       ]))
                 : ListView.builder(
-                    itemCount: boxManager.getWorkoutsAsList().length,
+                    itemCount: boxManager.getWorkoutsAsList().length + 1,
                     itemBuilder: (context, index) {
-                      var workout = boxManager.getWorkoutsAsList()[index];
-                      return Column(
-                        children: [
-                          Dismissible(
-                            direction: DismissDirection.endToStart,
-                            key: UniqueKey(),
-                            confirmDismiss: (direction) async {
-                              final confirmed = await showDialog<bool>(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    icon: const Icon(
-                                      CupertinoIcons.trash,
-                                      color: Colors.white,
-                                    ),
-                                    backgroundColor: Colors.grey[900],
-                                    title: Text(
-                                      "Delete ${workout.name}?",
-                                      style: Font(),
-                                    ),
-                                    content: Text(
-                                      "Are you sure you want to delete ${workout.name} permanently?",
-                                      style: Font(size: 16),
-                                    ),
-                                    actions: [
-                                      BlurryButton(
-                                        width: 100,
-                                        height: 50,
-                                        onPressed: () {
-                                          Navigator.of(context).pop(false);
-                                        },
-                                        child: Text(
-                                          "Cancel",
-                                          style: Font(size: 16),
-                                        ),
+                      if (index < boxManager.getWorkoutsAsList().length) {
+                        var workout = boxManager.getWorkoutsAsList()[index];
+                        return Column(
+                          children: [
+                            Dismissible(
+                              direction: DismissDirection.endToStart,
+                              key: UniqueKey(),
+                              confirmDismiss: (direction) async {
+                                final confirmed = await showDialog<bool>(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      icon: const Icon(
+                                        CupertinoIcons.trash,
+                                        color: Colors.white,
                                       ),
-                                      BlurryButton(
-                                        color: Colors.red,
-                                        width: 100,
-                                        height: 50,
-                                        onPressed: () {
-                                          Navigator.of(context).pop(true);
-                                        },
-                                        child: Text(
-                                          "Delete",
-                                          style: Font(size: 16),
-                                        ),
+                                      backgroundColor: Colors.grey[900],
+                                      title: Text(
+                                        "Delete ${workout.name}?",
+                                        style: Font(),
                                       ),
-                                    ],
-                                  );
-                                },
-                              );
-                              return confirmed ?? false;
-                            },
-                            onDismissed: (direction) async {
-                              HapticFeedback.mediumImpact();
-                              boxManager.deleteAtIndex(index);
-                              if (boxManager.getWorkoutsAsList().isEmpty) {
-                                // ignore: use_build_context_synchronously
-                                Navigator.pop(context);
-                              }
-                            },
-                            background: Container(
-                              color: Colors.red,
-                              alignment: Alignment.centerRight,
-                              padding: const EdgeInsets.only(right: 20.0),
-                              child: const Icon(
-                                Icons.delete,
-                                color: Colors.white,
-                                size: 36.0,
-                              ),
-                            ),
-                            child: Column(
-                              children: [
-                                ListTile(
-                                  title: Text(
-                                    "${workout.name} - ${workout.split} - ${workout.days.length} day(s)",
-                                    style: Font(size: 20),
-                                  ),
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      CupertinoPageRoute(
-                                        builder: (context) => WorkoutViewer(
-                                          workout: workout,
-                                          index: index,
-                                        ),
+                                      content: Text(
+                                        "Are you sure you want to delete ${workout.name} permanently?",
+                                        style: Font(size: 16),
                                       ),
+                                      actions: [
+                                        BlurryButton(
+                                          width: 100,
+                                          height: 50,
+                                          onPressed: () {
+                                            Navigator.of(context).pop(false);
+                                          },
+                                          child: Text(
+                                            "Cancel",
+                                            style: Font(size: 16),
+                                          ),
+                                        ),
+                                        BlurryButton(
+                                          color: Colors.red,
+                                          width: 100,
+                                          height: 50,
+                                          onPressed: () {
+                                            Navigator.of(context).pop(true);
+                                          },
+                                          child: Text(
+                                            "Delete",
+                                            style: Font(size: 16),
+                                          ),
+                                        ),
+                                      ],
                                     );
                                   },
-                                ),
-                                const Divider(
+                                );
+                                return confirmed ?? false;
+                              },
+                              onDismissed: (direction) async {
+                                HapticFeedback.mediumImpact();
+                                boxManager.deleteAtIndex(index);
+                                if (boxManager.getWorkoutsAsList().isEmpty) {
+                                  // ignore: use_build_context_synchronously
+                                  Navigator.pop(context);
+                                }
+                              },
+                              background: Container(
+                                color: Colors.red,
+                                alignment: Alignment.centerRight,
+                                padding: const EdgeInsets.only(right: 20.0),
+                                child: const Icon(
+                                  Icons.delete,
                                   color: Colors.white,
+                                  size: 36.0,
                                 ),
-                              ],
+                              ),
+                              child: Column(
+                                children: [
+                                  index == 0 ? const SizedBox.shrink() :
+                                  const Divider(
+                                    color: Colors.white,
+                                  ),
+                                  ListTile(
+                                    title: workout.days.isEmpty
+                                        ? Text(
+                                            "Empty workout: ${workout.name}",
+                                            style: Font(size: 20),
+                                          )
+                                        : Text(
+                                            "${workout.name} - ${workout.split} - ${workout.days.length} day(s)",
+                                            style: Font(size: 20),
+                                          ),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        CupertinoPageRoute(
+                                          builder: (context) => WorkoutViewer(
+                                            workout: workout,
+                                            index: index,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      );
+                          ],
+                        );
+                      } else {
+                        return boxManager.dirtyBox()
+                            ? Column(
+                                children: [
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  BlurryButton(
+                                      width: 300,
+                                      height: 65,
+                                      onPressed: () {
+                                        boxManager.cleanBox();
+                                      },
+                                      child: Text(
+                                        "Remove empty workouts",
+                                        style: Font(size: 20),
+                                      )),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  BlurryButton(
+                                      width: 300,
+                                      height: 65,
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          CupertinoPageRoute(
+                                              builder: (context) =>
+                                                  const NewWorkout()),
+                                        );
+                                      },
+                                      child: Text(
+                                        "Add more",
+                                        style: Font(size: 20),
+                                      )),
+                                ],
+                              )
+                            : Column(
+                                children: [
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  BlurryButton(
+                                      width: 300,
+                                      height: 65,
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          CupertinoPageRoute(
+                                              builder: (context) =>
+                                                  const NewWorkout()),
+                                        );
+                                      },
+                                      child: Text(
+                                        "Add more",
+                                        style: Font(size: 20),
+                                      )),
+                                ],
+                              );
+                      }
                     },
                   ),
           ),
