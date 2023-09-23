@@ -67,8 +67,8 @@ class BoxManager extends ChangeNotifier {
       final newDay = Day(dayID: day, exercises: []);
       newWorkout.days.add(newDay);
     } else {
-      var existingDay =
-          newWorkout.days.firstWhere((d) => d.dayID == day, orElse: () => Day(dayID: "error", exercises: []));
+      var existingDay = newWorkout.days.firstWhere((d) => d.dayID == day,
+          orElse: () => Day(dayID: "error", exercises: []));
 
       if (existingDay.dayID == "error") {
         // Add a new Day when no Day with the given dayID is found
@@ -89,6 +89,34 @@ class BoxManager extends ChangeNotifier {
 
   Future<void> clearBox() async {
     await box.clear();
+    notifyListeners();
+  }
+
+  bool dirtyBox() {
+    for (final workout in box.values) {
+      if (workout.days.isEmpty) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  void cleanBox() {
+    List<int> keysToRemove = [];
+
+    for (var i = 0; i < box.length; i++) {
+      final workout = box.getAt(i) as Workout;
+      if (workout.days.isEmpty) {
+        keysToRemove.add(i);
+      }
+    }
+
+    if (keysToRemove.isNotEmpty) {
+      for (var key in keysToRemove) {
+        box.deleteAt(key);
+      }
+    }
+
     notifyListeners();
   }
 
