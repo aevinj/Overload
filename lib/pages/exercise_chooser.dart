@@ -142,6 +142,31 @@ class _ExerciseChooserState extends State<ExerciseChooser> {
                 const SizedBox(
                   width: 20,
                 ),
+                BlurryButton(
+                    height: 200,
+                    width: 200,
+                    onPressed: () {},
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: const Image(
+                            image: AssetImage("assets/back.png"),
+                            width: 150,
+                            height: 125,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Text(
+                          "Back",
+                          style: Font(),
+                        )
+                      ],
+                    )),
+                const SizedBox(
+                  width: 20,
+                ),
               ],
             ),
           )
