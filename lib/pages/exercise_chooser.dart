@@ -23,7 +23,8 @@ class _ExerciseChooserState extends State<ExerciseChooser> {
           )),
       body: Padding(
         padding: const EdgeInsets.all(10),
-        child: Column(children: [
+        child:
+            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
           const SizedBox(
             height: 25,
           ),
@@ -169,7 +170,56 @@ class _ExerciseChooserState extends State<ExerciseChooser> {
                 ),
               ],
             ),
-          )
+          ),
+          const SizedBox(
+            height: 25,
+          ),
+          Row(
+            children: [
+              Text(
+                "Lower body (under construction💀):",
+                style: Font(size: 20),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 25,
+          ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                BlurryButton(
+                    height: 200,
+                    width: 200,
+                    onPressed: () {},
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: const Image(
+                            image: AssetImage("assets/legs.png"),
+                            width: 150,
+                            height: 125,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Text(
+                          "Legs",
+                          style: Font(),
+                        )
+                      ],
+                    )),
+                const SizedBox(
+                  width: 20,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 25,
+          ),
         ]),
       ),
     );
