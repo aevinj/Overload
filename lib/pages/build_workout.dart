@@ -72,6 +72,10 @@ class _BuildWorkoutState extends State<BuildWorkout> {
           workout.days.firstWhere((day) => day.dayID == _selectedDay);
 
       selectedDay.exercises.remove(exercise);
+
+      if (selectedDay.exercises.isEmpty) {
+        workout.days.remove(selectedDay);
+      }
     });
   }
 
