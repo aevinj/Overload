@@ -102,7 +102,7 @@ class _ExerciseChooserState extends State<ExerciseChooser> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(16),
                           child: const Image(
-                            image: AssetImage("assets/chest.png"),
+                            image: AssetImage("assets/shoulders.png"),
                             width: 150,
                             height: 125,
                             fit: BoxFit.cover,
