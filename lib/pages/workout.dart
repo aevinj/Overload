@@ -198,6 +198,8 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children:
                                     day.exercises.map((Exercise exercise) {
+                                  final isFirstExercise =
+                                      day.exercises.indexOf(exercise) == 0;
                                   return Dismissible(
                                     direction: DismissDirection.endToStart,
                                     key: Key(exercise
@@ -271,6 +273,21 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        isFirstExercise
+                                            ? const SizedBox.shrink()
+                                            : const Column(
+                                                children: [
+                                                  Divider(
+                                                    color: Colors.white,
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  )
+                                                ],
+                                              ),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -357,9 +374,6 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                                               ),
                                             ),
                                           ],
-                                        ),
-                                        const Divider(
-                                          color: Colors.white,
                                         ),
                                       ],
                                     ),
