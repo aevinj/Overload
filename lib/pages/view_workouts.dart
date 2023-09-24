@@ -159,7 +159,6 @@ class ViewWorkoutsPage extends StatelessWidget {
                                         context,
                                         CupertinoPageRoute(
                                           builder: (context) => WorkoutViewer(
-                                            workout: workout,
                                             index: index,
                                           ),
                                         ),
