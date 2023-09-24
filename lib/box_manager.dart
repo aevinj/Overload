@@ -35,21 +35,22 @@ class BoxManager extends ChangeNotifier {
 
   void deleteExercise(Exercise exercise, int workoutIndex, String day) {
     var newWorkout = box.getAt(workoutIndex)!;
-    newWorkout.days[_convertDayToDayIndex(day)].exercises.remove(exercise);
+    newWorkout.days.firstWhere((d) => d.dayID == day).exercises.remove(exercise);
     box.putAt(workoutIndex, newWorkout);
     notifyListeners();
   }
 
   void deleteDay(int workoutIndex, String day) {
     var newWorkout = box.getAt(workoutIndex)!;
-    newWorkout.days.removeAt(_convertDayToDayIndex(day));
+    final dayToRemove = newWorkout.days.firstWhere((d) => d.dayID == day);
+    newWorkout.days.remove(dayToRemove);
     box.putAt(workoutIndex, newWorkout);
     notifyListeners();
   }
 
   void modifySet(int workoutIndex, String day, String exerciseName, int value) {
     var newWorkout = box.getAt(workoutIndex)!;
-    newWorkout.days[_convertDayToDayIndex(day)].exercises
+    newWorkout.days.firstWhere((d) => d.dayID == day).exercises
         .firstWhere((ex) => ex.name == exerciseName)
         .sets = value;
     box.putAt(workoutIndex, newWorkout);
@@ -58,7 +59,7 @@ class BoxManager extends ChangeNotifier {
 
   void modifyRep(int workoutIndex, String day, String exerciseName, int value) {
     var newWorkout = box.getAt(workoutIndex)!;
-    newWorkout.days[_convertDayToDayIndex(day)].exercises
+    newWorkout.days.firstWhere((d) => d.dayID == day).exercises
         .firstWhere((ex) => ex.name == exerciseName)
         .reps = value;
     box.putAt(workoutIndex, newWorkout);
@@ -82,7 +83,7 @@ class BoxManager extends ChangeNotifier {
       }
     }
 
-    newWorkout.days[_convertDayToDayIndex(day)].exercises.add(exercise);
+    newWorkout.days.firstWhere((d) => d.dayID == day).exercises.add(exercise);
     box.putAt(workoutIndex, newWorkout);
     notifyListeners();
   }
@@ -123,24 +124,5 @@ class BoxManager extends ChangeNotifier {
     }
 
     notifyListeners();
-  }
-
-  int _convertDayToDayIndex(String day) {
-    if (day == "Monday") {
-      return 0;
-    } else if (day == "Tuesday") {
-      return 1;
-    } else if (day == "Wednesday") {
-      return 2;
-    } else if (day == "Thursday") {
-      return 3;
-    } else if (day == "Friday") {
-      return 4;
-    } else if (day == "Saturday") {
-      return 5;
-    } else if (day == "Sunday") {
-      return 6;
-    }
-    return -1;
   }
 }
