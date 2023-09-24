@@ -3,6 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:progressive_overload/box_manager.dart';
 import 'package:progressive_overload/classes/day.dart';
 import 'package:progressive_overload/classes/exercise.dart';
+import 'package:progressive_overload/classes/prebuilt_exercises.dart';
 import 'package:progressive_overload/classes/workout.dart';
 import 'package:progressive_overload/pages/landing.dart';
 import 'package:provider/provider.dart';
@@ -14,12 +15,16 @@ void main() async {
   Hive.registerAdapter(ExerciseAdapter());
   Hive.registerAdapter(DayAdapter());
   final boxManager = BoxManager();
+  final prebuiltExercises = PrebuiltExercises();
   await boxManager.initialize();
   
   runApp(
-    ChangeNotifierProvider<BoxManager>(
-      create: (_) => boxManager,
-      child: const MyApp(),
+    ChangeNotifierProvider<PrebuiltExercises>(
+      create: (_) => prebuiltExercises,
+      child: ChangeNotifierProvider<BoxManager>(
+        create: (_) => boxManager,
+        child: const MyApp(),
+      ),
     ),
   );
 }
