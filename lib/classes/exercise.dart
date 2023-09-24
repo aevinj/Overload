@@ -16,5 +16,8 @@ class Exercise {
   @HiveField(3)
   String? duration;
 
-  Exercise({required this.name, this.sets, this.reps, this.duration});
+  @HiveField(4)
+  List<String>? category;
+
+  Exercise({required this.name, this.sets, this.reps, this.duration, this.category});
 }
