@@ -35,7 +35,10 @@ class BoxManager extends ChangeNotifier {
 
   void deleteExercise(Exercise exercise, int workoutIndex, String day) {
     var newWorkout = box.getAt(workoutIndex)!;
-    newWorkout.days.firstWhere((d) => d.dayID == day).exercises.remove(exercise);
+    newWorkout.days
+        .firstWhere((d) => d.dayID == day)
+        .exercises
+        .remove(exercise);
     box.putAt(workoutIndex, newWorkout);
     notifyListeners();
   }
@@ -50,7 +53,9 @@ class BoxManager extends ChangeNotifier {
 
   void modifySet(int workoutIndex, String day, String exerciseName, int value) {
     var newWorkout = box.getAt(workoutIndex)!;
-    newWorkout.days.firstWhere((d) => d.dayID == day).exercises
+    newWorkout.days
+        .firstWhere((d) => d.dayID == day)
+        .exercises
         .firstWhere((ex) => ex.name == exerciseName)
         .sets = value;
     box.putAt(workoutIndex, newWorkout);
@@ -59,7 +64,9 @@ class BoxManager extends ChangeNotifier {
 
   void modifyRep(int workoutIndex, String day, String exerciseName, int value) {
     var newWorkout = box.getAt(workoutIndex)!;
-    newWorkout.days.firstWhere((d) => d.dayID == day).exercises
+    newWorkout.days
+        .firstWhere((d) => d.dayID == day)
+        .exercises
         .firstWhere((ex) => ex.name == exerciseName)
         .reps = value;
     box.putAt(workoutIndex, newWorkout);
@@ -69,21 +76,24 @@ class BoxManager extends ChangeNotifier {
   void addExerciseToWorkout(int workoutIndex, String day, Exercise exercise) {
     var newWorkout = box.getAt(workoutIndex)!;
 
-    if (newWorkout.days.isEmpty) {
+    if (!newWorkout.days.any((d) => d.dayID == day)) {
       final newDay = Day(dayID: day, exercises: []);
       newWorkout.days.add(newDay);
-    } else {
-      var existingDay = newWorkout.days.firstWhere((d) => d.dayID == day,
-          orElse: () => Day(dayID: "error", exercises: []));
-
-      if (existingDay.dayID == "error") {
-        // Add a new Day when no Day with the given dayID is found
-        final newDay = Day(dayID: day, exercises: []);
-        newWorkout.days.add(newDay);
-      }
     }
 
-    newWorkout.days.firstWhere((d) => d.dayID == day).exercises.add(exercise);
+    final existingExerciseIndex = newWorkout.days
+        .firstWhere((d) => d.dayID == day)
+        .exercises
+        .indexWhere((ex) => ex.name == exercise.name);
+
+    if (existingExerciseIndex != -1) {
+      // If an exercise with the same name exists, replace it
+      newWorkout.days.firstWhere((d) => d.dayID == day).exercises[existingExerciseIndex] = exercise;
+    } else {
+      // Otherwise, add the new exercise to the day
+      newWorkout.days.firstWhere((d) => d.dayID == day).exercises.add(exercise);
+    }
+
     box.putAt(workoutIndex, newWorkout);
     notifyListeners();
   }
