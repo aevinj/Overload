@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:progressive_overload/box_manager.dart';
 import 'package:progressive_overload/classes/day.dart';
 import 'package:progressive_overload/classes/exercise.dart';
-import 'package:progressive_overload/classes/workout.dart';
 import 'package:progressive_overload/components/blurred_button.dart';
 import 'package:progressive_overload/components/edit_reps_sets_modal.dart';
 import 'package:progressive_overload/components/capitalise.dart';
@@ -14,10 +13,9 @@ import 'package:progressive_overload/theme/dark_theme.dart';
 import 'package:provider/provider.dart';
 
 class WorkoutViewer extends StatefulWidget {
-  final Workout workout;
   final int index;
 
-  const WorkoutViewer({super.key, required this.workout, required this.index});
+  const WorkoutViewer({super.key, required this.index});
 
   @override
   State<WorkoutViewer> createState() => _WorkoutViewerState();
@@ -236,211 +234,220 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                                 .getWorkoutsAsList()[widget.index]
                                 .days[index];
 
-                            return Column(
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children:
-                                      day.exercises.map((Exercise exercise) {
-                                    return Dismissible(
-                                      direction: DismissDirection.endToStart,
-                                      key: Key(exercise
-                                          .name), // Use a unique key for each exercise
-                                      confirmDismiss: (direction) async {
-                                        final confirmed =
-                                            await showDialog<bool>(
-                                          context: context,
-                                          builder: (context) {
-                                            return AlertDialog(
-                                              icon: const Icon(
-                                                CupertinoIcons.trash,
-                                                color: Colors.white,
-                                              ),
-                                              backgroundColor: Colors.grey[900],
-                                              title: Text(
-                                                "Delete ${exercise.name}?",
-                                                style: Font(),
-                                              ),
-                                              content: Text(
-                                                "Are you sure you want to delete ${exercise.name} from ${boxManager.getWorkoutsAsList()[widget.index].name}?",
-                                                style: Font(size: 16),
-                                              ),
-                                              actions: [
-                                                BlurryButton(
-                                                  width: 100,
-                                                  height: 50,
-                                                  onPressed: () {
-                                                    Navigator.of(context)
-                                                        .pop(false);
-                                                  },
+                            if (day.dayID == _selectedDay) {
+                              return Column(
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children:
+                                        day.exercises.map((Exercise exercise) {
+                                      return Dismissible(
+                                        direction: DismissDirection.endToStart,
+                                        key: Key(exercise
+                                            .name), // Use a unique key for each exercise
+                                        confirmDismiss: (direction) async {
+                                          final confirmed =
+                                              await showDialog<bool>(
+                                            context: context,
+                                            builder: (context) {
+                                              return AlertDialog(
+                                                icon: const Icon(
+                                                  CupertinoIcons.trash,
+                                                  color: Colors.white,
+                                                ),
+                                                backgroundColor:
+                                                    Colors.grey[900],
+                                                title: Text(
+                                                  "Delete ${exercise.name}?",
+                                                  style: Font(),
+                                                ),
+                                                content: Text(
+                                                  "Are you sure you want to delete ${exercise.name} from ${boxManager.getWorkoutsAsList()[widget.index].name}?",
+                                                  style: Font(size: 16),
+                                                ),
+                                                actions: [
+                                                  BlurryButton(
+                                                    width: 100,
+                                                    height: 50,
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop(false);
+                                                    },
+                                                    child: Text(
+                                                      "Cancel",
+                                                      style: Font(size: 16),
+                                                    ),
+                                                  ),
+                                                  BlurryButton(
+                                                    color: Colors.red,
+                                                    width: 100,
+                                                    height: 50,
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop(true);
+                                                    },
+                                                    child: Text(
+                                                      "Delete",
+                                                      style: Font(size: 16),
+                                                    ),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                          return confirmed ?? false;
+                                        },
+                                        onDismissed: (direction) {
+                                          HapticFeedback.mediumImpact();
+                                          removeExercise(boxManager, exercise);
+                                        },
+                                        background: Container(
+                                          color: Colors.red,
+                                          alignment: Alignment.centerRight,
+                                          padding: const EdgeInsets.only(
+                                              right: 20.0),
+                                          child: const Icon(
+                                            Icons.delete,
+                                            color: Colors.white,
+                                            size: 36.0,
+                                          ),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Flexible(
                                                   child: Text(
-                                                    "Cancel",
-                                                    style: Font(size: 16),
+                                                    exercise.name,
+                                                    style: Font(),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                   ),
                                                 ),
-                                                BlurryButton(
-                                                  color: Colors.red,
-                                                  width: 100,
-                                                  height: 50,
-                                                  onPressed: () {
-                                                    Navigator.of(context)
-                                                        .pop(true);
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    int setCount = boxManager
+                                                        .getWorkoutsAsList()[
+                                                            widget.index]
+                                                        .days
+                                                        .firstWhere((day) =>
+                                                            day.dayID ==
+                                                            _selectedDay)
+                                                        .exercises
+                                                        .firstWhere((ex) =>
+                                                            ex.name ==
+                                                            exercise.name)
+                                                        .sets!;
+
+                                                    int repCount = boxManager
+                                                        .getWorkoutsAsList()[
+                                                            widget.index]
+                                                        .days
+                                                        .firstWhere((day) =>
+                                                            day.dayID ==
+                                                            _selectedDay)
+                                                        .exercises
+                                                        .firstWhere((ex) =>
+                                                            ex.name ==
+                                                            exercise.name)
+                                                        .reps!;
+
+                                                    showModalBottomSheet(
+                                                      enableDrag: false,
+                                                      backgroundColor:
+                                                          Colors.grey[900],
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return ModalSheetContent(
+                                                          initialSetCount:
+                                                              setCount,
+                                                          onSetCountChanged:
+                                                              (newSetCount) {
+                                                            setState(() {
+                                                              boxManager.modifySet(
+                                                                  widget.index,
+                                                                  _selectedDay,
+                                                                  exercise.name,
+                                                                  newSetCount);
+                                                            });
+                                                          },
+                                                          initialRepsCount:
+                                                              repCount,
+                                                          onRepsCountChanged:
+                                                              (newRepCount) {
+                                                            setState(() {
+                                                              boxManager.modifyRep(
+                                                                  widget.index,
+                                                                  _selectedDay,
+                                                                  exercise.name,
+                                                                  newRepCount);
+                                                            });
+                                                          },
+                                                        );
+                                                      },
+                                                    );
                                                   },
                                                   child: Text(
-                                                    "Delete",
-                                                    style: Font(size: 16),
+                                                    //TODO: instead of "" replace with duration
+                                                    exercise.reps == null ||
+                                                            exercise.sets ==
+                                                                null
+                                                        ? ""
+                                                        : "${exercise.reps}x${boxManager.getWorkoutsAsList()[widget.index].days.firstWhere((day) => day.dayID == _selectedDay).exercises.firstWhere((ex) => ex.name == exercise.name).sets}",
+                                                    style: Font(
+                                                        size: 16,
+                                                        color:
+                                                            Colors.grey[600]!),
                                                   ),
                                                 ),
                                               ],
-                                            );
-                                          },
-                                        );
-                                        return confirmed ?? false;
-                                      },
-                                      onDismissed: (direction) {
-                                        HapticFeedback.mediumImpact();
-                                        removeExercise(boxManager, exercise);
-                                      },
-                                      background: Container(
-                                        color: Colors.red,
-                                        alignment: Alignment.centerRight,
-                                        padding:
-                                            const EdgeInsets.only(right: 20.0),
-                                        child: const Icon(
-                                          Icons.delete,
-                                          color: Colors.white,
-                                          size: 36.0,
+                                            ),
+                                            const Divider(
+                                              color: Colors.white,
+                                            ),
+                                          ],
                                         ),
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Flexible(
-                                                child: Text(
-                                                  exercise.name,
-                                                  style: Font(),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                              ),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  int setCount = boxManager
-                                                      .getWorkoutsAsList()[
-                                                          widget.index]
-                                                      .days
-                                                      .firstWhere((day) =>
-                                                          day.dayID ==
-                                                          _selectedDay)
-                                                      .exercises
-                                                      .firstWhere((ex) =>
-                                                          ex.name ==
-                                                          exercise.name)
-                                                      .sets!;
-
-                                                  int repCount = boxManager
-                                                      .getWorkoutsAsList()[
-                                                          widget.index]
-                                                      .days
-                                                      .firstWhere((day) =>
-                                                          day.dayID ==
-                                                          _selectedDay)
-                                                      .exercises
-                                                      .firstWhere((ex) =>
-                                                          ex.name ==
-                                                          exercise.name)
-                                                      .reps!;
-
-                                                  showModalBottomSheet(
-                                                    enableDrag: false,
-                                                    backgroundColor:
-                                                        Colors.grey[900],
-                                                    context: context,
-                                                    builder:
-                                                        (BuildContext context) {
-                                                      return ModalSheetContent(
-                                                        initialSetCount:
-                                                            setCount,
-                                                        onSetCountChanged:
-                                                            (newSetCount) {
-                                                          setState(() {
-                                                            boxManager.modifySet(
-                                                                widget.index,
-                                                                _selectedDay,
-                                                                exercise.name,
-                                                                newSetCount);
-                                                          });
-                                                        },
-                                                        initialRepsCount:
-                                                            repCount,
-                                                        onRepsCountChanged:
-                                                            (newRepCount) {
-                                                          setState(() {
-                                                            boxManager.modifyRep(
-                                                                widget.index,
-                                                                _selectedDay,
-                                                                exercise.name,
-                                                                newRepCount);
-                                                          });
-                                                        },
-                                                      );
-                                                    },
-                                                  );
-                                                },
-                                                child: Text(
-                                                  //TODO: instead of "" replace with duration
-                                                  exercise.reps == null ||
-                                                          exercise.sets == null
-                                                      ? ""
-                                                      : "${exercise.reps}x${boxManager.getWorkoutsAsList()[widget.index].days.firstWhere((day) => day.dayID == _selectedDay).exercises.firstWhere((ex) => ex.name == exercise.name).sets}",
-                                                  style: Font(
-                                                      size: 16,
-                                                      color: Colors.grey[600]!),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          const Divider(
-                                            color: Colors.white,
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  }).toList(),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                BlurryButton(
-                                    width: 300,
-                                    height: 65,
-                                    onPressed: () async {
-                                      final Exercise? newExercise =
-                                          await Navigator.push(
-                                        context,
-                                        CupertinoPageRoute(
-                                            builder: (context) =>
-                                                const AddExercise()),
                                       );
+                                    }).toList(),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  BlurryButton(
+                                      width: 300,
+                                      height: 65,
+                                      onPressed: () async {
+                                        final Exercise? newExercise =
+                                            await Navigator.push(
+                                          context,
+                                          CupertinoPageRoute(
+                                              builder: (context) =>
+                                                  const AddExercise()),
+                                        );
 
-                                      if (newExercise != null) {
-                                        boxManager.addExerciseToWorkout(
-                                            widget.index,
-                                            _selectedDay,
-                                            newExercise);
-                                      }
-                                    },
-                                    child: Text(
-                                      "Add more",
-                                      style: Font(size: 20),
-                                    )),
-                              ],
-                            );
+                                        if (newExercise != null) {
+                                          boxManager.addExerciseToWorkout(
+                                              widget.index,
+                                              _selectedDay,
+                                              newExercise);
+                                        }
+                                      },
+                                      child: Text(
+                                        "Add more",
+                                        style: Font(size: 20),
+                                      )),
+                                ],
+                              );
+                            } else {
+                              return const SizedBox.shrink();
+                            }
                           },
                         ),
             ),
