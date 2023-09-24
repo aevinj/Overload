@@ -103,6 +103,10 @@ class BoxManager extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool isDayEmpty(int workoutIndex, String day) {
+    return !box.getAt(workoutIndex)!.days.any((d) => d.dayID == day);
+  }
+
   Future<void> clearBox() async {
     await box.clear();
     notifyListeners();
