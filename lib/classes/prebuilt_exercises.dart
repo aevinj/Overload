@@ -1,24 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:progressive_overload/classes/exercise.dart';
 
-class PrebuiltExercises extends ChangeNotifier{
+class PrebuiltExercises extends ChangeNotifier {
   late final List<Exercise> _exercisesList = [];
 
-  PrebuiltExercises() {
-    formExercises();
+  PrebuiltExercises();
+
+  Future<void> initialize() async {
+    await formExercises();
   }
 
-  void formExercises() {
+  Future<void> formExercises() async {
     //chest majors
-    _exercisesList
-        .add(createNewExercise("Bench", 0, 0, ["Chest", "Shoulders", "Triceps"]));
+    _exercisesList.add(
+        createNewExercise("Bench", 0, 0, ["Chest", "Shoulders", "Triceps"]));
     _exercisesList.add(createNewExercise(
         "Close-grip Bench", 0, 0, ["Chest", "Shoulders", "Triceps"]));
     _exercisesList.add(
         createNewExercise("Push ups", 0, 0, ["Chest", "Shoulders", "Triceps"]));
     _exercisesList.add(createNewExercise("Cable flyes", 0, 0, ["Chest"]));
-    _exercisesList
-        .add(createNewExercise("Dips", 0, 0, ["Chest", "Shoulders", "Triceps"]));
+    _exercisesList.add(
+        createNewExercise("Dips", 0, 0, ["Chest", "Shoulders", "Triceps"]));
     _exercisesList
         .add(createNewExercise("Cable crossover", 0, 0, ["Chest", "shoulder"]));
     _exercisesList.add(createNewExercise(
@@ -26,8 +28,8 @@ class PrebuiltExercises extends ChangeNotifier{
 
     //shoulders majors
     _exercisesList.add(createNewExercise("Lateral raise", 0, 0, ["Shoulder"]));
-    _exercisesList
-        .add(createNewExercise("Overhead press", 0, 0, ["Shoulder", "Triceps"]));
+    _exercisesList.add(
+        createNewExercise("Overhead press", 0, 0, ["Shoulder", "Triceps"]));
     _exercisesList
         .add(createNewExercise("Face pull", 0, 0, ["Shoulder", "Back"]));
     _exercisesList
@@ -40,8 +42,8 @@ class PrebuiltExercises extends ChangeNotifier{
 
     //back majors
     _exercisesList.add(createNewExercise("Shrugs", 0, 0, ["Back"]));
-    _exercisesList.add(
-        createNewExercise("Lat pull down", 0, 0, ["Back", "Shoulders", "Biceps"]));
+    _exercisesList.add(createNewExercise(
+        "Lat pull down", 0, 0, ["Back", "Shoulders", "Biceps"]));
 
     //tricep majors
     notifyListeners();
