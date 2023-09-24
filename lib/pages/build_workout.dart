@@ -280,6 +280,8 @@ class _BuildWorkoutState extends State<BuildWorkout> {
                                         CrossAxisAlignment.start,
                                     children:
                                         day.exercises.map((Exercise exercise) {
+                                      final isFirstExercise =
+                                          day.exercises.indexOf(exercise) == 0;
                                       return Dismissible(
                                         direction: DismissDirection.endToStart,
                                         key: Key(exercise
@@ -355,6 +357,12 @@ class _BuildWorkoutState extends State<BuildWorkout> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
+                                            const SizedBox(height: 5,),
+                                            isFirstExercise
+                                                ? const SizedBox.shrink()
+                                                : const Divider(
+                                                    color: Colors.white,
+                                                  ),
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
@@ -433,16 +441,14 @@ class _BuildWorkoutState extends State<BuildWorkout> {
                                                 ),
                                               ],
                                             ),
-                                            const Divider(
-                                              color: Colors.white,
-                                            ),
+                                            const SizedBox(height: 5,),
                                           ],
                                         ),
                                       );
                                     }).toList(),
                                   ),
                                   const SizedBox(
-                                    height: 10,
+                                    height: 20,
                                   ),
                                   BlurryButton(
                                       width: 300,
@@ -466,7 +472,7 @@ class _BuildWorkoutState extends State<BuildWorkout> {
                                         style: Font(size: 20),
                                       )),
                                   const SizedBox(
-                                    height: 10,
+                                    height: 20,
                                   ),
                                   BlurryButton(
                                       width: 300,
