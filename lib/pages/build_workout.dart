@@ -183,7 +183,7 @@ class _BuildWorkoutState extends State<BuildWorkout> {
               width: 350,
               height: 400,
               onPressed: () {},
-              child: workout.days.isEmpty
+              child: !workout.days.any((day) => day.dayID == _selectedDay)
                   ? Center(
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -224,25 +224,188 @@ class _BuildWorkoutState extends State<BuildWorkout> {
                                 style: Font(size: 20),
                               ))
                         ]))
-                  : !workout.days.any((day) => day.dayID == _selectedDay)
-                      ? Center(
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                              const Icon(
-                                CupertinoIcons.clear_circled,
-                                color: Colors.white,
-                                size: 100,
+                  : ListView.builder(
+                      itemCount: workout.days.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        Day day = workout.days[index];
+
+                        // Check if the day matches the selected option
+                        if (day.dayID == _selectedDay) {
+                          return Column(
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children:
+                                    day.exercises.map((Exercise exercise) {
+                                  final isFirstExercise =
+                                      day.exercises.indexOf(exercise) == 0;
+                                  return Dismissible(
+                                    direction: DismissDirection.endToStart,
+                                    key: Key(exercise
+                                        .name), // Use a unique key for each exercise
+                                    confirmDismiss: (direction) async {
+                                      final confirmed = await showDialog<bool>(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            icon: const Icon(
+                                              CupertinoIcons.trash,
+                                              color: Colors.white,
+                                            ),
+                                            backgroundColor: Colors.grey[900],
+                                            title: Text(
+                                              "Delete ${exercise.name}?",
+                                              style: Font(),
+                                            ),
+                                            content: Text(
+                                              "Are you sure you want to delete ${exercise.name} from ${workout.name}?",
+                                              style: Font(size: 16),
+                                            ),
+                                            actions: [
+                                              BlurryButton(
+                                                width: 100,
+                                                height: 50,
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pop(false);
+                                                },
+                                                child: Text(
+                                                  "Cancel",
+                                                  style: Font(size: 16),
+                                                ),
+                                              ),
+                                              BlurryButton(
+                                                color: Colors.red,
+                                                width: 100,
+                                                height: 50,
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pop(true);
+                                                },
+                                                child: Text(
+                                                  "Delete",
+                                                  style: Font(size: 16),
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                      return confirmed ?? false;
+                                    },
+                                    onDismissed: (direction) {
+                                      HapticFeedback.mediumImpact();
+                                      removeExercise(exercise);
+                                    },
+                                    background: Container(
+                                      color: Colors.red,
+                                      alignment: Alignment.centerRight,
+                                      padding:
+                                          const EdgeInsets.only(right: 20.0),
+                                      child: const Icon(
+                                        Icons.delete,
+                                        color: Colors.white,
+                                        size: 36.0,
+                                      ),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        isFirstExercise
+                                            ? const SizedBox.shrink()
+                                            : const Divider(
+                                                color: Colors.white,
+                                              ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              exercise.name,
+                                              style: Font(),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                int setCount =
+                                                    exercise.sets ?? 0;
+
+                                                int repCount =
+                                                    exercise.reps ?? 0;
+
+                                                showModalBottomSheet(
+                                                  enableDrag: false,
+                                                  backgroundColor:
+                                                      Colors.grey[900],
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return ModalSheetContent(
+                                                      initialSetCount: setCount,
+                                                      onSetCountChanged:
+                                                          (newSetCount) {
+                                                        setState(() {
+                                                          workout.days
+                                                              .firstWhere((day) =>
+                                                                  day.dayID ==
+                                                                  _selectedDay)
+                                                              .exercises
+                                                              .firstWhere(
+                                                                  (ex) =>
+                                                                      ex.name ==
+                                                                      exercise
+                                                                          .name)
+                                                              .sets = newSetCount;
+                                                        });
+                                                      },
+                                                      initialRepsCount:
+                                                          repCount,
+                                                      onRepsCountChanged:
+                                                          (newRepCount) {
+                                                        setState(() {
+                                                          workout.days
+                                                              .firstWhere((day) =>
+                                                                  day.dayID ==
+                                                                  _selectedDay)
+                                                              .exercises
+                                                              .firstWhere(
+                                                                  (ex) =>
+                                                                      ex.name ==
+                                                                      exercise
+                                                                          .name)
+                                                              .reps = newRepCount;
+                                                        });
+                                                      },
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                              child: Text(
+                                                //TODO: instead of "" replace with duration
+                                                exercise.reps == null ||
+                                                        exercise.sets == null
+                                                    ? "0x0"
+                                                    : "${exercise.reps}x${exercise.sets}",
+                                                style: Font(
+                                                    size: 16,
+                                                    color: Colors.grey[600]!),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }).toList(),
                               ),
                               const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "No workouts found",
-                                style: Font(color: Colors.white),
-                              ),
-                              const SizedBox(
-                                height: 30,
+                                height: 20,
                               ),
                               BlurryButton(
                                   width: 300,
@@ -264,317 +427,51 @@ class _BuildWorkoutState extends State<BuildWorkout> {
                                   child: Text(
                                     "Add more",
                                     style: Font(size: 20),
-                                  ))
-                            ]))
-                      : ListView.builder(
-                          itemCount: workout.days.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            Day day = workout.days[index];
-
-                            // Check if the day matches the selected option
-                            if (day.dayID == _selectedDay) {
-                              return Column(
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children:
-                                        day.exercises.map((Exercise exercise) {
-                                      final isFirstExercise =
-                                          day.exercises.indexOf(exercise) == 0;
-                                      return Dismissible(
-                                        direction: DismissDirection.endToStart,
-                                        key: Key(exercise
-                                            .name), // Use a unique key for each exercise
-                                        confirmDismiss: (direction) async {
-                                          final confirmed =
-                                              await showDialog<bool>(
-                                            context: context,
-                                            builder: (context) {
-                                              return AlertDialog(
-                                                icon: const Icon(
-                                                  CupertinoIcons.trash,
-                                                  color: Colors.white,
-                                                ),
-                                                backgroundColor:
-                                                    Colors.grey[900],
-                                                title: Text(
-                                                  "Delete ${exercise.name}?",
-                                                  style: Font(),
-                                                ),
-                                                content: Text(
-                                                  "Are you sure you want to delete ${exercise.name} from ${workout.name}?",
-                                                  style: Font(size: 16),
-                                                ),
-                                                actions: [
-                                                  BlurryButton(
-                                                    width: 100,
-                                                    height: 50,
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop(false);
-                                                    },
-                                                    child: Text(
-                                                      "Cancel",
-                                                      style: Font(size: 16),
-                                                    ),
-                                                  ),
-                                                  BlurryButton(
-                                                    color: Colors.red,
-                                                    width: 100,
-                                                    height: 50,
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop(true);
-                                                    },
-                                                    child: Text(
-                                                      "Delete",
-                                                      style: Font(size: 16),
-                                                    ),
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
-                                          return confirmed ?? false;
-                                        },
-                                        onDismissed: (direction) {
-                                          HapticFeedback.mediumImpact();
-                                          removeExercise(exercise);
-                                        },
-                                        background: Container(
-                                          color: Colors.red,
-                                          alignment: Alignment.centerRight,
-                                          padding: const EdgeInsets.only(
-                                              right: 20.0),
-                                          child: const Icon(
-                                            Icons.delete,
-                                            color: Colors.white,
-                                            size: 36.0,
+                                  )),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              BlurryButton(
+                                  width: 300,
+                                  height: 65,
+                                  onPressed: () async {
+                                    if (workout.days.isNotEmpty) {
+                                      await boxManager.addWorkout(workout);
+                                      // ignore: use_build_context_synchronously
+                                      Navigator.pop(context);
+                                      // ignore: use_build_context_synchronously
+                                      Navigator.pop(context);
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            'You must add 1 exercise for at least 1 day',
+                                            style: Font(size: 16),
                                           ),
-                                        ),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            const SizedBox(height: 5,),
-                                            isFirstExercise
-                                                ? const SizedBox.shrink()
-                                                : const Divider(
-                                                    color: Colors.white,
-                                                  ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  exercise.name,
-                                                  style: Font(),
-                                                ),
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    int setCount =
-                                                        exercise.sets ?? 0;
-
-                                                    int repCount =
-                                                        exercise.reps ?? 0;
-
-                                                    showModalBottomSheet(
-                                                      enableDrag: false,
-                                                      backgroundColor:
-                                                          Colors.grey[900],
-                                                      context: context,
-                                                      builder: (BuildContext
-                                                          context) {
-                                                        return ModalSheetContent(
-                                                          initialSetCount:
-                                                              setCount,
-                                                          onSetCountChanged:
-                                                              (newSetCount) {
-                                                            setState(() {
-                                                              workout.days
-                                                                  .firstWhere((day) =>
-                                                                      day.dayID ==
-                                                                      _selectedDay)
-                                                                  .exercises
-                                                                  .firstWhere((ex) =>
-                                                                      ex.name ==
-                                                                      exercise
-                                                                          .name)
-                                                                  .sets = newSetCount;
-                                                            });
-                                                          },
-                                                          initialRepsCount:
-                                                              repCount,
-                                                          onRepsCountChanged:
-                                                              (newRepCount) {
-                                                            setState(() {
-                                                              workout.days
-                                                                  .firstWhere((day) =>
-                                                                      day.dayID ==
-                                                                      _selectedDay)
-                                                                  .exercises
-                                                                  .firstWhere((ex) =>
-                                                                      ex.name ==
-                                                                      exercise
-                                                                          .name)
-                                                                  .reps = newRepCount;
-                                                            });
-                                                          },
-                                                        );
-                                                      },
-                                                    );
-                                                  },
-                                                  child: Text(
-                                                    //TODO: instead of "" replace with duration
-                                                    exercise.reps == null ||
-                                                            exercise.sets ==
-                                                                null
-                                                        ? "0x0"
-                                                        : "${exercise.reps}x${exercise.sets}",
-                                                    style: Font(
-                                                        size: 16,
-                                                        color:
-                                                            Colors.grey[600]!),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(height: 5,),
-                                          ],
+                                          duration: const Duration(
+                                              milliseconds: 1250),
+                                          showCloseIcon: true,
+                                          closeIconColor: Colors.red,
                                         ),
                                       );
-                                    }).toList(),
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  BlurryButton(
-                                      width: 300,
-                                      height: 65,
-                                      onPressed: () async {
-                                        final Exercise? newExercise =
-                                            await Navigator.push(
-                                          context,
-                                          CupertinoPageRoute(
-                                              builder: (context) =>
-                                                  const AddExercise()),
-                                        );
-
-                                        if (newExercise != null) {
-                                          addExerciseToDay(
-                                              newExercise, _selectedDay);
-                                        }
-                                      },
-                                      child: Text(
-                                        "Add more",
-                                        style: Font(size: 20),
-                                      )),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  BlurryButton(
-                                      width: 300,
-                                      height: 65,
-                                      onPressed: () async {
-                                        if (workout.days.isNotEmpty) {
-                                          await boxManager.addWorkout(workout);
-                                          // ignore: use_build_context_synchronously
-                                          Navigator.pop(context);
-                                          // ignore: use_build_context_synchronously
-                                          Navigator.pop(context);
-                                        } else {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                'You must add 1 exercise for at least 1 day',
-                                                style: Font(size: 16),
-                                              ),
-                                              duration: const Duration(
-                                                  milliseconds: 1250),
-                                              showCloseIcon: true,
-                                              closeIconColor: Colors.red,
-                                            ),
-                                          );
-                                        }
-                                      },
-                                      child: Text(
-                                        "Save & exit",
-                                        style: Font(size: 20),
-                                      )),
-                                ],
-                              );
-                            } else {
-                              return const SizedBox.shrink();
-                            }
-                          },
-                        ),
+                                    }
+                                  },
+                                  child: Text(
+                                    "Save & exit",
+                                    style: Font(size: 20),
+                                  )),
+                            ],
+                          );
+                        } else {
+                          return const SizedBox.shrink();
+                        }
+                      },
+                    ),
             ),
             const SizedBox(
               height: 10,
             ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //   children: [
-            //     BlurryButton(
-            //       width: 150,
-            //       height: 100,
-            //       onPressed: () async {
-            //         final Exercise? newExercise = await Navigator.push(
-            //           context,
-            //           CupertinoPageRoute(
-            //               builder: (context) => const AddExercise()),
-            //         );
-
-            //         if (newExercise != null) {
-            //           addExerciseToDay(newExercise, _selectedDay);
-            //         }
-            //       },
-            //       child: Flexible(
-            //         child: Text(
-            //           "Add more",
-            //           style: Font(),
-            //           overflow: TextOverflow.fade,
-            //           textAlign: TextAlign.center,
-            //         ),
-            //       ),
-            //     ),
-            //     BlurryButton(
-            //         width: 150,
-            //         height: 100,
-            //         onPressed: () async {
-            //           if (workout.days.isNotEmpty) {
-            //             await boxManager.addWorkout(workout);
-            //             // ignore: use_build_context_synchronously
-            //             Navigator.pop(context);
-            //             // ignore: use_build_context_synchronously
-            //             Navigator.pop(context);
-            //           } else {
-            //             ScaffoldMessenger.of(context).showSnackBar(
-            //               SnackBar(
-            //                 content: Text(
-            //                   'You must add 1 exercise for at least 1 day',
-            //                   style: Font(size: 16),
-            //                 ),
-            //                 duration: const Duration(milliseconds: 1250),
-            //                 showCloseIcon: true,
-            //                 closeIconColor: Colors.red,
-            //               ),
-            //             );
-            //           }
-            //         },
-            //         child: Flexible(
-            //           child: Text(
-            //             "Save & exit",
-            //             style: Font(),
-            //             overflow: TextOverflow.fade,
-            //             textAlign: TextAlign.center,
-            //           ),
-            //         )),
-            //   ],
-            // )
           ]),
         ));
   }
