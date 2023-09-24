@@ -6,6 +6,7 @@ import 'package:progressive_overload/classes/exercise.dart';
 import 'package:progressive_overload/classes/prebuilt_exercises.dart';
 import 'package:progressive_overload/classes/workout.dart';
 import 'package:progressive_overload/pages/landing.dart';
+import 'package:progressive_overload/theme/dark_theme.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -16,14 +17,53 @@ void main() async {
   Hive.registerAdapter(DayAdapter());
   final boxManager = BoxManager();
   final prebuiltExercises = PrebuiltExercises();
-  await boxManager.initialize();
-  
+
+  // Create a Future that represents your async initialization tasks
+  final Future<List> initializationFuture = Future.wait([
+    boxManager.initialize(),
+    prebuiltExercises.initialize(), // Adjust this to your actual initialization task
+  ]);
+
   runApp(
     ChangeNotifierProvider<PrebuiltExercises>(
       create: (_) => prebuiltExercises,
       child: ChangeNotifierProvider<BoxManager>(
         create: (_) => boxManager,
-        child: const MyApp(),
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: FutureBuilder(
+            future: initializationFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                // Display a loading screen while waiting
+                return MaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  home: Scaffold(
+                    body: Center(
+                      child: CircularProgressIndicator(
+                        backgroundColor: darkBackground(),
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                );
+              } else if (snapshot.hasError) {
+                // Handle initialization errors here
+                return MaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  home: Scaffold(
+                    body: Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    ),
+                  ),
+                );
+              } else {
+                // Initialization is complete, show your main app
+                return const MyApp();
+              }
+            },
+          ),
+        ),
       ),
     ),
   );
@@ -35,6 +75,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-        debugShowCheckedModeBanner: false, home: Landing());
+      debugShowCheckedModeBanner: false,
+      home: Landing(),
+    );
   }
 }
