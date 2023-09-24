@@ -44,7 +44,6 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
         _selectedDay = value;
       });
     }
-    print("'${_selectedDay}'");
   }
 
   @override
@@ -85,43 +84,43 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                         value: "Monday",
                         child: Text(
                           "Monday",
-                          style: Font(size: 20),
+                          style: boxManager.isDayEmpty(widget.index, "Monday") ? Font(size: 20, color: Colors.grey[700]!) : Font(size: 20),
                         )),
                     DropdownMenuItem(
                         value: "Tuesday",
                         child: Text(
                           "Tuesday",
-                          style: Font(size: 20),
+                          style: boxManager.isDayEmpty(widget.index, "Tuesday") ? Font(size: 20, color: Colors.grey[700]!) : Font(size: 20),
                         )),
                     DropdownMenuItem(
                         value: "Wednesday",
                         child: Text(
                           "Wednesday",
-                          style: Font(size: 20),
+                          style: boxManager.isDayEmpty(widget.index, "Wednesday") ? Font(size: 20, color: Colors.grey[700]!) : Font(size: 20),
                         )),
                     DropdownMenuItem(
                         value: "Thursday",
                         child: Text(
                           "Thursday",
-                          style: Font(size: 20),
+                          style: boxManager.isDayEmpty(widget.index, "Thursday") ? Font(size: 20, color: Colors.grey[700]!) : Font(size: 20),
                         )),
                     DropdownMenuItem(
                         value: "Friday",
                         child: Text(
                           "Friday",
-                          style: Font(size: 20),
+                          style: boxManager.isDayEmpty(widget.index, "Friday") ? Font(size: 20, color: Colors.grey[700]!) : Font(size: 20),
                         )),
                     DropdownMenuItem(
                         value: "Saturday",
                         child: Text(
                           "Saturday",
-                          style: Font(size: 20),
+                          style: boxManager.isDayEmpty(widget.index, "Saturday") ? Font(size: 20, color: Colors.grey[700]!) : Font(size: 20),
                         )),
                     DropdownMenuItem(
                         value: "Sunday",
                         child: Text(
                           "Sunday",
-                          style: Font(size: 20),
+                          style: boxManager.isDayEmpty(widget.index, "Sunday") ? Font(size: 20, color: Colors.grey[700]!) : Font(size: 20),
                         )),
                   ],
                   value: _selectedDay,
