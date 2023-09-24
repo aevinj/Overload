@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:progressive_overload/components/exercise_category_cell.dart';
 import 'package:progressive_overload/components/text_style.dart';
+import 'package:progressive_overload/pages/listview.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
 
 class ExerciseChooser extends StatefulWidget {
@@ -39,33 +41,54 @@ class _ExerciseChooserState extends State<ExerciseChooser> {
           const SizedBox(
             height: 25,
           ),
-          const SingleChildScrollView(
+          SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
                 ExerciseCategoryCell(
-                    categoryName: "Chest", imgPath: "assets/chest.png"),
-                SizedBox(
+                  categoryName: "Chest",
+                  imgPath: "assets/chest.png",
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => const ListofStuff()),
+                    );
+                  },
+                ),
+                const SizedBox(
                   width: 20,
                 ),
                 ExerciseCategoryCell(
-                    categoryName: "Abs", imgPath: "assets/abs.png"),
-                SizedBox(
+                  categoryName: "Abs",
+                  imgPath: "assets/abs.png",
+                  onPressed: () {},
+                ),
+                const SizedBox(
                   width: 20,
                 ),
                 ExerciseCategoryCell(
-                    categoryName: "Shoulders", imgPath: "assets/shoulders.png"),
-                SizedBox(
+                  categoryName: "Shoulders",
+                  imgPath: "assets/shoulders.png",
+                  onPressed: () {},
+                ),
+                const SizedBox(
                   width: 20,
                 ),
                 ExerciseCategoryCell(
-                    categoryName: "Arms", imgPath: "assets/arms.png"),
-                SizedBox(
+                  categoryName: "Arms",
+                  imgPath: "assets/arms.png",
+                  onPressed: () {},
+                ),
+                const SizedBox(
                   width: 20,
                 ),
                 ExerciseCategoryCell(
-                    categoryName: "Back", imgPath: "assets/back.png"),
-                SizedBox(
+                  categoryName: "Back",
+                  imgPath: "assets/back.png",
+                  onPressed: () {},
+                ),
+                const SizedBox(
                   width: 20,
                 ),
               ],
@@ -85,13 +108,16 @@ class _ExerciseChooserState extends State<ExerciseChooser> {
           const SizedBox(
             height: 25,
           ),
-          const SingleChildScrollView(
+          SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
                 ExerciseCategoryCell(
-                    categoryName: "Legs", imgPath: "assets/legs.png"),
-                SizedBox(
+                  categoryName: "Legs",
+                  imgPath: "assets/legs.png",
+                  onPressed: () {},
+                ),
+                const SizedBox(
                   width: 20,
                 ),
               ],
