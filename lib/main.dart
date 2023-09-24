@@ -18,10 +18,10 @@ void main() async {
   final boxManager = BoxManager();
   final prebuiltExercises = PrebuiltExercises();
 
-  // Create a Future that represents your async initialization tasks
+  // Create a Future that represents async initialization tasks
   final Future<List> initializationFuture = Future.wait([
     boxManager.initialize(),
-    prebuiltExercises.initialize(), // Adjust this to your actual initialization task
+    prebuiltExercises.initialize(),
   ]);
 
   runApp(
@@ -58,7 +58,7 @@ void main() async {
                   ),
                 );
               } else {
-                // Initialization is complete, show your main app
+                // Initialization is complete, show main app
                 return const MyApp();
               }
             },
