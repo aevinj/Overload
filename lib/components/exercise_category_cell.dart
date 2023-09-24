@@ -5,16 +5,17 @@ import 'package:progressive_overload/components/text_style.dart';
 class ExerciseCategoryCell extends StatelessWidget {
   final String imgPath;
   final String categoryName;
+  final VoidCallback onPressed;
 
   const ExerciseCategoryCell(
-      {super.key, required this.categoryName, required this.imgPath});
+      {super.key, required this.categoryName, required this.imgPath, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return BlurryButton(
         height: 200,
         width: 200,
-        onPressed: () {},
+        onPressed: onPressed,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
