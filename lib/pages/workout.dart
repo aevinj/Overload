@@ -75,9 +75,9 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
               SizedBox(
                 width: 200,
                 child: DropdownButton(
-                  dropdownColor: Colors.grey[700],
+                  dropdownColor: Colors.grey[900],
                   focusColor: Colors.purple[900],
-                  iconEnabledColor: Colors.purpleAccent[700],
+                  iconEnabledColor: Colors.deepPurple,
                   iconSize: 42.0,
                   isExpanded: true,
                   items: [
