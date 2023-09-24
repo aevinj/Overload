@@ -77,8 +77,8 @@ class _ExerciseChooserState extends State<ExerciseChooser> {
           Row(
             children: [
               Text(
-                "Lower body (under construction💀):",
-                style: Font(size: 20),
+                "Lower body:",
+                style: Font(),
               ),
             ],
           ),
