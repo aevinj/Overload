@@ -14,7 +14,12 @@ class BoxManager extends ChangeNotifier {
   }
 
   Future<void> _openBox() async {
-    await Hive.openBox<Workout>("workouts");
+    try {
+      await Hive.openBox<Workout>("workouts");
+    } catch (e) {
+      Hive.close();
+      await Hive.openBox<Workout>("workouts");
+    }
     box = Hive.box<Workout>("workouts");
     notifyListeners();
   }
