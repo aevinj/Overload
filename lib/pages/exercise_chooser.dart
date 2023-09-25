@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:progressive_overload/components/exercise_category_cell.dart';
 import 'package:progressive_overload/components/text_style.dart';
-import 'package:progressive_overload/pages/listview.dart';
+import 'package:progressive_overload/pages/prebuilt_exercises_viewer.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
 
 class ExerciseChooser extends StatefulWidget {
@@ -52,7 +52,7 @@ class _ExerciseChooserState extends State<ExerciseChooser> {
                     Navigator.push(
                       context,
                       CupertinoPageRoute(
-                          builder: (context) => const ListofStuff()),
+                          builder: (context) => const PrebuiltExercisesViewer(category: ["Chest"],)),
                     );
                   },
                 ),
@@ -62,15 +62,27 @@ class _ExerciseChooserState extends State<ExerciseChooser> {
                 ExerciseCategoryCell(
                   categoryName: "Abs",
                   imgPath: "assets/abs.png",
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => const PrebuiltExercisesViewer(category: ["Abs"],)),
+                    );
+                  },
                 ),
                 const SizedBox(
                   width: 20,
                 ),
                 ExerciseCategoryCell(
-                  categoryName: "Shoulders",
-                  imgPath: "assets/shoulders.png",
-                  onPressed: () {},
+                  categoryName: "Shoulder",
+                  imgPath: "assets/shoulder.png",
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => const PrebuiltExercisesViewer(category: ["Shoulder"],)),
+                    );
+                  },
                 ),
                 const SizedBox(
                   width: 20,
@@ -78,7 +90,13 @@ class _ExerciseChooserState extends State<ExerciseChooser> {
                 ExerciseCategoryCell(
                   categoryName: "Arms",
                   imgPath: "assets/arms.png",
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => const PrebuiltExercisesViewer(category: ["Biceps", "Triceps"], title: "Arms",)),
+                    );
+                  },
                 ),
                 const SizedBox(
                   width: 20,
@@ -86,7 +104,13 @@ class _ExerciseChooserState extends State<ExerciseChooser> {
                 ExerciseCategoryCell(
                   categoryName: "Back",
                   imgPath: "assets/back.png",
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => const PrebuiltExercisesViewer(category: ["Back"],)),
+                    );
+                  },
                 ),
                 const SizedBox(
                   width: 20,
@@ -115,7 +139,13 @@ class _ExerciseChooserState extends State<ExerciseChooser> {
                 ExerciseCategoryCell(
                   categoryName: "Legs",
                   imgPath: "assets/legs.png",
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => const PrebuiltExercisesViewer(category: ["Legs"],)),
+                    );
+                  },
                 ),
                 const SizedBox(
                   width: 20,
