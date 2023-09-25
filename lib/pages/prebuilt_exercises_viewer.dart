@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:progressive_overload/classes/prebuilt_exercises.dart';
+import 'package:progressive_overload/components/blurred_button.dart';
 import 'package:progressive_overload/components/text_style.dart';
 import 'package:provider/provider.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
@@ -33,30 +34,42 @@ class _PrebuiltExercisesViewerState extends State<PrebuiltExercisesViewer> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(5),
-        child: ListView.builder(
-          itemCount: categoryExercises.length,
-          itemBuilder: (context, index) {
-            final exercise = categoryExercises[index];
-            return Column(
-              children: [
-                index == 0
-                    ? const SizedBox.shrink()
-                    : const Divider(
-                        color: Colors.white,
+        child: Center(
+          child: BlurryButton(
+            width: 350,
+            height: 600,
+            onPressed: () {},
+            child: ListView.builder(
+              itemCount: categoryExercises.length,
+              itemBuilder: (context, index) {
+                final exercise = categoryExercises[index];
+                return Column(
+                  children: [
+                    index == 0
+                        ? const SizedBox.shrink()
+                        : const Divider(
+                            color: Colors.white,
+                          ),
+                    ListTile(
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                        Navigator.pop(context, exercise);
+                      },
+                      title: Text(
+                        exercise.name,
+                        style: Font(size: 20),
                       ),
-                ListTile(
-                  title: Text(
-                    exercise.name,
-                    style: Font(size: 20),
-                  ),
-                  subtitle: Text(
-                    "Sets: ${exercise.sets}, Reps: ${exercise.reps}",
-                    style: Font(size: 16),
-                  ),
-                ),
-              ],
-            );
-          },
+                      subtitle: Text(
+                        "Sets: ${exercise.sets}, Reps: ${exercise.reps}",
+                        style: Font(size: 16),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
         ),
       ),
     );
