@@ -116,43 +116,43 @@ class _BuildWorkoutState extends State<BuildWorkout> {
                         value: "Monday",
                         child: Text(
                           "Monday",
-                          style: Font(size: 20),
+                          style: !workout.days.any((d) => d.dayID == "Monday",) ? Font(size: 20, color: Colors.grey[700]!) : Font(size: 20),
                         )),
                     DropdownMenuItem(
                         value: "Tuesday",
                         child: Text(
                           "Tuesday",
-                          style: Font(size: 20),
+                          style: !workout.days.any((d) => d.dayID == "Tuesday",) ? Font(size: 20, color: Colors.grey[700]!) : Font(size: 20),
                         )),
                     DropdownMenuItem(
                         value: "Wednesday",
                         child: Text(
                           "Wednesday",
-                          style: Font(size: 20),
+                          style: !workout.days.any((d) => d.dayID == "Wednesday",) ? Font(size: 20, color: Colors.grey[700]!) : Font(size: 20),
                         )),
                     DropdownMenuItem(
                         value: "Thursday",
                         child: Text(
                           "Thursday",
-                          style: Font(size: 20),
+                          style: !workout.days.any((d) => d.dayID == "Thursday",) ? Font(size: 20, color: Colors.grey[700]!) : Font(size: 20),
                         )),
                     DropdownMenuItem(
                         value: "Friday",
                         child: Text(
                           "Friday",
-                          style: Font(size: 20),
+                          style: !workout.days.any((d) => d.dayID == "Friday",) ? Font(size: 20, color: Colors.grey[700]!) : Font(size: 20),
                         )),
                     DropdownMenuItem(
                         value: "Saturday",
                         child: Text(
                           "Saturday",
-                          style: Font(size: 20),
+                          style: !workout.days.any((d) => d.dayID == "Saturday",) ? Font(size: 20, color: Colors.grey[700]!) : Font(size: 20),
                         )),
                     DropdownMenuItem(
                         value: "Sunday",
                         child: Text(
                           "Sunday",
-                          style: Font(size: 20),
+                          style: !workout.days.any((d) => d.dayID == "Sunday",) ? Font(size: 20, color: Colors.grey[700]!) : Font(size: 20),
                         )),
                   ],
                   value: _selectedDay,
