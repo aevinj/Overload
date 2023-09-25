@@ -317,8 +317,15 @@ class _BuildWorkoutState extends State<BuildWorkout> {
                                         ),
                                         isFirstExercise
                                             ? const SizedBox.shrink()
-                                            : const Divider(
-                                                color: Colors.white,
+                                            : const Column(
+                                                children: [
+                                                  Divider(
+                                                    color: Colors.white,
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  )
+                                                ],
                                               ),
                                         Row(
                                           mainAxisAlignment:
