@@ -5,6 +5,7 @@ import 'package:progressive_overload/components/capitalise.dart';
 import 'package:progressive_overload/components/text_style.dart';
 import 'package:progressive_overload/pages/build_workout.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
+import 'package:progressive_overload/util/device_specific.dart';
 
 class NewWorkout extends StatefulWidget {
   const NewWorkout({super.key});
@@ -29,7 +30,16 @@ class _NewWorkoutState extends State<NewWorkout> {
       resizeToAvoidBottomInset: false,
       backgroundColor: darkBackground(),
       appBar: AppBar(
-        title: const Text('New Workout'),
+        leadingWidth: 20,
+        iconTheme: const IconThemeData(size: 30, color: Colors.white),
+        title: Row(children: [
+          const Spacer(),
+          Text('New Workout', style: Font(size: 30),),
+          const Spacer(),
+          const SizedBox(
+            width: 20,
+          )
+        ]),
         backgroundColor: Colors.transparent,
       ),
       body: Padding(
@@ -38,9 +48,10 @@ class _NewWorkoutState extends State<NewWorkout> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const Spacer(),
             Text(
               'Enter Name Of Workout:',
-              style: Font(size: 20),
+              style: Font(size: 25),
             ),
             const SizedBox(
               height: 20,
@@ -59,7 +70,7 @@ class _NewWorkoutState extends State<NewWorkout> {
                 ),
               ),
             ),
-            const SizedBox(height: 20.0),
+            const SizedBox(height: 5),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -92,27 +103,37 @@ class _NewWorkoutState extends State<NewWorkout> {
                 ),
               ],
             ),
-            const SizedBox(
-              height: 100,
-            ),
+            const Spacer(),
             Center(
               child: BlurryButton(
-                  width: 200,
-                  height: 100,
+                  width: widthOfCurrentDevice(context) * 0.5,
+                  height: heightOfCurrentDevice(context) * 0.15,
                   onPressed: () {
                     Navigator.push(
                         context,
                         CupertinoPageRoute(
                             builder: (context) => BuildWorkout(
-                                  title: _nameController.text.isEmpty ? "New workout" : _nameController.text.capitalise(),
+                                  title: _nameController.text.isEmpty
+                                      ? "New workout"
+                                      : _nameController.text.capitalise(),
                                   split: selectedOption,
                                 )));
                   },
-                  child: Text(
-                    "Confirm",
-                    style: Font(),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Next",
+                        style: Font(),
+                      ),
+                      const SizedBox(width: 10,),
+                      const Icon(CupertinoIcons.arrow_right,
+                      color: Colors.white,
+                      size: 30,)
+                    ],
                   )),
             ),
+            const Spacer()
           ],
         ),
       ),
