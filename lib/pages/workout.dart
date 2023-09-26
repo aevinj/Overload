@@ -10,6 +10,7 @@ import 'package:progressive_overload/components/capitalise.dart';
 import 'package:progressive_overload/components/text_style.dart';
 import 'package:progressive_overload/pages/add_exercise.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
+import 'package:progressive_overload/util/device_specific.dart';
 import 'package:provider/provider.dart';
 
 class WorkoutViewer extends StatefulWidget {
@@ -53,23 +54,32 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
     return Scaffold(
       backgroundColor: darkBackground(),
       appBar: AppBar(
+        leadingWidth: 20,
+        iconTheme: const IconThemeData(size: 30, color: Colors.white),
+        title: Row(children: [
+          const Spacer(),
+          Text(
+            boxManager.getWorkoutsAsList()[widget.index].name.capitalise(),
+            style: Font(size: 30),
+          ),
+          const Spacer(),
+          const SizedBox(
+            width: 20,
+          )
+        ]),
         backgroundColor: Colors.transparent,
-        title: Text(
-          boxManager.getWorkoutsAsList()[widget.index].name.capitalise(),
-          style: Font(),
-        ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 20),
-                child: Text(
-                  'Day:',
-                  style: Font(),
-                ),
+            Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+              Text(
+                'Day :',
+                style: Font(),
+              ),
+              const SizedBox(
+                width: 30,
               ),
               SizedBox(
                 width: 200,
@@ -84,43 +94,58 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                         value: "Monday",
                         child: Text(
                           "Monday",
-                          style: boxManager.isDayEmpty(widget.index, "Monday") ? Font(size: 20, color: Colors.grey[700]!) : Font(size: 20),
+                          style: boxManager.isDayEmpty(widget.index, "Monday")
+                              ? Font(size: 20, color: Colors.grey[700]!)
+                              : Font(size: 20),
                         )),
                     DropdownMenuItem(
                         value: "Tuesday",
                         child: Text(
                           "Tuesday",
-                          style: boxManager.isDayEmpty(widget.index, "Tuesday") ? Font(size: 20, color: Colors.grey[700]!) : Font(size: 20),
+                          style: boxManager.isDayEmpty(widget.index, "Tuesday")
+                              ? Font(size: 20, color: Colors.grey[700]!)
+                              : Font(size: 20),
                         )),
                     DropdownMenuItem(
                         value: "Wednesday",
                         child: Text(
                           "Wednesday",
-                          style: boxManager.isDayEmpty(widget.index, "Wednesday") ? Font(size: 20, color: Colors.grey[700]!) : Font(size: 20),
+                          style:
+                              boxManager.isDayEmpty(widget.index, "Wednesday")
+                                  ? Font(size: 20, color: Colors.grey[700]!)
+                                  : Font(size: 20),
                         )),
                     DropdownMenuItem(
                         value: "Thursday",
                         child: Text(
                           "Thursday",
-                          style: boxManager.isDayEmpty(widget.index, "Thursday") ? Font(size: 20, color: Colors.grey[700]!) : Font(size: 20),
+                          style: boxManager.isDayEmpty(widget.index, "Thursday")
+                              ? Font(size: 20, color: Colors.grey[700]!)
+                              : Font(size: 20),
                         )),
                     DropdownMenuItem(
                         value: "Friday",
                         child: Text(
                           "Friday",
-                          style: boxManager.isDayEmpty(widget.index, "Friday") ? Font(size: 20, color: Colors.grey[700]!) : Font(size: 20),
+                          style: boxManager.isDayEmpty(widget.index, "Friday")
+                              ? Font(size: 20, color: Colors.grey[700]!)
+                              : Font(size: 20),
                         )),
                     DropdownMenuItem(
                         value: "Saturday",
                         child: Text(
                           "Saturday",
-                          style: boxManager.isDayEmpty(widget.index, "Saturday") ? Font(size: 20, color: Colors.grey[700]!) : Font(size: 20),
+                          style: boxManager.isDayEmpty(widget.index, "Saturday")
+                              ? Font(size: 20, color: Colors.grey[700]!)
+                              : Font(size: 20),
                         )),
                     DropdownMenuItem(
                         value: "Sunday",
                         child: Text(
                           "Sunday",
-                          style: boxManager.isDayEmpty(widget.index, "Sunday") ? Font(size: 20, color: Colors.grey[700]!) : Font(size: 20),
+                          style: boxManager.isDayEmpty(widget.index, "Sunday")
+                              ? Font(size: 20, color: Colors.grey[700]!)
+                              : Font(size: 20),
                         )),
                   ],
                   value: _selectedDay,
@@ -128,12 +153,10 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                 ),
               ),
             ]),
-            const SizedBox(
-              height: 20,
-            ),
+            const Spacer(),
             BlurryButton(
-              width: 350,
-              height: 550,
+              width: widthOfCurrentDevice(context) * 0.65,
+              height: heightOfCurrentDevice(context) * 0.65,
               onPressed: () {},
               child: !boxManager
                       .getWorkoutsAsList()[widget.index]
@@ -380,7 +403,7 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                                 }).toList(),
                               ),
                               const SizedBox(
-                                height: 10,
+                                height: 30,
                               ),
                               BlurryButton(
                                   width: 300,
@@ -414,6 +437,7 @@ class _WorkoutViewerState extends State<WorkoutViewer> {
                       },
                     ),
             ),
+            const Spacer(),
           ],
         ),
       ),
