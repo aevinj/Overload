@@ -20,8 +20,20 @@ class ViewWorkoutsPage extends StatelessWidget {
     return Scaffold(
         backgroundColor: darkBackground(),
         appBar: AppBar(
+          leadingWidth: 20,
+          iconTheme: const IconThemeData(size: 30, color: Colors.white),
+          title: Row(children: [
+            const Spacer(),
+            Text(
+              "View Workouts",
+              style: Font(size: 30),
+            ),
+            const Spacer(),
+            const SizedBox(
+              width: 20,
+            )
+          ]),
           backgroundColor: Colors.transparent,
-          title: const Text("View Workouts"),
         ),
         body: Center(
           child: BlurryButton(
@@ -93,8 +105,11 @@ class ViewWorkoutsPage extends StatelessWidget {
                                       ),
                                       actions: [
                                         BlurryButton(
-                                          width: widthOfCurrentDevice(context) * 0.3,
-                                          height: heightOfCurrentDevice(context) * 0.1,
+                                          width: widthOfCurrentDevice(context) *
+                                              0.3,
+                                          height:
+                                              heightOfCurrentDevice(context) *
+                                                  0.1,
                                           onPressed: () {
                                             Navigator.of(context).pop(false);
                                           },
@@ -105,8 +120,11 @@ class ViewWorkoutsPage extends StatelessWidget {
                                         ),
                                         BlurryButton(
                                           color: Colors.red,
-                                          width: widthOfCurrentDevice(context) * 0.3,
-                                          height: heightOfCurrentDevice(context) * 0.1,
+                                          width: widthOfCurrentDevice(context) *
+                                              0.3,
+                                          height:
+                                              heightOfCurrentDevice(context) *
+                                                  0.1,
                                           onPressed: () {
                                             Navigator.of(context).pop(true);
                                           },
@@ -141,10 +159,11 @@ class ViewWorkoutsPage extends StatelessWidget {
                               ),
                               child: Column(
                                 children: [
-                                  index == 0 ? const SizedBox.shrink() :
-                                  const Divider(
-                                    color: Colors.white,
-                                  ),
+                                  index == 0
+                                      ? const SizedBox.shrink()
+                                      : const Divider(
+                                          color: Colors.white,
+                                        ),
                                   ListTile(
                                     title: workout.days.isEmpty
                                         ? Text(
