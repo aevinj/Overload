@@ -18,13 +18,23 @@ class _ExerciseChooserState extends State<ExerciseChooser> {
     return Scaffold(
       backgroundColor: darkBackground(),
       appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          title: Text(
+        leadingWidth: 20,
+        iconTheme: const IconThemeData(size: 30, color: Colors.white),
+        title: Row(children: [
+          const Spacer(),
+          Text(
             "Choose an exercise",
-            style: Font(),
-          )),
+            style: Font(size: 30),
+          ),
+          const Spacer(),
+          const SizedBox(
+            width: 20,
+          )
+        ]),
+        backgroundColor: Colors.transparent,
+      ),
       body: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(16),
         child:
             Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
           const SizedBox(
@@ -52,7 +62,9 @@ class _ExerciseChooserState extends State<ExerciseChooser> {
                     Navigator.push(
                       context,
                       CupertinoPageRoute(
-                          builder: (context) => const PrebuiltExercisesViewer(category: ["Chest"],)),
+                          builder: (context) => const PrebuiltExercisesViewer(
+                                category: ["Chest"],
+                              )),
                     );
                   },
                 ),
@@ -66,7 +78,9 @@ class _ExerciseChooserState extends State<ExerciseChooser> {
                     Navigator.push(
                       context,
                       CupertinoPageRoute(
-                          builder: (context) => const PrebuiltExercisesViewer(category: ["Abs"],)),
+                          builder: (context) => const PrebuiltExercisesViewer(
+                                category: ["Abs"],
+                              )),
                     );
                   },
                 ),
@@ -80,7 +94,9 @@ class _ExerciseChooserState extends State<ExerciseChooser> {
                     Navigator.push(
                       context,
                       CupertinoPageRoute(
-                          builder: (context) => const PrebuiltExercisesViewer(category: ["Shoulder"],)),
+                          builder: (context) => const PrebuiltExercisesViewer(
+                                category: ["Shoulder"],
+                              )),
                     );
                   },
                 ),
@@ -94,7 +110,10 @@ class _ExerciseChooserState extends State<ExerciseChooser> {
                     Navigator.push(
                       context,
                       CupertinoPageRoute(
-                          builder: (context) => const PrebuiltExercisesViewer(category: ["Biceps", "Triceps"], title: "Arms",)),
+                          builder: (context) => const PrebuiltExercisesViewer(
+                                category: ["Biceps", "Triceps"],
+                                title: "Arms",
+                              )),
                     );
                   },
                 ),
@@ -108,7 +127,9 @@ class _ExerciseChooserState extends State<ExerciseChooser> {
                     Navigator.push(
                       context,
                       CupertinoPageRoute(
-                          builder: (context) => const PrebuiltExercisesViewer(category: ["Back"],)),
+                          builder: (context) => const PrebuiltExercisesViewer(
+                                category: ["Back"],
+                              )),
                     );
                   },
                 ),
@@ -143,7 +164,9 @@ class _ExerciseChooserState extends State<ExerciseChooser> {
                     Navigator.push(
                       context,
                       CupertinoPageRoute(
-                          builder: (context) => const PrebuiltExercisesViewer(category: ["Legs"],)),
+                          builder: (context) => const PrebuiltExercisesViewer(
+                                category: ["Legs"],
+                              )),
                     );
                   },
                 ),

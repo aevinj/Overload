@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:progressive_overload/box_manager.dart';
+import 'package:progressive_overload/util/box_manager.dart';
 import 'package:progressive_overload/components/blurred_button.dart';
 import 'package:progressive_overload/components/text_style.dart';
 import 'package:progressive_overload/pages/new_workout.dart';
 import 'package:progressive_overload/pages/workout.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
+import 'package:progressive_overload/util/device_specific.dart';
 import 'package:provider/provider.dart';
 
 class ViewWorkoutsPage extends StatelessWidget {
@@ -19,13 +20,25 @@ class ViewWorkoutsPage extends StatelessWidget {
     return Scaffold(
         backgroundColor: darkBackground(),
         appBar: AppBar(
+          leadingWidth: 20,
+          iconTheme: const IconThemeData(size: 30, color: Colors.white),
+          title: Row(children: [
+            const Spacer(),
+            Text(
+              "View Workouts",
+              style: Font(size: 30),
+            ),
+            const Spacer(),
+            const SizedBox(
+              width: 20,
+            )
+          ]),
           backgroundColor: Colors.transparent,
-          title: const Text("View Workouts"),
         ),
         body: Center(
           child: BlurryButton(
-            width: 350,
-            height: 600,
+            width: widthOfCurrentDevice(context) * 0.85,
+            height: heightOfCurrentDevice(context) * 0.85,
             onPressed: () {},
             child: boxManager.getWorkoutsAsList().isEmpty
                 ? Center(
@@ -48,7 +61,7 @@ class ViewWorkoutsPage extends StatelessWidget {
                           height: 30,
                         ),
                         BlurryButton(
-                            width: 300,
+                            width: widthOfCurrentDevice(context) * 0.4,
                             height: 65,
                             onPressed: () {
                               Navigator.push(
@@ -92,8 +105,11 @@ class ViewWorkoutsPage extends StatelessWidget {
                                       ),
                                       actions: [
                                         BlurryButton(
-                                          width: 100,
-                                          height: 50,
+                                          width: widthOfCurrentDevice(context) *
+                                              0.3,
+                                          height:
+                                              heightOfCurrentDevice(context) *
+                                                  0.1,
                                           onPressed: () {
                                             Navigator.of(context).pop(false);
                                           },
@@ -104,8 +120,11 @@ class ViewWorkoutsPage extends StatelessWidget {
                                         ),
                                         BlurryButton(
                                           color: Colors.red,
-                                          width: 100,
-                                          height: 50,
+                                          width: widthOfCurrentDevice(context) *
+                                              0.3,
+                                          height:
+                                              heightOfCurrentDevice(context) *
+                                                  0.1,
                                           onPressed: () {
                                             Navigator.of(context).pop(true);
                                           },
@@ -140,10 +159,11 @@ class ViewWorkoutsPage extends StatelessWidget {
                               ),
                               child: Column(
                                 children: [
-                                  index == 0 ? const SizedBox.shrink() :
-                                  const Divider(
-                                    color: Colors.white,
-                                  ),
+                                  index == 0
+                                      ? const SizedBox.shrink()
+                                      : const Divider(
+                                          color: Colors.white,
+                                        ),
                                   ListTile(
                                     title: workout.days.isEmpty
                                         ? Text(

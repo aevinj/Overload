@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:progressive_overload/box_manager.dart';
+import 'package:progressive_overload/util/box_manager.dart';
 import 'package:progressive_overload/classes/day.dart';
 import 'package:progressive_overload/classes/exercise.dart';
 import 'package:progressive_overload/classes/workout.dart';
@@ -10,6 +10,7 @@ import 'package:progressive_overload/components/edit_reps_sets_modal.dart';
 import 'package:progressive_overload/components/text_style.dart';
 import 'package:progressive_overload/pages/add_exercise.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
+import 'package:progressive_overload/util/device_specific.dart';
 import 'package:provider/provider.dart';
 
 class BuildWorkout extends StatefulWidget {
@@ -86,22 +87,31 @@ class _BuildWorkoutState extends State<BuildWorkout> {
     return Scaffold(
         backgroundColor: darkBackground(),
         appBar: AppBar(
+          leadingWidth: 20,
+          iconTheme: const IconThemeData(size: 30, color: Colors.white),
+          title: Row(children: [
+            const Spacer(),
+            Text(
+              widget.title,
+              style: Font(size: 30),
+            ),
+            const Spacer(),
+            const SizedBox(
+              width: 20,
+            )
+          ]),
           backgroundColor: Colors.transparent,
-          title: Text(
-            widget.title,
-            style: Font(),
-          ),
         ),
         body: Padding(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(16),
           child: Column(children: [
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 20),
-                child: Text(
-                  'Day:',
-                  style: Font(),
-                ),
+            Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+              Text(
+                'Day :',
+                style: Font(),
+              ),
+              const SizedBox(
+                width: 30,
               ),
               SizedBox(
                 width: 200,
@@ -116,43 +126,71 @@ class _BuildWorkoutState extends State<BuildWorkout> {
                         value: "Monday",
                         child: Text(
                           "Monday",
-                          style: !workout.days.any((d) => d.dayID == "Monday",) ? Font(size: 20, color: Colors.grey[700]!) : Font(size: 20),
+                          style: !workout.days.any(
+                            (d) => d.dayID == "Monday",
+                          )
+                              ? Font(size: 20, color: Colors.grey[700]!)
+                              : Font(size: 20),
                         )),
                     DropdownMenuItem(
                         value: "Tuesday",
                         child: Text(
                           "Tuesday",
-                          style: !workout.days.any((d) => d.dayID == "Tuesday",) ? Font(size: 20, color: Colors.grey[700]!) : Font(size: 20),
+                          style: !workout.days.any(
+                            (d) => d.dayID == "Tuesday",
+                          )
+                              ? Font(size: 20, color: Colors.grey[700]!)
+                              : Font(size: 20),
                         )),
                     DropdownMenuItem(
                         value: "Wednesday",
                         child: Text(
                           "Wednesday",
-                          style: !workout.days.any((d) => d.dayID == "Wednesday",) ? Font(size: 20, color: Colors.grey[700]!) : Font(size: 20),
+                          style: !workout.days.any(
+                            (d) => d.dayID == "Wednesday",
+                          )
+                              ? Font(size: 20, color: Colors.grey[700]!)
+                              : Font(size: 20),
                         )),
                     DropdownMenuItem(
                         value: "Thursday",
                         child: Text(
                           "Thursday",
-                          style: !workout.days.any((d) => d.dayID == "Thursday",) ? Font(size: 20, color: Colors.grey[700]!) : Font(size: 20),
+                          style: !workout.days.any(
+                            (d) => d.dayID == "Thursday",
+                          )
+                              ? Font(size: 20, color: Colors.grey[700]!)
+                              : Font(size: 20),
                         )),
                     DropdownMenuItem(
                         value: "Friday",
                         child: Text(
                           "Friday",
-                          style: !workout.days.any((d) => d.dayID == "Friday",) ? Font(size: 20, color: Colors.grey[700]!) : Font(size: 20),
+                          style: !workout.days.any(
+                            (d) => d.dayID == "Friday",
+                          )
+                              ? Font(size: 20, color: Colors.grey[700]!)
+                              : Font(size: 20),
                         )),
                     DropdownMenuItem(
                         value: "Saturday",
                         child: Text(
                           "Saturday",
-                          style: !workout.days.any((d) => d.dayID == "Saturday",) ? Font(size: 20, color: Colors.grey[700]!) : Font(size: 20),
+                          style: !workout.days.any(
+                            (d) => d.dayID == "Saturday",
+                          )
+                              ? Font(size: 20, color: Colors.grey[700]!)
+                              : Font(size: 20),
                         )),
                     DropdownMenuItem(
                         value: "Sunday",
                         child: Text(
                           "Sunday",
-                          style: !workout.days.any((d) => d.dayID == "Sunday",) ? Font(size: 20, color: Colors.grey[700]!) : Font(size: 20),
+                          style: !workout.days.any(
+                            (d) => d.dayID == "Sunday",
+                          )
+                              ? Font(size: 20, color: Colors.grey[700]!)
+                              : Font(size: 20),
                         )),
                   ],
                   value: _selectedDay,
@@ -160,28 +198,22 @@ class _BuildWorkoutState extends State<BuildWorkout> {
                 ),
               ),
             ]),
-            const SizedBox(
-              height: 50,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Selected exercises:",
-                  style: Font(),
-                ),
-                Text(
-                  "Reps x Sets",
-                  style: Font(size: 20, color: Colors.grey[400]!),
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
+            const Spacer(),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.end,
+            //   children: [
+            //     Text(
+            //       "Reps x Sets",
+            //       style: Font(size: 20, color: Colors.grey[400]!),
+            //     )
+            //   ],
+            // ),
+            // const SizedBox(
+            //   height: 20,
+            // ),
             BlurryButton(
-              width: 350,
-              height: 400,
+              width: widthOfCurrentDevice(context) * 0.65,
+              height: heightOfCurrentDevice(context) * 0.65,
               onPressed: () {},
               child: !workout.days.any((day) => day.dayID == _selectedDay)
                   ? Center(
@@ -197,14 +229,14 @@ class _BuildWorkoutState extends State<BuildWorkout> {
                             height: 10,
                           ),
                           Text(
-                            "No workouts found",
+                            "No exercises found",
                             style: Font(color: Colors.white),
                           ),
                           const SizedBox(
                             height: 30,
                           ),
                           BlurryButton(
-                              width: 300,
+                              width: widthOfCurrentDevice(context) * 0.4,
                               height: 65,
                               onPressed: () async {
                                 final Exercise? newExercise =
@@ -476,9 +508,7 @@ class _BuildWorkoutState extends State<BuildWorkout> {
                       },
                     ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const Spacer(),
           ]),
         ));
   }
