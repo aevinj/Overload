@@ -7,6 +7,7 @@ import 'package:progressive_overload/components/text_style.dart';
 import 'package:progressive_overload/pages/new_workout.dart';
 import 'package:progressive_overload/pages/workout.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
+import 'package:progressive_overload/util/device_specific.dart';
 import 'package:provider/provider.dart';
 
 class ViewWorkoutsPage extends StatelessWidget {
@@ -24,8 +25,8 @@ class ViewWorkoutsPage extends StatelessWidget {
         ),
         body: Center(
           child: BlurryButton(
-            width: 350,
-            height: 600,
+            width: widthOfCurrentDevice(context) * 0.85,
+            height: heightOfCurrentDevice(context) * 0.85,
             onPressed: () {},
             child: boxManager.getWorkoutsAsList().isEmpty
                 ? Center(
@@ -48,7 +49,7 @@ class ViewWorkoutsPage extends StatelessWidget {
                           height: 30,
                         ),
                         BlurryButton(
-                            width: 300,
+                            width: widthOfCurrentDevice(context) * 0.4,
                             height: 65,
                             onPressed: () {
                               Navigator.push(
@@ -92,8 +93,8 @@ class ViewWorkoutsPage extends StatelessWidget {
                                       ),
                                       actions: [
                                         BlurryButton(
-                                          width: 100,
-                                          height: 50,
+                                          width: widthOfCurrentDevice(context) * 0.3,
+                                          height: heightOfCurrentDevice(context) * 0.1,
                                           onPressed: () {
                                             Navigator.of(context).pop(false);
                                           },
@@ -104,8 +105,8 @@ class ViewWorkoutsPage extends StatelessWidget {
                                         ),
                                         BlurryButton(
                                           color: Colors.red,
-                                          width: 100,
-                                          height: 50,
+                                          width: widthOfCurrentDevice(context) * 0.3,
+                                          height: heightOfCurrentDevice(context) * 0.1,
                                           onPressed: () {
                                             Navigator.of(context).pop(true);
                                           },
