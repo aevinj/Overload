@@ -48,7 +48,7 @@ class _HomepageState extends State<Homepage> {
               );
             },
             width: widthOfCurrentDevice(context) * 0.8,
-            height: 150,
+            height: heightOfCurrentDevice(context) * 0.175,
             child: Text(
               "View Workouts",
               style: Font(),
@@ -64,7 +64,7 @@ class _HomepageState extends State<Homepage> {
                   CupertinoPageRoute(builder: (context) => const NewWorkout()));
             },
             width: widthOfCurrentDevice(context) * 0.8,
-            height: 150,
+            height: heightOfCurrentDevice(context) * 0.175,
             child: Text(
               "New workout",
               style: Font(),
@@ -91,7 +91,7 @@ class _HomepageState extends State<Homepage> {
               );
             },
             width: widthOfCurrentDevice(context) * 0.8,
-            height: 150,
+            height: heightOfCurrentDevice(context) * 0.175,
             child: Text(
               "Delete all workouts",
               style: Font(),
