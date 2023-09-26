@@ -4,6 +4,7 @@ import 'package:progressive_overload/components/blurred_button.dart';
 import 'package:progressive_overload/components/text_style.dart';
 import 'package:progressive_overload/pages/homepage.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
+import 'package:progressive_overload/util/device_specific.dart';
 
 class Landing extends StatefulWidget {
   const Landing({super.key});
@@ -17,15 +18,6 @@ class _LandingState extends State<Landing> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: darkBackground(),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        title: Center(
-          child: Text(
-            "Overload",
-            style: Font(),
-          ),
-        ),
-      ),
       body: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           const Image(
@@ -48,14 +40,11 @@ class _LandingState extends State<Landing> {
               Navigator.pushReplacement(context,
                   CupertinoPageRoute(builder: (context) => const Homepage()));
             },
-            width: 200.0,
+            width: widthOfCurrentDevice(context) * 0.4,
             height: 60.0,
-            child: const Text(
+            child: Text(
               "Let's go",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-              ),
+              style: Font(size: 18)
             ),
           )
         ]),
