@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:progressive_overload/classes/prebuilt_exercises.dart';
+import 'package:progressive_overload/util/prebuilt_exercises.dart';
 import 'package:progressive_overload/components/blurred_button.dart';
 import 'package:progressive_overload/components/text_style.dart';
 import 'package:provider/provider.dart';
