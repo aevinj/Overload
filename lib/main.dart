@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:progressive_overload/pages/homepage.dart';
 import 'package:progressive_overload/util/box_manager.dart';
 import 'package:progressive_overload/classes/day.dart';
 import 'package:progressive_overload/classes/exercise.dart';
 import 'package:progressive_overload/util/prebuilt_exercises.dart';
 import 'package:progressive_overload/classes/workout.dart';
-import 'package:progressive_overload/pages/landing.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
 import 'package:provider/provider.dart';
 
@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Landing(),
+      home: Homepage(),
     );
   }
 }
