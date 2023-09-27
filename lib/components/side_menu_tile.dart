@@ -22,7 +22,7 @@ class SideMenuTile extends StatelessWidget {
     return Column(
       children: [
         const Padding(
-          padding: EdgeInsets.only(left: 24),
+          padding: EdgeInsets.only(left: 24, right: 24),
           child: Divider(
             color: Colors.grey,
             height: 1,
