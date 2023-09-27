@@ -65,7 +65,18 @@ class _HomepageState extends State<Homepage>
               width: 288,
               left: isSideMenuClosed ? -288 : 0,
               height: heightOfCurrentDevice(context),
-              child: const SideMenu()),
+              child: SideMenu(
+                closeMenu: () {
+                  if (!isSideMenuClosed) {
+                    _animationController.reverse();
+                    setState(() {
+                      isSideMenuClosed = true;
+                      isMenuClosed.value = true;
+                    });
+                  }
+                },
+                isMenuClosed: isMenuClosed,
+              )),
           Transform(
             alignment: Alignment.center,
             transform: Matrix4.identity()
@@ -168,13 +179,13 @@ class _HomepageState extends State<Homepage>
               },
               press: () {
                 isMenuClosed.value = !isMenuClosed.value;
-          
+
                 if (isSideMenuClosed) {
                   _animationController.forward();
                 } else {
                   _animationController.reverse();
                 }
-          
+
                 setState(() {
                   isSideMenuClosed = isMenuClosed.value;
                 });
