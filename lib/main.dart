@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:progressive_overload/pages/homepage.dart';
+import 'package:progressive_overload/pages/entry_point.dart';
 import 'package:progressive_overload/util/box_manager.dart';
 import 'package:progressive_overload/classes/day.dart';
 import 'package:progressive_overload/classes/exercise.dart';

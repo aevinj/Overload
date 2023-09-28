@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:progressive_overload/components/blurred_button.dart';
 import 'package:progressive_overload/components/text_style.dart';
-import 'package:progressive_overload/pages/homepage.dart';
+import 'package:progressive_overload/pages/entry_point.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
 import 'package:progressive_overload/util/device_specific.dart';
 
