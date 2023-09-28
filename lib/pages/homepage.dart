@@ -27,6 +27,7 @@ class _HomepageState extends State<Homepage>
   late AnimationController _animationController;
   late Animation animation;
   late Animation scaleAnimation;
+  bool showSettingsPage = false;
 
   @override
   void initState() {
@@ -66,12 +67,17 @@ class _HomepageState extends State<Homepage>
               left: isSideMenuClosed ? -288 : 0,
               height: heightOfCurrentDevice(context),
               child: SideMenu(
-                closeMenu: () {
+                closeMenu: (e) {
                   if (!isSideMenuClosed) {
                     _animationController.reverse();
                     setState(() {
                       isSideMenuClosed = true;
                       isMenuClosed.value = true;
+                      if (e.title == "Settings") {
+                        showSettingsPage = true;
+                      } else {
+                        showSettingsPage = false;
+                      }
                     });
                   }
                 },
@@ -90,7 +96,7 @@ class _HomepageState extends State<Homepage>
                   child: Scaffold(
                     backgroundColor: Colors.grey,
                     //TODO instead of changing pages, how about extracting the code below into a new widget and then use ? to switch between views depending on what the screen should display
-                    body: Center(
+                    body: showSettingsPage ? Center(child: Text("Settings page", style: Font(),)) : Center(
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

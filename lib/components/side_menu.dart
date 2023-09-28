@@ -7,7 +7,7 @@ import 'package:progressive_overload/util/rive_utils.dart';
 import 'package:rive/rive.dart';
 
 class SideMenu extends StatefulWidget {
-  final VoidCallback closeMenu;
+  final Function(RiveAsset) closeMenu;
   const SideMenu(
       {super.key, required this.closeMenu});
 
@@ -56,7 +56,7 @@ class _SideMenuState extends State<SideMenu> {
                     });
 
                     Future.delayed(const Duration(milliseconds: 200), () {
-                      widget.closeMenu();
+                      widget.closeMenu(e);
                     });
 
                     // Future.delayed(const Duration(milliseconds: 500), () {
