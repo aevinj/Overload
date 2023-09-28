@@ -75,7 +75,6 @@ class _HomepageState extends State<Homepage>
                     });
                   }
                 },
-                isMenuClosed: isMenuClosed,
               )),
           Transform(
             alignment: Alignment.center,
@@ -90,6 +89,7 @@ class _HomepageState extends State<Homepage>
                   borderRadius: const BorderRadius.all(Radius.circular(24)),
                   child: Scaffold(
                     backgroundColor: Colors.grey,
+                    //TODO instead of changing pages, how about extracting the code below into a new widget and then use ? to switch between views depending on what the screen should display
                     body: Center(
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,

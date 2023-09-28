@@ -1,18 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:progressive_overload/components/side_menu_tile.dart';
 import 'package:progressive_overload/components/side_menu_title.dart';
 import 'package:progressive_overload/components/text_style.dart';
-import 'package:progressive_overload/pages/new_workout.dart';
 import 'package:progressive_overload/util/rive_asset.dart';
 import 'package:progressive_overload/util/rive_utils.dart';
 import 'package:rive/rive.dart';
 
 class SideMenu extends StatefulWidget {
   final VoidCallback closeMenu;
-  final SMIBool isMenuClosed;
   const SideMenu(
-      {super.key, required this.closeMenu, required this.isMenuClosed});
+      {super.key, required this.closeMenu});
 
   @override
   State<SideMenu> createState() => _SideMenuState();
@@ -62,12 +59,12 @@ class _SideMenuState extends State<SideMenu> {
                       widget.closeMenu();
                     });
 
-                    Future.delayed(const Duration(milliseconds: 200), () {
-                      Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                              builder: (context) => const NewWorkout()));
-                    });
+                    // Future.delayed(const Duration(milliseconds: 500), () {
+                      // Navigator.push(
+                      //     context,
+                      //     CupertinoPageRoute(
+                      //         builder: (context) => const NewWorkout()));
+                    // });
 
                     //TODO close side_menu and change screen
                   },
