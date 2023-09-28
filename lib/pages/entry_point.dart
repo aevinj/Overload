@@ -90,11 +90,7 @@ class _HomepageState extends State<Homepage>
                 scale: scaleAnimation.value,
                 child: ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(24)),
-                  child: Scaffold(
-                    backgroundColor: Colors.grey,
-                    //TODO instead of changing pages, how about extracting the code below into a new widget and then use ? to switch between views depending on what the screen should display
-                    body: showSettingsPage ? Center(child: Text("Settings page", style: Font(),)) : HomeView(boxManager: boxManager),
-                  ),
+                  child: showSettingsPage ? Center(child: Text("Settings page", style: Font(),)) : HomeView(boxManager: boxManager),
                 ),
               ),
             ),
