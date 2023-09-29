@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:progressive_overload/components/menu_button.dart';
 import 'package:progressive_overload/components/side_menu.dart';
 import 'package:progressive_overload/pages/home_view.dart';
+import 'package:progressive_overload/pages/view_workouts.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
 import 'package:progressive_overload/util/box_manager.dart';
 import 'package:progressive_overload/components/text_style.dart';
@@ -26,6 +27,7 @@ class _HomepageState extends State<Homepage>
   late Animation animation;
   late Animation scaleAnimation;
   bool showSettingsPage = false;
+  bool showViewWorkoutsPage = false;
 
   @override
   void initState() {
@@ -71,10 +73,13 @@ class _HomepageState extends State<Homepage>
                     setState(() {
                       isSideMenuClosed = true;
                       isMenuClosed.value = true;
-                      if (e.title == "Settings") {
+                      if (e.title == "View Workouts") {
+                        showViewWorkoutsPage = true;
+                      } else if (e.title == "Settings") {
                         showSettingsPage = true;
                       } else {
                         showSettingsPage = false;
+                        showViewWorkoutsPage = false;
                       }
                     });
                   }
@@ -91,7 +96,8 @@ class _HomepageState extends State<Homepage>
                 scale: scaleAnimation.value,
                 child: ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(24)),
-                  child: showSettingsPage ? Center(child: Text("Settings page", style: Font(),)) : HomeView(boxManager: boxManager),
+                  child: showSettingsPage ? Center(child: Text("Settings page", style: Font(),)) : 
+                  showViewWorkoutsPage ? const ViewWorkoutsPage() : HomeView(boxManager: boxManager),
                 ),
               ),
             ),

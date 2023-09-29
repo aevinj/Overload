@@ -25,11 +25,11 @@ List<RiveAsset> side_menu = [
       stateMachine: "HOME_interactivity",
       title: "Home",
       srcPath: "assets/icon.riv"),
-  // RiveAsset(
-  //     artboard: "RULES",
-  //     stateMachine: "State Machine 1",
-  //     title: "View workouts",
-  //     srcPath: "assets/icon.riv"),
+  RiveAsset(
+      artboard: "RULES",
+      stateMachine: "State Machine 1",
+      title: "View Workouts",
+      srcPath: "assets/icon.riv"),
   RiveAsset(
       artboard: "USER",
       stateMachine: "USER_Interactivity",
@@ -38,7 +38,7 @@ List<RiveAsset> side_menu = [
   RiveAsset(
       artboard: "TIMER",
       stateMachine: "TIMER_Interactivity",
-      title: "Timer",
+      title: "Break Timer",
       srcPath: "assets/icon.riv"),
   RiveAsset(
       artboard: "SETTINGS",
