@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:progressive_overload/components/side_menu_tile.dart';
 import 'package:progressive_overload/components/side_menu_title.dart';
 import 'package:progressive_overload/components/text_style.dart';
+import 'package:progressive_overload/theme/dark_theme.dart';
 import 'package:progressive_overload/util/rive_asset.dart';
 import 'package:progressive_overload/util/rive_utils.dart';
 import 'package:rive/rive.dart';
@@ -25,7 +26,7 @@ class _SideMenuState extends State<SideMenu> {
         body: Container(
           width: 288,
           height: double.infinity,
-          color: Colors.black,
+          color: darkBackground(),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             const SideMenuTitle(
