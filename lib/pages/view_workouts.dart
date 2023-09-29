@@ -6,7 +6,6 @@ import 'package:progressive_overload/components/blurred_button.dart';
 import 'package:progressive_overload/components/text_style.dart';
 import 'package:progressive_overload/pages/new_workout.dart';
 import 'package:progressive_overload/pages/workout.dart';
-import 'package:progressive_overload/theme/dark_theme.dart';
 import 'package:progressive_overload/util/device_specific.dart';
 import 'package:provider/provider.dart';
 
@@ -18,27 +17,11 @@ class ViewWorkoutsPage extends StatelessWidget {
     final boxManager = Provider.of<BoxManager>(context);
 
     return Scaffold(
-        backgroundColor: darkBackground(),
-        appBar: AppBar(
-          leadingWidth: 20,
-          iconTheme: const IconThemeData(size: 30, color: Colors.white),
-          title: Row(children: [
-            const Spacer(),
-            Text(
-              "View Workouts",
-              style: Font(size: 30),
-            ),
-            const Spacer(),
-            const SizedBox(
-              width: 20,
-            )
-          ]),
-          backgroundColor: Colors.transparent,
-        ),
+        backgroundColor: Colors.white,
         body: Center(
           child: BlurryButton(
             width: widthOfCurrentDevice(context) * 0.85,
-            height: heightOfCurrentDevice(context) * 0.85,
+            height: heightOfCurrentDevice(context) * 0.75,
             onPressed: () {},
             child: boxManager.getWorkoutsAsList().isEmpty
                 ? Center(
