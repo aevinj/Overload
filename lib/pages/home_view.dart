@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:progressive_overload/components/blurred_button.dart';
+import 'package:progressive_overload/components/cupertino_card.dart';
 import 'package:progressive_overload/components/monthly_workouts_TEMP.dart';
 import 'package:progressive_overload/components/text_style.dart';
 import 'package:progressive_overload/pages/new_workout.dart';
@@ -81,87 +82,60 @@ class RecentWorkoutCard extends StatelessWidget {
       padding: const EdgeInsets.only(top: 20, left: 16),
       child: Align(
         alignment: Alignment.centerLeft,
-        child: Container(
-          width: widthOfCurrentDevice(context) * 0.5,
-          height: widthOfCurrentDevice(context) * 0.5,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [
-                Colors.blue[700]!,
-                Colors.deepPurpleAccent[400]!,
-              ], begin: Alignment.bottomCenter, end: Alignment.topCenter),
-              borderRadius:
-                  BorderRadius.circular(16.0), // Optional: Add rounded corners
-              // boxShadow: const [
-              //   BoxShadow(
-              //       color: Colors.black,
-              //       offset: Offset(2, 2),
-              //       blurRadius: 5,
-              //       spreadRadius: 2)
-              // ]
-              ),
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: () {},
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    top: 20, left: 10, right: 10, bottom: 20),
-                child: Column(children: [
-                  Row(
-                    children: [
-                      const Icon(
-                        CupertinoIcons.arrowtriangle_right_fill,
-                        color: Colors.white,
-                        size: 18,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8),
-                        child: SizedBox(
-                          width: 124,
-                          child: Text(
-                            "Start New Workout 1",
-                            overflow: TextOverflow.fade,
-                            style: Font(size: 18, bold: true),
-                          ),
-                        ),
-                      ),
-                    ],
+        child: CupertinoStyleCard(width: widthOfCurrentDevice(context) * 0.5, height: widthOfCurrentDevice(context) * 0.5, child: 
+        Column(children: [
+              Row(
+                children: [
+                  const Icon(
+                    CupertinoIcons.arrowtriangle_right_fill,
+                    color: Colors.white,
+                    size: 18,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Text(
-                      "Et aute in veniam ea sit. Occaecat exercitation elit eiusmod irure.",
-                      style: Font(
-                          color: const Color.fromARGB(255, 167, 166, 166),
-                          size: 14),
+                    padding: const EdgeInsets.only(left: 8),
+                    child: SizedBox(
+                      width: 124,
+                      child: Text(
+                        "Start New Workout 1",
+                        overflow: TextOverflow.fade,
+                        style: Font(size: 18, bold: true),
+                      ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 30),
-                    child: Row(
-                      children: [
-                        const Icon(
-                          CupertinoIcons.chart_bar_circle,
-                          color: Colors.white,
-                          size: 18,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8),
-                          child: Text(
-                            "121 Kcal - 72 mins",
-                            style: Font(
-                                color: const Color.fromARGB(255, 167, 166, 166),
-                                size: 15),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ]),
+                ],
               ),
-            ),
-          ),
-        ),
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Text(
+                  "Et aute in veniam ea sit. Occaecat exercitation elit eiusmod irure.",
+                  style: Font(
+                      color: const Color.fromARGB(255, 167, 166, 166),
+                      size: 14),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 30),
+                child: Row(
+                  children: [
+                    const Icon(
+                      CupertinoIcons.chart_bar_circle,
+                      color: Colors.white,
+                      size: 18,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: Text(
+                        "121 Kcal - 72 mins",
+                        style: Font(
+                            color: const Color.fromARGB(255, 167, 166, 166),
+                            size: 15),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ])
+        ,),
       ),
     );
   }
