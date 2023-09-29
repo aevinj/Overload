@@ -53,7 +53,7 @@ class LineChartSample1State extends State<LineChartSample1> {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          'Monthly Workouts',
+                          'My Activity',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 22,
