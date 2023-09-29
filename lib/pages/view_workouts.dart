@@ -17,7 +17,7 @@ class ViewWorkoutsPage extends StatelessWidget {
     final boxManager = Provider.of<BoxManager>(context);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color.fromARGB(255, 245, 245, 245),
       body: Column(children: [
         SizedBox(
           height: heightOfCurrentDevice(context) * 0.15,
