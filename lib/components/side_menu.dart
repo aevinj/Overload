@@ -45,7 +45,7 @@ class _SideMenuState extends State<SideMenu> {
                     StateMachineController controller =
                         RiveUtils.getRiveController(artboard,
                             stateMachineName: e.stateMachine);
-                    e.input = controller.findSMI("active") as SMIBool;
+                    e.input = controller.findSMI("active") ?? controller.findSMI("isActive") as SMIBool;
                   },
                   press: () {
                     e.input!.change(true);
@@ -56,18 +56,9 @@ class _SideMenuState extends State<SideMenu> {
                       selectedScreen = e;
                     });
 
-                    Future.delayed(const Duration(milliseconds: 200), () {
+                    Future.delayed(const Duration(milliseconds: 500), () {
                       widget.closeMenu(e);
                     });
-
-                    // Future.delayed(const Duration(milliseconds: 500), () {
-                      // Navigator.push(
-                      //     context,
-                      //     CupertinoPageRoute(
-                      //         builder: (context) => const NewWorkout()));
-                    // });
-
-                    //TODO close side_menu and change screen
                   },
                   isActive: selectedScreen == e,
                 ))
