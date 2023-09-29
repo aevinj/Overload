@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:progressive_overload/components/menu_button.dart';
 import 'package:progressive_overload/components/side_menu.dart';
 import 'package:progressive_overload/pages/home_view.dart';
+import 'package:progressive_overload/pages/settings.dart';
 import 'package:progressive_overload/pages/view_workouts.dart';
 import 'package:progressive_overload/theme/dark_theme.dart';
 import 'package:progressive_overload/util/box_manager.dart';
-import 'package:progressive_overload/components/text_style.dart';
 import 'package:progressive_overload/util/device_specific.dart';
 import 'package:progressive_overload/util/rive_utils.dart';
 import 'package:provider/provider.dart';
@@ -96,7 +96,7 @@ class _HomepageState extends State<Homepage>
                 scale: scaleAnimation.value,
                 child: ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(24)),
-                  child: showSettingsPage ? Center(child: Text("Settings page", style: Font(),)) : 
+                  child: showSettingsPage ? const SettingsView() : 
                   showViewWorkoutsPage ? const ViewWorkoutsPage() : HomeView(boxManager: boxManager),
                 ),
               ),
