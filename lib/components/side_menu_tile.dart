@@ -38,7 +38,7 @@ class SideMenuTile extends StatelessWidget {
               left: 0,
               child: Container(
                   decoration: const BoxDecoration(
-                color: Colors.green,
+                color: Colors.blue,
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               )),
             ),
