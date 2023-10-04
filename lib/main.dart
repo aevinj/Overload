@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:progressive_overload/classes/user.dart';
 import 'package:progressive_overload/pages/entry_point.dart';
+import 'package:progressive_overload/pages/onboarding.dart';
 import 'package:progressive_overload/util/box_manager.dart';
 import 'package:progressive_overload/classes/day.dart';
 import 'package:progressive_overload/classes/exercise.dart';
@@ -15,8 +17,12 @@ void main() async {
   Hive.registerAdapter(WorkoutAdapter());
   Hive.registerAdapter(ExerciseAdapter());
   Hive.registerAdapter(DayAdapter());
+  Hive.registerAdapter(UserAdapter());
   final boxManager = BoxManager();
   final prebuiltExercises = PrebuiltExercises();
+
+  await boxManager.deleteUserBox();
+  final showOnboarding = await boxManager.showOnboarding();
 
   // Create a Future that represents async initialization tasks
   final Future<List> initializationFuture = Future.wait([
@@ -58,8 +64,12 @@ void main() async {
                   ),
                 );
               } else {
-                // Initialization is complete, show main app
-                return const MyApp();
+                // Initialization is complete, show main app or onboarding screen
+                if (showOnboarding) {
+                  return const Onboarding();
+                } else {
+                  return const MyApp();
+                }
               }
             },
           ),

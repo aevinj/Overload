@@ -96,8 +96,11 @@ class _HomepageState extends State<Homepage>
                 scale: scaleAnimation.value,
                 child: ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(24)),
-                  child: showSettingsPage ? const SettingsView() : 
-                  showViewWorkoutsPage ? const ViewWorkoutsPage() : HomeView(boxManager: boxManager),
+                  child: showSettingsPage
+                      ? const SettingsView()
+                      : showViewWorkoutsPage
+                          ? const ViewWorkoutsPage()
+                          : HomeView(boxManager: boxManager),
                 ),
               ),
             ),

@@ -2,12 +2,27 @@ import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 import 'package:progressive_overload/classes/day.dart';
 import 'package:progressive_overload/classes/exercise.dart';
+import 'package:progressive_overload/classes/user.dart';
 import 'package:progressive_overload/classes/workout.dart';
 
 class BoxManager extends ChangeNotifier {
   late Box<Workout> box;
+  late Box<User> userBox;
 
   BoxManager();
+
+  Future<bool> showOnboarding() async {
+    if (await Hive.boxExists("user")) {
+      await openUserBox();
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  Future<void> deleteUserBox() async {
+    await Hive.deleteBoxFromDisk("user");
+  }
 
   Future<void> initialize() async {
     await _openBox();
@@ -22,6 +37,25 @@ class BoxManager extends ChangeNotifier {
     }
     box = Hive.box<Workout>("workouts");
     notifyListeners();
+  }
+
+  Future<void> openUserBox() async {
+    try {
+      await Hive.openBox<User>("user");
+    } catch (e) {
+      Hive.close();
+      await Hive.openBox<User>("user");
+    }
+    userBox = Hive.box<User>("user");
+    notifyListeners();
+  }
+
+  String getUserName() {
+    return userBox.getAt(0)?.name ?? "User";
+  }
+
+  Future<void> saveUser(User user) async {
+    await userBox.add(user);
   }
 
   List<Workout> getWorkoutsAsList() {
@@ -88,7 +122,9 @@ class BoxManager extends ChangeNotifier {
 
     if (existingExerciseIndex != -1) {
       // If an exercise with the same name exists, replace it
-      newWorkout.days.firstWhere((d) => d.dayID == day).exercises[existingExerciseIndex] = exercise;
+      newWorkout.days
+          .firstWhere((d) => d.dayID == day)
+          .exercises[existingExerciseIndex] = exercise;
     } else {
       // Otherwise, add the new exercise to the day
       newWorkout.days.firstWhere((d) => d.dayID == day).exercises.add(exercise);

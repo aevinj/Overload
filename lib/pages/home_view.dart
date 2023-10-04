@@ -38,7 +38,7 @@ class HomeView extends StatelessWidget {
             child: Align(
               alignment: Alignment.centerRight,
               child: Text(
-                "Good morning Aevin",
+                "Good morning ${boxManager.getUserName()}!",
                 style: Font(color: Colors.grey[600]!, bold: true, size: 20),
               ),
             ),
